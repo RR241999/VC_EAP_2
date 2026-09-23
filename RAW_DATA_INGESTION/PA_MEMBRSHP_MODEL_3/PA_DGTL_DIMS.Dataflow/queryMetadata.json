@@ -1,0 +1,50 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "PA_DGTL_DIM",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "gatewayObjectId": "bbd9e328-e017-4998-9654-e7e3406005e5",
+  "queriesMetadata": {
+    "DefaultDestination": {
+      "queryId": "838f79ac-6c48-4ba8-a671-d4577ac46669",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DDIM_DIAG": {
+      "queryId": "9578a796-1416-4539-a354-7727047611dd",
+      "queryName": "DDIM_DIAG",
+      "loadEnabled": false
+    },
+    "FACT_PRDA_DGTL_INTRCTN_CHNL_SMRY": {
+      "queryId": "a72e59c7-b763-4ae8-9b40-bbf6c90360e1",
+      "queryName": "FACT_PRDA_DGTL_INTRCTN_CHNL_SMRY",
+      "loadEnabled": false
+    },
+    "FACT_PRDA_DGTL_RGSTRN_SMRY": {
+      "queryId": "33b2482c-745f-4388-9621-ba4821f40109",
+      "queryName": "FACT_PRDA_DGTL_RGSTRN_SMRY",
+      "loadEnabled": false
+    },
+    "FACT_PRDA_MBR_DGTL_INTRCTN_SMRY": {
+      "queryId": "1c31ef49-bb0e-494d-a4ee-f6acb79941b2",
+      "queryName": "FACT_PRDA_MBR_DGTL_INTRCTN_SMRY",
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"2b108bbe-9ab4-4bda-8436-6287cc187aee\",\"DatasourceId\":\"46c4e750-9cd9-4413-bb93-88d1dd5505e1\"}"
+    },
+    {
+      "path": "carelon-eda_preprod.privatelink.snowflakecomputing.com;U01_PRDA_APP_WH_XL",
+      "kind": "Snowflake",
+      "connectionId": "{\"ClusterId\":\"bbd9e328-e017-4998-9654-e7e3406005e5\",\"DatasourceId\":\"b162934d-4617-4906-91f5-4bd2d4664c8c\"}"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DIM_SPND_ACC",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {},
+  "connections": []
+}

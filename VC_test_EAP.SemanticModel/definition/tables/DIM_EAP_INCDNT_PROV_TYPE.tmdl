@@ -1,0 +1,42 @@
+table DIM_EAP_INCDNT_PROV_TYPE
+	lineageTag: 6d8c52c0-087c-4c01-be0e-6588f665f64b
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: ee42ce1a-78c2-4925-a829-def1d7def5cc
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Provider Type Code'
+		dataType: string
+		lineageTag: 7fe60260-8df9-4e05-91b8-8dc655797f65
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Provider_Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Provider Type Description'
+		dataType: string
+		lineageTag: c8a15e39-2a99-457d-b47f-976542e52b87
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Provider_Type_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PROV_TYPE_KEY
+		dataType: int64
+		lineageTag: b609bb6a-b899-43e5-904a-afab6fcb097f
+		summarizeBy: none
+		sourceColumn: INCDNT_PROV_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_incdnt_prov_type_eap = Source{[Schema="dbo",Item="dim_eap_incdnt_prov_type_eap"]}[Data]
+				in
+				dbo.dim_eap_incdnt_prov_type_eap
+

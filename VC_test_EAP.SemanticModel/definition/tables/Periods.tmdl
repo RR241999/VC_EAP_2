@@ -1,0 +1,35 @@
+table Periods
+	lineageTag: 21a8edca-9151-48af-b0e5-7a940bbcfdf3
+
+	measure 'Selected Sliding Order' = ```
+			 SELECTEDVALUE(Periods[Order])
+			```
+		lineageTag: d0eab9d6-3d0e-4026-853e-fa1563e46c32
+
+	measure 'Selected Sliding Window' = ```
+			 SELECTEDVALUE(Periods[Rolling Period])
+			```
+		lineageTag: c7ca5d4d-a3d6-410e-82bd-9bb726e6733a
+
+	column Order
+		dataType: int64
+		lineageTag: 06fa67c2-af83-4b2f-af04-1efe72f319ad
+		sourceColumn: Order
+
+	column Period
+		dataType: string
+		lineageTag: 7455cd62-f3e4-42a1-b1be-8fc62c2bd914
+		sourceColumn: Period
+
+	column 'Rolling Period'
+		dataType: string
+		lineageTag: e4c539d1-d40b-419c-97b1-847bffaa6d7e
+		sourceColumn: Rolling_Period
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.periods = Source{[Schema="dbo",Item="periods"]}[Data]
+				in
+				dbo.periods
+

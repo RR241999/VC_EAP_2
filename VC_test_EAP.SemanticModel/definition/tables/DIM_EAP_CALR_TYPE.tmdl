@@ -1,0 +1,42 @@
+table DIM_EAP_CALR_TYPE
+	lineageTag: f86dd988-b5b9-41db-bf5f-6f30078fb005
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: eaaae697-0ee3-45ee-8f5e-babdd360e989
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Caller Type Code'
+		dataType: string
+		lineageTag: a1635164-d1bd-47df-943f-0aba1fc9dee5
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Caller_Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Caller Type Description'
+		dataType: string
+		lineageTag: 42a9c2a8-9d52-4a2f-89e0-c384a8978516
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Caller_Type_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column CALR_TYPE_KEY
+		dataType: int64
+		lineageTag: e9ac54e3-6d81-4138-8d18-21f21a07f10c
+		summarizeBy: none
+		sourceColumn: CALR_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_calr_type_eap = Source{[Schema="dbo",Item="dim_eap_calr_type_eap"]}[Data]
+				in
+				dbo.dim_eap_calr_type_eap
+

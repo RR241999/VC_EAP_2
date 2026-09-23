@@ -1,0 +1,60 @@
+table DIM_EAP_EVNT_SRVC_TYPE
+	lineageTag: ac28e47f-d77b-4d1e-942d-40a65a9b38a2
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 721c92da-f4d4-42ce-be2a-4f19e5da3881
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Service Type Code'
+		dataType: string
+		lineageTag: ff5d026f-f6e7-4d08-99a9-7ebf5863bf13
+		summarizeBy: none
+		sourceColumn: EAP_Management_Service_Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Service Type Description'
+		dataType: string
+		lineageTag: 226df84e-e6ce-40a3-91c9-c98d341ce948
+		summarizeBy: none
+		sourceColumn: EAP_Management_Service_Type_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Service Group Code'
+		dataType: string
+		lineageTag: 27ae1a66-c6f8-4e17-863b-128c0e7ce6a2
+		summarizeBy: none
+		sourceColumn: EAP_Management_Service_Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Service Group Description'
+		dataType: string
+		lineageTag: 64601106-b484-426e-b1a3-ff53c3b20428
+		summarizeBy: none
+		sourceColumn: EAP_Management_Service_Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column SRVC_TYPE_KEY
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 087f9d41-a1da-4624-8f5c-092c5e497924
+		summarizeBy: none
+		sourceColumn: SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_evnt_srvc_type_eap = Source{[Schema="dbo",Item="dim_eap_evnt_srvc_type_eap"]}[Data]
+				in
+				dbo.dim_eap_evnt_srvc_type_eap
+

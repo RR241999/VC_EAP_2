@@ -1,0 +1,18 @@
+table Standalone
+	lineageTag: 625c9407-9d5b-40a5-b653-072869803292
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: 4aebab9f-8cf2-4912-99d8-f893afd0c5ac
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.standalone_eap = Source{[Schema="dbo",Item="standalone_eap"]}[Data]
+				in
+				dbo.standalone_eap
+

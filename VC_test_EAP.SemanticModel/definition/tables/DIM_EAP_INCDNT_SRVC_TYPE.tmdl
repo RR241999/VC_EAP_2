@@ -1,0 +1,44 @@
+table DIM_EAP_INCDNT_SRVC_TYPE
+	lineageTag: 1b4d9ef6-600d-425b-8db3-9d964e2a8957
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 3a1a6111-cd24-471f-8bb1-a89209cb31ac
+		summarizeBy: none
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Type Code'
+		dataType: string
+		lineageTag: fd8577d4-1b7e-4f5b-9d4e-b6556324f13f
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Type Description'
+		dataType: string
+		lineageTag: cd1b999f-db3f-4aae-a444-6ba3c5517f11
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Type_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_SRVC_TYPE_KEY
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a3509a18-d0db-4d36-b91a-7dc328439d66
+		summarizeBy: none
+		sourceColumn: INCDNT_SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_incdnt_srvc_type_eap = Source{[Schema="dbo",Item="dim_eap_incdnt_srvc_type_eap"]}[Data]
+				in
+				dbo.dim_eap_incdnt_srvc_type_eap
+

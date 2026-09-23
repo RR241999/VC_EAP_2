@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "LKUP_PROD_KEY"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d89da61d-c470-bd2b-4f3d-8e6f13c6e968"
+  }
+}

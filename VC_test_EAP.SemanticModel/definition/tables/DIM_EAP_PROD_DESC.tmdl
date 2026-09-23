@@ -1,0 +1,78 @@
+table DIM_EAP_PROD_DESC
+	lineageTag: 1822d51d-42ed-45e1-9c56-dd94a1985a0e
+
+	column Key_Factor_Timestamp
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 6c25df16-b079-4264-b677-d5fdf85433ee
+		summarizeBy: none
+		sourceColumn: Key_Factor_Timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Health and Well Being Key'
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ad987a14-9310-4e70-abd7-2901841aa4cc
+		summarizeBy: none
+		sourceColumn: Health_and_Well_Being_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Program Subclass Description'
+		dataType: string
+		lineageTag: 3c75785e-aac9-4741-b824-97f16ffba3a5
+		summarizeBy: none
+		sourceColumn: Program_Subclass_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Package Class Name'
+		dataType: string
+		lineageTag: 67da2bfd-ca30-457c-8a92-5c4cad66ef6f
+		summarizeBy: none
+		sourceColumn: Package_Class_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Package Type Name'
+		dataType: string
+		lineageTag: 5ddb65ec-1b74-4c81-b21b-2acb9761c132
+		summarizeBy: none
+		sourceColumn: Package_Type_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reporting Program Name'
+		dataType: string
+		lineageTag: 5cbc48de-d34d-4f15-8ca4-6e35fa0f5671
+		summarizeBy: none
+		sourceColumn: Reporting_Program_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROD_TYPE_DESC
+		dataType: string
+		lineageTag: 92affd5b-749e-411f-b131-53e8c6549ffa
+		sourceColumn: PROD_TYPE_DESC
+
+	column PROD_CLS_DESC
+		dataType: string
+		lineageTag: ebf408c5-b5f7-43d9-9dc5-c1be3d4b43d9
+		sourceColumn: PROD_CLS_DESC
+
+	column RPT_PROD_NM
+		dataType: string
+		lineageTag: 478fdfc7-bfcf-4c64-8e8b-5644c30e18e6
+		sourceColumn: RPT_PROD_NM
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_prod_desc_eap = Source{[Schema="dbo",Item="dim_eap_prod_desc_eap"]}[Data]
+				in
+				dbo.dim_eap_prod_desc_eap
+

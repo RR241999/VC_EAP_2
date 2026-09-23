@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "RAW_HWBS_FACTS_STEP_2"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6f905318-b246-af88-468a-2943dd609a9a"
+  }
+}

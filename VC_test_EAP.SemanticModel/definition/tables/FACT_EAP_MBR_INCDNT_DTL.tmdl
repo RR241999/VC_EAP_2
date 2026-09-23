@@ -1,0 +1,1194 @@
+table FACT_EAP_MBR_INCDNT_DTL
+	lineageTag: 6670ce68-e043-40a6-92d7-d8c720c78b40
+
+	measure 'Incident Creation Rate Employees Base' =
+			
+			VAR _DEM = [Employee Eligibility Base]
+			VAR _NUM =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_MBR_INCDNT_DTL'[Member Reference Number] ),
+			        DIM_EAP_CALR_TYPE[EAP Incident Caller Type Description] = "EMPLOYEE"
+			    )
+			RETURN
+			    DIVIDE ( _NUM, _DEM )
+		lineageTag: 0133ecd5-a239-43fe-a14c-2e3869947a71
+
+	measure 'Incident Creation Rate EAP Members with household Base' =
+			
+			VAR _NUM = [Total Members with Incident Base]
+			VAR _DEM =  [Employee Eligibility Base]
+			RETURN
+			DIVIDE(_NUM,_DEM)
+		lineageTag: 882a7540-d37b-4c65-bbbc-7aa23c387849
+
+	measure 'Incident Creation Rate Anthem Members PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Incident Creation Rate Anthem Members], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 8460712e-c69c-482a-9ecc-cf26add13a62
+
+	measure 'Incident Creation Rate Anthem Members %  Change' =
+			
+			VAR __Current = [Incident Creation Rate Anthem Members]
+			VAR __PastPeriod = [Incident Creation Rate Anthem Members PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7fc1b051-6e98-41af-8047-b56d404c4a3c
+
+	measure 'Incident Creation Rate Employees PY' = ```
+			 
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Incident Creation Rate Employees], ALL ( 'Incurred Month' ), __PP1 )
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: da7d4394-6d24-408a-a20a-407abc1bdc0b
+
+	measure 'Incident Creation Rate Employees %  Change' = ```
+			 
+			VAR __Current = [Incident Creation Rate Employees]
+			VAR __PastPeriod = [Incident Creation Rate Employees PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 85f405b2-1597-4cba-ada7-f0fd2ccdb73e
+
+	measure 'Incident Creation Rate EAP Members with household PY' =
+			
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Incident Creation Rate EAP Members with household], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 9c3cbb9a-a93e-4bbc-93db-d63f578f13f8
+
+	measure 'Care Modality Preference TeleHealth PY' =
+			
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Care Modality Preference TeleHealth], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: c789e4c0-a438-4668-9ff2-fc78f4705fb3
+
+	measure 'Care Modality Preference TeleHealth % Change' = ```
+			 
+			VAR __Current = [Care Modality Preference TeleHealth]
+			VAR __PastPeriod = [Care Modality Preference TeleHealth PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e884b2b9-893f-46c7-9142-b3139b3f5ff3
+
+	measure 'Incident Creation Rate Anthem Members' = DIVIDE ([Total Anthem Medical Members with Incident], [Member Eligibility] )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 221bffdf-c5c1-4c16-bce3-29aea7abe85a
+
+	measure 'Incident Creation Rate Employees' = ```
+			DIVIDE ([Total Employees with Incident],[Employee Eligibility] )  
+			    
+			    
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 691c927c-c0d4-4c5e-a2d2-2f6c61519ab2
+
+	measure 'Incident Creation Rate EAP Members with household' =
+			
+			DIVIDE ( [Total Members with Incident], [Employee Eligibility] )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: aab5d8ca-a8c9-4703-99e1-f8ed8064936c
+
+	measure 'Care Modality Preference TeleHealth' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Care Modality Preference TeleHealth Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 77743f2c-a77f-43ac-b53a-92b15a3d4043
+
+	measure 'Incidents Base' = ```
+			
+			 DISTINCTCOUNT( 'FACT_EAP_MBR_INCDNT_DTL'[Incident Number])
+			```
+		lineageTag: 034588df-42d3-4750-8586-203ace26df66
+
+	measure Incidents =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Incidents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 705855e3-bb0f-48ab-8620-548779528f1f
+
+	measure 'Incidents PY' = ```
+			 
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Incidents], ALL ( 'Incurred Month' ), __PP1 )
+			```
+		formatString: #,0
+		lineageTag: a1d055f1-7efe-4983-8f41-879157af54d4
+
+	measure 'Incidents % Change' = ```
+			 
+			VAR __Current = [Incidents]
+			VAR __PastPeriod = [Incidents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f2a2de4a-38d2-44c7-b7d9-3c73a227c160
+
+	measure 'Sessions Completed Base' = DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Total Session Count] )
+		lineageTag: 6caf4737-f6f6-4d92-b74a-778db9dd46ba
+
+	measure 'Sessions Completed' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Sessions Completed Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 921f100e-ec93-4ef4-b7e9-e98fa881c957
+
+	measure 'Sessions Completed PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Sessions Completed], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: f8517f05-ab0a-417b-bca5-be382b83fb20
+
+	measure 'Sessions Completed % Change' =
+			
+			VAR __Current = [Sessions Completed]
+			VAR __PastPeriod = [Sessions Completed PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a0245c17-f826-46f2-b398-a1f5783f19cd
+
+	measure 'Incidents with Max Sessions Completed Base' = ```
+			VAR RemovedBlank =
+			    FILTER (
+			        'FACT_INCDNT_SESN',
+			        NOT ( ISBLANK ( 'FACT_INCDNT_SESN'[Session Model Short Code] ) )
+			    )
+			VAR GroupedAndSummed =
+			    ADDCOLUMNS (
+			        SUMMARIZE (
+			            RemovedBlank,
+			            'FACT_INCDNT_SESN'[Incident Number],
+			            'FACT_INCDNT_SESN'[Session Model Short Code],
+			            "TotalSessionCount",DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Total Session Count] )
+			        ),
+			        "MaxTotalSessionCount",
+			            VAR CurrentINCDNT_NBR = 'FACT_INCDNT_SESN'[Incident Number]
+			            VAR CurrentSESN_MDL_SHRT_CD = 'FACT_INCDNT_SESN'[Session Model Short Code]
+			            RETURN
+			                CALCULATE (
+			                    MAXX (
+			                        FILTER (
+			                            RemovedBlank,
+			                            'FACT_INCDNT_SESN'[Incident Number] = CurrentINCDNT_NBR
+			                                && 'FACT_INCDNT_SESN'[Session Model Short Code] = CurrentSESN_MDL_SHRT_CD
+			                        ),
+			                        DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Total Session Count] )
+			                    )
+			                )
+			    )
+			VAR FilteredMaxCounts =
+			    FILTER (
+			        GroupedAndSummed,
+			        [MaxTotalSessionCount]
+			            >= VALUE ( [Session Model Short Code] ) 
+			    )
+			RETURN
+			    COUNTROWS ( SUMMARIZE ( FilteredMaxCounts, 'FACT_INCDNT_SESN'[Incident Number] ) )
+			```
+		lineageTag: a9f1d966-7e20-427c-a9f3-b9a19b4f9346
+
+	measure 'Incidents with Max Sessions Completed' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Incidents with Max Sessions Completed Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: 0.00
+		lineageTag: 08c36043-241a-4d4d-b20e-ac914cdc9ce5
+
+	measure 'Incidents with Max Sessions Completed PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Incidents with Max Sessions Completed], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: 0.00
+		lineageTag: c2b89ebc-1b9f-4d25-a571-55583d5c2d89
+
+	measure 'Incidents with Max Sessions Completed % Change' =
+			
+			VAR __Current = [Incidents with Max Sessions Completed]
+			VAR __PastPeriod = [Incidents with Max Sessions Completed PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d5635407-fede-4193-8664-0850c3a9499c
+
+	measure 'Care Modality Preference TeleHealth Base' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_MBR_INCDNT_DTL'[Incident Number] ),
+			    DIM_EAP_INCDNT_ENTY[EAP Incident Service Code]
+			        IN {
+			            "EAP_NETWORK_COUNSELOR_LIVE_HEALTH_ONLINE",
+			            "EAP_NETWORK_COUNSELOR_TELEHEALTH"
+			        }
+			)
+		lineageTag: dc8e8009-ca5b-44f1-826f-08783f901ac5
+
+	measure '%Care Modality Preference TeleHealth' = ```
+			 DIVIDE([Care Modality Preference TeleHealth],[Incidents])
+			 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0a9734d5-d218-4f12-bc29-40929e3faca1
+
+	measure '%Care Modality Preference TeleHealth PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [%Care Modality Preference TeleHealth], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bd7624e0-8ead-43ef-b262-56ac8746b13c
+
+	measure '%Care Modality Preference TeleHealth % Change' = ```
+			 
+			VAR __Current = [%Care Modality Preference TeleHealth]
+			VAR __PastPeriod = [%Care Modality Preference TeleHealth PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b88b0ab2-f100-4ffb-90db-96167aaa4389
+
+	measure '%Incidents with Max Sessions Completed' = DIVIDE ([Incidents with Max Sessions Completed], [Incidents with one session completed] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b5bc38bb-e37b-4f12-bfd7-21da8d79cc61
+
+	measure '%Incidents with Max Sessions Completed PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [%Incidents with Max Sessions Completed], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 77328228-01d4-4203-9f10-c49047210570
+
+	measure '%Incidents with Max Sessions Completed % Change' =
+			
+			VAR __Current = [%Incidents with Max Sessions Completed]
+			VAR __PastPeriod = [%Incidents with Max Sessions Completed PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8f531b7e-815a-468c-a13c-223be1959319
+
+	measure 'Incidents with one session completed Base' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Incident Number] ),
+			       TREATAS( VALUES('Incurred Month'[Incurred Year Month Nbr]), 'FACT_INCDNT_SESN'[Session Created Year Month]))
+		lineageTag: a23b72f8-4ab4-4ad7-99d5-0f94fda749af
+
+	measure 'Incidents with one session completed' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Incidents with one session completed Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 3f8a178f-9526-4bd0-b785-165cbd0c92a6
+
+	measure 'Incident Creation Rate Members with household %  Change' = ```
+			 
+			VAR __Current = [Incident Creation Rate EAP Members with household]
+			VAR __PastPeriod = [Incident Creation Rate EAP Members with household PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8cae9106-6645-410e-880b-465ec03ac2d2
+
+	measure 'Total Incidents per 1,000 Employees Base' =
+			VAR _NUM =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_MBR_INCDNT_DTL'[Incident Number] ) --    ,DIM_EAP_CALR_TYPE[EAP Caller Type Description] = "EMPLOYEE"
+			    )
+			VAR _DEM = [Employee Eligibility Base]
+			RETURN
+			     CALCULATE (DIVIDE ( _NUM, _DEM ) * 1000)
+		lineageTag: 9336eea0-331b-4952-97dc-c34caa4aedbc
+
+	measure 'Total Incidents per 1,000 Employees PY' =
+			
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total Incidents per 1,000 Employees], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 2949d6de-cdee-46fc-8032-db1c54d29102
+
+	measure 'Total Incidents per 1,000 Employees %  Change' = ```
+			 
+			VAR __Current = [Total Incidents per 1,000 Employees]
+			VAR __PastPeriod = [Total Incidents per 1,000 Employees PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 85fab035-e438-437d-b98d-565f7685c186
+
+	measure 'Total Incidents per 1,000 Employees' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total Incidents per 1,000 Employees Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 1e32e6db-1e85-4696-ae9a-6a3e7fcb54cc
+
+	measure 'Counseling Incidents' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Counseling Incidents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 50b0bfc9-7ad1-4c5a-b434-c09cc4a34cfd
+
+	measure 'Counseling Incidents PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Counseling Incidents], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: e296a0dd-dac2-40b8-ae08-5e36a329766f
+
+	measure 'Counseling Incidents % Change' =
+			VAR __Current = [Counseling Incidents]
+			VAR __PastPeriod = [Counseling Incidents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e767662e-eeeb-4cd2-bf82-8c1d26b85895
+
+	measure 'Counseling Sessions' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			       [Counseling Sessions Base]
+			        ,ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 0ac3e0c3-3f67-49d5-ac94-a5f98d63f080
+
+	measure 'Counseling Sessions PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Counseling Sessions], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 7c621c3a-fd97-49e9-b2fc-3b1c588f0fce
+
+	measure 'Counseling Sessions % Change' =
+			VAR __Current = [Counseling Sessions]
+			VAR __PastPeriod = [Counseling Sessions PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2b17d9e9-27df-4509-8288-47b00236ac19
+
+	measure 'Total Members with Incident Base' = DISTINCTCOUNT('FACT_EAP_MBR_INCDNT_DTL'[Member Reference Number])
+		lineageTag: 0b3fef80-1242-41ee-a655-40dc43857e79
+
+	measure 'Total Members with Incident' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total Members with Incident Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 02b8a3f5-fc8b-48b7-8fca-740840645a63
+
+	measure 'Total Employees with Incident Base' =
+			CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_MBR_INCDNT_DTL'[Member Reference Number] ),
+			        DIM_EAP_CALR_TYPE[EAP Incident Caller Type Description] = "EMPLOYEE"
+			    )
+		lineageTag: f3b49100-30c3-4c20-b658-5b39d7439f3c
+
+	measure 'Total Employees with Incident' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total Employees with Incident Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 93d5654c-328f-4ac4-977e-bcde9f46a415
+
+	measure 'Total Anthem Medical Members with Incident Base' = ```
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_MBR_INCDNT_DTL'[Member Reference Number] ),
+			        FACT_EAP_MBR_INCDNT_DTL[Standalone Code] = "NO"
+			    )
+			```
+		lineageTag: 82c8d76a-49c4-4cd4-b2bf-3ac86a5cb23c
+
+	measure 'Total Anthem Medical Members with Incident' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total Anthem Medical Members with Incident Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 57a7d501-5368-43b4-ba1f-da1995c73e9a
+
+	measure 'Counseling Sessions Base' = ```
+			CALCULATE (
+			   DISTINCTCOUNT ('FACT_INCDNT_SESN'[Total Session Count] ),
+			       TREATAS( VALUES('Incurred Month'[Incurred Year Month Nbr]), 'FACT_INCDNT_SESN'[Session Created Year Month]))
+			
+			```
+		lineageTag: 018d7b04-f788-4681-8f05-e2036a473677
+
+	measure 'Total Counseling Sessions Base' = ```
+			
+			 CALCULATE(DISTINCTCOUNT( FACT_INCDNT_SESN[Total Session Count]), USERELATIONSHIP(FACT_INCDNT_SESN[Session Created Year Month],'Incurred Month'[Incurred Year Month Nbr]))
+			 
+			//DISTINCTCOUNT( FACT_INCDNT_SESN[Total Session Count])
+			/*DISTINCTCOUNT ( 'FACT_INCDNT_TOTL_SESN'[Total Session Count] )*/
+			```
+		formatString: 0
+		lineageTag: 323f249e-1a8d-451b-9d84-09b78681be74
+
+	measure 'Total Counseling Sessions' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total Counseling Sessions Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: c26c6541-cddd-4dda-bc12-d648d5fc60fa
+
+	measure 'Total Counseling Sessions PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total Counseling Sessions], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: b8496b69-3ddd-46a7-98fb-75dd704a2084
+
+	measure 'Total Counseling Sessions % Change' =
+			
+			VAR __Current = [Total Counseling Sessions]
+			VAR __PastPeriod = [Total Counseling Sessions PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: beafded8-05d3-4c84-8cc0-2d08fe576ae3
+
+	measure 'Avg. of Counseling Sessions Completed' = ```
+			DIVIDE ( [Sessions Completed], [Incidents with one session completed] )
+			
+			```
+		formatString: 0.00
+		lineageTag: d2f17aeb-930d-44ee-b2a6-b91fb46bedcd
+
+	measure 'Avg. of Counseling Sessions Completed PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Avg. of Counseling Sessions Completed], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: 0.00
+		lineageTag: 0d5094bc-37dd-4992-ad88-1a09d9568375
+
+	measure 'Avg. of Counseling Sessions Completed % Change' =
+			
+			VAR __Current = [Avg. of Counseling Sessions Completed]
+			VAR __PastPeriod = [Avg. of Counseling Sessions Completed PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 563b4f84-def6-4c32-9157-244af3b120f0
+
+	measure 'Counseling Incidents Base' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Incident Number] ),
+			       TREATAS( VALUES('Incurred Month'[Incurred Year Month Nbr]), 'FACT_INCDNT_SESN'[Session Created Year Month]))
+		formatString: #,0
+		lineageTag: befad9c3-bcbe-499e-9e6e-76f646a89be2
+
+	measure 'Counseling Incidents for Session Base' =
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_INCDNT_SESN'[Incident Number] ),
+			    TREATAS (
+			        VALUES ('Incurred Month'[Incurred Year Month Nbr] ),
+			        'DIM_INCDNT_SESN'[Session Created Year Month]
+			    )
+			)
+		formatString: #,0
+		lineageTag: 53f2e6ba-4072-49ef-afa8-d0d6c83c8aba
+
+	measure 'Counseling Incidents for Session' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Counseling Incidents for Session Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 28381a09-1d6e-4681-89cf-c9fa5fd6379a
+
+	measure 'Counseling Incidents for Session PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Counseling Incidents for Session], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 8920a49d-8cbe-4e56-82ec-33e562452ffd
+
+	measure 'Counseling Incidents for Session % Change' =
+			VAR __Current = [Counseling Incidents for Session]
+			VAR __PastPeriod = [Counseling Incidents for Session PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ee32b4f7-8b3d-44ff-89ec-94eab3309226
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: f5974cba-231a-4602-ad36-e82767f1fe05
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PRSNT_PRBLM_KEY
+		dataType: int64
+		lineageTag: 3cfc3fa5-fe19-4fd9-a35f-84e87899c8dd
+		summarizeBy: none
+		sourceColumn: INCDNT_PRSNT_PRBLM_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_MNTH_NBR
+		dataType: int64
+		lineageTag: cf875d34-706e-45aa-9483-e55491c5b73b
+		summarizeBy: none
+		sourceColumn: INCDNT_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident Number'
+		dataType: string
+		lineageTag: 672f0a49-21a8-48bf-80b2-933a907b0a23
+		summarizeBy: none
+		sourceColumn: INCDNT_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ENTY_KEY
+		dataType: int64
+		lineageTag: 429d7fef-c17c-47cc-9a3e-ce0d2b3b528f
+		summarizeBy: none
+		sourceColumn: INCDNT_ENTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 5279ea0e-abb5-4120-94f0-6afaab0cc6c8
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column CMPNY_CF_KEY
+		dataType: int64
+		lineageTag: c0da6dac-c41f-40bd-97c2-8ccccb3fc5e1
+		summarizeBy: none
+		sourceColumn: CMPNY_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: 43765234-005c-430a-97cc-6b537d86cbbb
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: 6c5d0006-a0b4-4aac-9696-06c5ef4ede53
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: 4cfde872-2347-4373-af43-f00250c6a945
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROD_KEY
+		dataType: int64
+		lineageTag: cbc529f9-b6e8-474f-bbad-206460a20991
+		summarizeBy: sum
+		sourceColumn: PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_ACCT_KEY
+		dataType: int64
+		lineageTag: ad31716c-95d2-4316-a7ea-e02f15f73013
+		summarizeBy: sum
+		sourceColumn: EDM_CLNT_GRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_SRVC_TYPE_KEY
+		dataType: string
+		lineageTag: 4a78cbc7-bb6d-41cd-b761-33caf9cc0b34
+		summarizeBy: none
+		sourceColumn: INCDNT_SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column CALR_TYPE_KEY
+		dataType: int64
+		lineageTag: 6f9e966a-ac9b-458b-bebf-a8eccc97fcb5
+		summarizeBy: none
+		sourceColumn: CALR_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PROV_TYPE_KEY
+		dataType: int64
+		lineageTag: 339747c4-fc16-4ad2-8b6a-f817e8cdc966
+		summarizeBy: none
+		sourceColumn: INCDNT_PROV_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_CNSLG_TYPE_KEY
+		dataType: int64
+		lineageTag: e1335858-f913-4f98-b3d9-d17a25038bf8
+		summarizeBy: none
+		sourceColumn: INCDNT_CNSLG_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ACTY_KEY
+		dataType: int64
+		lineageTag: 808ef5f8-fa03-4967-a1a7-7d7adaee4e72
+		summarizeBy: none
+		sourceColumn: INCDNT_ACTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident Information Source Code'
+		dataType: int64
+		lineageTag: 62eae4d2-6554-4c8a-a464-f15d341a7496
+		summarizeBy: count
+		sourceColumn: Incident_Information_Source_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column MCID_EDM_MBR_ACCT_KEY
+		dataType: int64
+		lineageTag: ebc26c55-ab8e-4e6a-b71c-9a2cb6958b7c
+		summarizeBy: sum
+		sourceColumn: MCID_EDM_MBR_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Master Consumer Identifier (MCID)'
+		dataType: int64
+		lineageTag: 86179ca6-9259-4a58-a7cc-5e5a9432910e
+		summarizeBy: sum
+		sourceColumn: Master_Consumer_Identifier_MCID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Reference Number'
+		dataType: string
+		lineageTag: bc135fb3-0f42-47d1-b20f-518897dc2834
+		summarizeBy: none
+		sourceColumn: Member_Reference_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EDM Member Account Key'
+		dataType: int64
+		lineageTag: 6396978e-abc5-470f-9092-92ba56b7fe0a
+		summarizeBy: count
+		sourceColumn: EDM_MBR_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Subgroup ID'
+		dataType: string
+		lineageTag: cd26961f-2c09-4cd2-a874-f450bdfd8640
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident State Code'
+		dataType: int64
+		lineageTag: c69083b9-0c17-41fa-a1b4-96d71756a0b3
+		summarizeBy: none
+		sourceColumn: Incident_State_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident Presenting Problem 2 Code'
+		dataType: int64
+		lineageTag: 9a13fbd1-5f21-4af3-8760-a1bab7141f15
+		summarizeBy: count
+		sourceColumn: Incident_Presenting_Problem_2_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_Product_Key
+		dataType: int64
+		lineageTag: 0a6b287b-f594-4ef1-8d7c-f1de05054b6d
+		summarizeBy: none
+		sourceColumn: EAP_Product_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Completed Session Count'
+		dataType: int64
+		lineageTag: 5b8f037a-0dbe-4bbd-9f89-327fd5e8126c
+		summarizeBy: sum
+		sourceColumn: SESN_CMPLTD_CNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: d1391237-9503-4dd7-aede-7a9afe000380
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: e4752e3d-1343-419d-9315-6df4bd84d9d0
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_mbr_incdnt_dtl_eap = Source{[Schema="dbo",Item="fact_eap_mbr_incdnt_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_mbr_incdnt_dtl_eap
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "DIM_PRDA_CLNT_GRP_SUBGRP"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e8ad21c3-8e41-9db0-464e-d03ebf7517f6"
+  }
+}

@@ -1,0 +1,58 @@
+table DIM_EAP_PROD
+	lineageTag: 1c94993c-b526-4629-91ae-ab492c85a501
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: f569cc5f-7038-484e-9690-0d2e362f432f
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Product Code'
+		dataType: string
+		lineageTag: 2bc0918a-4209-49b8-b8c6-5a653dec5587
+		summarizeBy: none
+		sourceColumn: EAP_Product_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Product Description'
+		dataType: string
+		lineageTag: 5ac075cb-b597-4fa4-8d17-49e5d07bf94b
+		summarizeBy: none
+		sourceColumn: EAP_Product_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Product Group Code'
+		dataType: string
+		lineageTag: 4668443f-2747-4a8f-8f26-1a315868eb9e
+		summarizeBy: none
+		sourceColumn: EAP_Product_Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Product Group Description'
+		dataType: string
+		lineageTag: 8f80d0a6-473a-4c9f-b93a-e0c66054a045
+		summarizeBy: none
+		sourceColumn: EAP_Product_Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: 7eb574b6-e1a6-48ae-a96b-cc7e71d911e1
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_prod_eap = Source{[Schema="dbo",Item="dim_eap_prod_eap"]}[Data]
+				in
+				dbo.dim_eap_prod_eap
+

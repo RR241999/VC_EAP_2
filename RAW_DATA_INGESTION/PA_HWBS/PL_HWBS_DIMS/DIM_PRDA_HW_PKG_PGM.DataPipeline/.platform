@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "DIM_PRDA_HW_PKG_PGM"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e41508c3-2e5e-a4fa-416a-09634218b353"
+  }
+}

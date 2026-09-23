@@ -1,0 +1,299 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "PA_MEMBRSHP_DF",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "gatewayObjectId": "bbd9e328-e017-4998-9654-e7e3406005e5",
+  "queriesMetadata": {
+    "DIM_MDLR_PROD_LVL": {
+      "queryId": "b96b9a2b-f46d-4ad8-befd-116b2b4dc6f3",
+      "queryName": "DIM_MDLR_PROD_LVL",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_CDHP_ADMNSTRN": {
+      "queryId": "df3d5ef0-e329-4449-918e-ce1e3bfac7a4",
+      "queryName": "DIM_PRDA_CDHP_ADMNSTRN",
+      "loadEnabled": false
+    },
+    "DIM_CDHP_PRFRD_PLTFRM": {
+      "queryId": "cef50fe2-768b-4541-9d9b-b9f1ec58a98f",
+      "queryName": "DIM_CDHP_PRFRD_PLTFRM",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_CSTM_VRSS_STNDRD": {
+      "queryId": "8a23cd5d-05e2-499f-b775-89a82b27bd85",
+      "queryName": "DIM_PRDA_CSTM_VRSS_STNDRD",
+      "loadEnabled": false
+    },
+    "DIM_NTWK_TYPE": {
+      "queryId": "cab86c7d-389e-4b06-9540-9d7416f1d8c2",
+      "queryName": "DIM_NTWK_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_PCP_RQRD": {
+      "queryId": "06ce3288-a256-41f1-9fc2-e7147e74e82b",
+      "queryName": "DIM_PCP_RQRD",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_PROD_STTS": {
+      "queryId": "8bfd25aa-5bb2-40bd-a329-b14a57529c91",
+      "queryName": "DIM_PRDA_PROD_STTS",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_QHP_VRTN": {
+      "queryId": "72745679-d7e6-448a-89e3-4b6ae20cbabb",
+      "queryName": "DIM_PRDA_QHP_VRTN",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_PROD_VRSN": {
+      "queryId": "d579c79c-b31d-4a5d-b84a-4aead77ab011",
+      "queryName": "DIM_PRDA_PROD_VRSN",
+      "loadEnabled": false
+    },
+    "DIM_CRYOVR_APLYS": {
+      "queryId": "824678c0-4fe5-41b2-b0a9-7cba29d7837a",
+      "queryName": "DIM_CRYOVR_APLYS",
+      "loadEnabled": false
+    },
+    "DIM_CVRD_OOA": {
+      "queryId": "4d199902-4b99-40e2-802a-9fd4999c1ada",
+      "queryName": "DIM_CVRD_OOA",
+      "loadEnabled": false
+    },
+    "DIM_FRTH_QTR_CRYOVR": {
+      "queryId": "13109681-5a73-4c29-a3a3-db104cdc8cf3",
+      "queryName": "DIM_FRTH_QTR_CRYOVR",
+      "loadEnabled": false
+    },
+    "DIM_MRKTG_STTS": {
+      "queryId": "3bb037d4-7908-4f0e-9057-a13d3fef3655",
+      "queryName": "DIM_MRKTG_STTS",
+      "loadEnabled": false
+    },
+    "DIM_DGTL_PROV_AVLBLTY": {
+      "queryId": "8c4354f6-cc04-4d07-8064-5461985c3820",
+      "queryName": "DIM_DGTL_PROV_AVLBLTY",
+      "loadEnabled": false
+    },
+    "DIM_DGTL_PROV": {
+      "queryId": "72be2702-996b-4a88-9c49-b4ddd419c95f",
+      "queryName": "DIM_DGTL_PROV",
+      "loadEnabled": false
+    },
+    "DIM_ENHNCD_CSM": {
+      "queryId": "8762def9-28b0-4f9f-a4b1-f6e8f1fd335e",
+      "queryName": "DIM_ENHNCD_CSM",
+      "loadEnabled": false
+    },
+    "DIM_NTWK_CPAY": {
+      "queryId": "f9672ae7-3af9-4be0-93d7-992c4b8875ed",
+      "queryName": "DIM_NTWK_CPAY",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_REFIL_BY_MAIL": {
+      "queryId": "51d53fee-e006-433d-9239-bbc1fdf13181",
+      "queryName": "DIM_PRDA_REFIL_BY_MAIL",
+      "loadEnabled": false
+    },
+    "DIM_TIER_STRCTR": {
+      "queryId": "0b36f40c-35cb-4bf2-a57b-6732f4b25feb",
+      "queryName": "DIM_TIER_STRCTR",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_HOME_DLVRY_OPT": {
+      "queryId": "2a467ad6-09fe-4055-b86e-d2b8644655a2",
+      "queryName": "DIM_PRDA_HOME_DLVRY_OPT",
+      "loadEnabled": false
+    },
+    "DIM_PRVNTV_COST_SHR_TRTMNT": {
+      "queryId": "654c0ebb-1c02-4f70-b561-2804df856d9e",
+      "queryName": "DIM_PRVNTV_COST_SHR_TRTMNT",
+      "loadEnabled": false
+    },
+    "DIM_SPLT_TIER_TYPE": {
+      "queryId": "9df74204-e863-4fa4-be0a-89e355dbc3a6",
+      "queryName": "DIM_SPLT_TIER_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_RDR": {
+      "queryId": "eb34f04e-6eae-4cbc-bf5a-cfe73854b144",
+      "queryName": "DIM_PRDA_RDR",
+      "loadEnabled": false
+    },
+    "DIM_CNTRCT_STTS": {
+      "queryId": "048d9864-2ee3-4f7b-a085-53b4522d95dc",
+      "queryName": "DIM_CNTRCT_STTS",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_MBR_CVRG_EXCLSN_TYPE": {
+      "queryId": "8ddc3f91-b4e5-4b00-9282-9151eb1471f6",
+      "queryName": "DIM_PRDA_MBR_CVRG_EXCLSN_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_PLCY_TYPE": {
+      "queryId": "7b73e61b-80e2-4f37-a921-c520da3e77ad",
+      "queryName": "DIM_PLCY_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_LENS_CVRG_TYPE": {
+      "queryId": "2e66cdc5-062b-4789-9bbc-3199d82bda2d",
+      "queryName": "DIM_LENS_CVRG_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_LGL_ENTY": {
+      "queryId": "9b64d35f-a473-4313-a62b-ed5a7bb7c9f0",
+      "queryName": "DIM_LGL_ENTY",
+      "loadEnabled": false
+    },
+    "DIM_PFOL": {
+      "queryId": "cdca23af-a37e-4be3-8759-e946f28a0a32",
+      "queryName": "DIM_PFOL",
+      "loadEnabled": false
+    },
+    "DIM_PROD_PFOL": {
+      "queryId": "15c9b7f9-c1e8-4ed7-a9c2-852e351a2cd8",
+      "queryName": "DIM_PROD_PFOL",
+      "loadEnabled": false
+    },
+    "DIM_PRVT_EXCHNG": {
+      "queryId": "1c2f6f4d-7089-4e38-b131-58078b9c7a5b",
+      "queryName": "DIM_PRVT_EXCHNG",
+      "loadEnabled": false
+    },
+    "DIM_PFOL_BRNDNG": {
+      "queryId": "b3e207ad-4b3d-4a10-976f-a6731fb37fa3",
+      "queryName": "DIM_PFOL_BRNDNG",
+      "loadEnabled": false
+    },
+    "DIM_ENTRPR_PLAN": {
+      "queryId": "592d3ccd-b9d6-4933-839c-c5f79e207f2c",
+      "queryName": "DIM_ENTRPR_PLAN",
+      "loadEnabled": false
+    },
+    "DDIM_STRCTR_PLAN": {
+      "queryId": "01834759-8654-4253-ba33-95f782fe1eff",
+      "queryName": "DDIM_STRCTR_PLAN",
+      "loadEnabled": false
+    },
+    "DIM_PROD_FMLY": {
+      "queryId": "7b992e13-9af7-4ae1-b46f-bc22a25e2a06",
+      "queryName": "DIM_PROD_FMLY",
+      "loadEnabled": false
+    },
+    "DIM_CHCE_PROD": {
+      "queryId": "425c6570-d0d8-4297-bcf7-df2591b71e26",
+      "queryName": "DIM_CHCE_PROD",
+      "loadEnabled": false
+    },
+    "FACT_PROD_VSN": {
+      "queryId": "389616fa-ab8c-4000-8f89-62201b32f896",
+      "queryName": "FACT_PROD_VSN",
+      "loadEnabled": false
+    },
+    "FACT_PROD_PHRMCY": {
+      "queryId": "8732db8a-3ae1-4377-9376-d3650a13e601",
+      "queryName": "FACT_PROD_PHRMCY",
+      "loadEnabled": false
+    },
+    "FACT_PROD_RDR": {
+      "queryId": "a488768e-aa5d-4486-b629-2fcc24baf773",
+      "queryName": "FACT_PROD_RDR",
+      "loadEnabled": false
+    },
+    "DIM_MDLR_PROD_LVL_DataDestination": {
+      "queryId": "ee147915-dbf2-44c9-8b2d-b30abfabfde3",
+      "queryName": "DIM_MDLR_PROD_LVL_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DefaultDestination": {
+      "queryId": "6a927d62-3d63-42d4-9f17-25d0c1ba660a",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "Server": {
+      "queryId": "634ce6aa-a729-4557-b879-0fd40b69815a",
+      "queryName": "Server",
+      "loadEnabled": false
+    },
+    "Warehouse": {
+      "queryId": "1b31e5c2-ee32-488a-a3da-a85f13d8ee8b",
+      "queryName": "Warehouse",
+      "loadEnabled": false
+    },
+    "Database": {
+      "queryId": "49e12de3-6caa-44a5-8b73-f8515c1e59f2",
+      "queryName": "Database",
+      "loadEnabled": false
+    },
+    "DIM_OON_REIMBMNT_LVL": {
+      "queryId": "ebf51258-4121-4ba5-9048-1d271038bb06",
+      "queryName": "DIM_OON_REIMBMNT_LVL",
+      "loadEnabled": false
+    },
+    "DIM_PSTRR_CMPST": {
+      "queryId": "f174889d-552e-4e18-832e-cb7c2f706b0c",
+      "queryName": "DIM_PSTRR_CMPST",
+      "loadEnabled": false
+    },
+    "DIM_REIMBMNT_BNFT_CTGRY": {
+      "queryId": "aa336fbc-665c-4487-a6ea-a467cd615395",
+      "queryName": "DIM_REIMBMNT_BNFT_CTGRY",
+      "loadEnabled": false
+    },
+    "DIM_CNTRBTN_MTHD": {
+      "queryId": "4ef3069a-abff-494d-99b6-53d8ca01161d",
+      "queryName": "DIM_CNTRBTN_MTHD",
+      "loadEnabled": false
+    },
+    "DIM_GNRC_MNDTRY": {
+      "queryId": "591ae272-b11e-491b-9354-62e3838a5975",
+      "queryName": "DIM_GNRC_MNDTRY",
+      "loadEnabled": false
+    },
+    "DIM_ADMNSTRN_NTWK": {
+      "queryId": "991b26f5-83e8-404a-839c-0830f9260651",
+      "queryName": "DIM_ADMNSTRN_NTWK",
+      "loadEnabled": false
+    },
+    "DIM_MTHD_OF_STLMNT": {
+      "queryId": "d0cd3375-c78d-4a11-9188-854c20f64f39",
+      "queryName": "DIM_MTHD_OF_STLMNT",
+      "loadEnabled": false
+    },
+    "DIM_CLM_ADMNSTRN": {
+      "queryId": "8f04ba93-a001-4f7e-a255-891e0d3da7f9",
+      "queryName": "DIM_CLM_ADMNSTRN",
+      "loadEnabled": false
+    },
+    "DIM_LMT_CALCN": {
+      "queryId": "1c37509c-3a92-48f8-9c9a-61cab0d3fae5",
+      "queryName": "DIM_LMT_CALCN",
+      "loadEnabled": false
+    },
+    "DIM_PRDA_PROD_CRVOUT": {
+      "queryId": "61442058-b9d5-4319-b844-30f0f847bcc6",
+      "queryName": "DIM_PRDA_PROD_CRVOUT",
+      "loadEnabled": false
+    },
+    "DIM_CLM_CVRG_TYPE": {
+      "queryId": "a23538c9-9977-4026-ad4e-fe8d9954bf95",
+      "queryName": "DIM_CLM_CVRG_TYPE",
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"2b108bbe-9ab4-4bda-8436-6287cc187aee\",\"DatasourceId\":\"3b35d745-ff8e-425e-9b64-86dc1d3d5485\"}"
+    },
+    {
+      "path": "carelon-eda_preprod.privatelink.snowflakecomputing.com;U01_PRDA_APP_WH_XL",
+      "kind": "Snowflake",
+      "connectionId": "{\"ClusterId\":\"bbd9e328-e017-4998-9654-e7e3406005e5\",\"DatasourceId\":\"b162934d-4617-4906-91f5-4bd2d4664c8c\"}"
+    }
+  ]
+}

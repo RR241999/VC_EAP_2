@@ -1,0 +1,50 @@
+table DIM_EAP_ST
+	lineageTag: 33acfe1a-76a2-4b6b-a604-273ab76b3a88
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: fc68bdbe-210e-4135-9356-3159c5b530cd
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State Code Group Contract'
+		dataType: string
+		lineageTag: aee08999-ab62-4c47-abbc-89cd2e105f78
+		summarizeBy: none
+		sourceColumn: State_Code_Group_Contract
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State Name Group Contract'
+		dataType: string
+		lineageTag: 3003501f-0cd7-4fb0-8c49-2b60e35d7187
+		summarizeBy: none
+		sourceColumn: State_Name_Group_Contract
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State Description Group Contract'
+		dataType: string
+		lineageTag: 4cc1c29a-ae7b-4469-9f63-a9c736ec47ef
+		summarizeBy: none
+		sourceColumn: State_Description_Group_Contract
+
+		annotation SummarizationSetBy = Automatic
+
+	column ST_KEY
+		dataType: int64
+		lineageTag: 9e70a8b5-8c73-4c8f-8ac9-eaa4c8b5ab34
+		summarizeBy: none
+		sourceColumn: ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_st_eap = Source{[Schema="dbo",Item="dim_eap_st_eap"]}[Data]
+				in
+				dbo.dim_eap_st_eap
+

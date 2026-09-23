@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_WBS_MBR_HW_INCNTV_ACTVTY"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1a0c87cc-8441-96bd-4c27-f197b6941a14"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT * \nFROM U01_PRDA.PRDA_RPTG_ALLPHI.FACT_WBS_MBR_PRCG_PGM\nWHERE SNAP_YEAR_MNTH_NBR =( SELECT MAX(SNAP_YEAR_MNTH_NBR) FROM U01_PRDA.PRDA_RPTG_ALLPHI.FACT_WBS_MBR_PRCG_PGM)\nAND INCRD_YEAR_MNTH_NBR >= TO_CHAR(DATEADD(MONTH, -30, CURRENT_DATE), 'YYYYMM') \nAND INCRD_YEAR_MNTH_NBR <= TO_CHAR(DATEADD(MONTH, -21, CURRENT_DATE), 'YYYYMM')",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_WBS_MBR_PRCG_PGM"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "externalReferences": {
+                    "connection": "3b35d745-ff8e-425e-9b64-86dc1d3d5485"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_WBS_MBR_PRCG_PGM-21-30",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT * \nFROM U01_PRDA.PRDA_RPTG_ALLPHI.FACT_WBS_MBR_PRCG_PGM\nWHERE SNAP_YEAR_MNTH_NBR =( SELECT MAX(SNAP_YEAR_MNTH_NBR) FROM U01_PRDA.PRDA_RPTG_ALLPHI.FACT_WBS_MBR_PRCG_PGM)\nAND INCRD_YEAR_MNTH_NBR >= TO_CHAR(DATEADD(MONTH, -41, CURRENT_DATE), 'YYYYMM') \nAND INCRD_YEAR_MNTH_NBR <= TO_CHAR(DATEADD(MONTH, -31, CURRENT_DATE), 'YYYYMM')\n",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_WBS_MBR_PRCG_PGM"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "externalReferences": {
+                    "connection": "3b35d745-ff8e-425e-9b64-86dc1d3d5485"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_WBS_MBR_PRCG_PGM-31-41",
+        "dependsOn": [
+          {
+            "activity": "FACT_WBS_MBR_PRCG_PGM-21-30",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

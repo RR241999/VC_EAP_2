@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "SFACT_PROD_PHRMCY_ADDNL"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0a46e6d2-39ec-ba4f-4cd6-c7f6d663d02d"
+  }
+}

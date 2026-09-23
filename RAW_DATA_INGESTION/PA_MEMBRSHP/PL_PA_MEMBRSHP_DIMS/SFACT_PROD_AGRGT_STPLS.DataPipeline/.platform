@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "SFACT_PROD_AGRGT_STPLS"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cf3d6c27-0950-860b-45db-b0ed2b9c1f69"
+  }
+}

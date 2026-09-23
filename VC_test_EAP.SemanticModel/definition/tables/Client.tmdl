@@ -1,0 +1,186 @@
+table Client
+	lineageTag: a6b656da-cfe8-4092-ab18-a00ff1bab368
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: a18a0859-49d0-4e51-91ae-343d9fb2e04f
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 3cee3a92-2af9-40ec-9a90-482569e19413
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Client Group Subgroup ID'
+		dataType: string
+		lineageTag: 6fbfb544-f06e-4323-bd7a-1a642b87f74f
+		summarizeBy: none
+		sourceColumn: Client_Group_Subgroup_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Client Group Subgroup'
+		dataType: string
+		lineageTag: 3e38d2ef-17a3-4bef-b777-589a3b479f51
+		summarizeBy: none
+		sourceColumn: Client_Group_Subgroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 17eb41bc-def7-43aa-a784-d5eb6fa9149a
+		summarizeBy: sum
+		sourceColumn: EDM_CLNT_GRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Client Group ID'
+		dataType: string
+		lineageTag: 600fd55d-349f-443b-9066-875e99824285
+		summarizeBy: none
+		sourceColumn: Client_Group_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Client Group'
+		dataType: string
+		lineageTag: 22f65f87-b515-42e3-91d8-9916219ea32b
+		summarizeBy: none
+		sourceColumn: Client_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCT_CNTRL_CLNT_GRP_ID
+		dataType: string
+		lineageTag: 44497458-5f1c-4ce4-a78c-0acab3916ade
+		summarizeBy: none
+		sourceColumn: ACCT_CNTRL_CLNT_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCT_CNTRL_CLNT_GRP_NM
+		dataType: string
+		lineageTag: 1c9e88ac-1b29-41f4-a0dc-0fb6dfc5b579
+		summarizeBy: none
+		sourceColumn: ACCT_CNTRL_CLNT_GRP_NM
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIC_CD
+		dataType: string
+		lineageTag: 83748290-f2fb-4967-ac54-0bf412d8e5ed
+		summarizeBy: none
+		sourceColumn: SIC_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIC
+		dataType: string
+		lineageTag: 7e4faa50-7acb-4c85-95fa-b39c9acc30c4
+		summarizeBy: none
+		sourceColumn: SIC
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIC_GRP_CD
+		dataType: string
+		lineageTag: 34637ce2-6d7f-45a9-8185-51a5fd156926
+		summarizeBy: none
+		sourceColumn: SIC_GRP_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SIC Group'
+		dataType: string
+		lineageTag: 4be9d511-e470-447f-9ff2-5df29bf258f6
+		summarizeBy: none
+		sourceColumn: SIC_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column ELGBL_GRP_SIZE_NBR
+		dataType: double
+		lineageTag: 109804bc-67f6-4e5a-b1ab-fab570b41ef7
+		summarizeBy: sum
+		sourceColumn: ELGBL_GRP_SIZE_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column RNWL_MNTH_NBR
+		dataType: double
+		lineageTag: 68b21364-cfd5-4e40-9268-e3d626e76556
+		summarizeBy: sum
+		sourceColumn: RNWL_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNDRWRTG_STRT_MNTH_NBR
+		dataType: double
+		lineageTag: 2b9965fd-3dcb-4080-bd43-7ef26f72ba8c
+		summarizeBy: sum
+		sourceColumn: UNDRWRTG_STRT_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLNT_GRP_SUBGRP_EFCTV_DT
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 0f7be3c5-3e6d-4343-a4de-57fd85638965
+		summarizeBy: none
+		sourceColumn: CLNT_GRP_SUBGRP_EFCTV_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CLNT_GRP_SUBGRP_TRMNTN_DT
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 99272149-4641-4b9d-895c-07a7d06f651f
+		summarizeBy: none
+		sourceColumn: CLNT_GRP_SUBGRP_TRMNTN_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CLNT_GRP_EFCTV_DT
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 5c455660-3da8-4c51-b70c-b50c43e6ca7f
+		summarizeBy: none
+		sourceColumn: CLNT_GRP_EFCTV_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CLNT_GRP_TRMNTN_DT
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 113a54d5-9722-4fdd-a391-5ac898540cc2
+		summarizeBy: none
+		sourceColumn: CLNT_GRP_TRMNTN_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.client_eap = Source{[Schema="dbo",Item="client_eap"]}[Data]
+				in
+				dbo.client_eap
+

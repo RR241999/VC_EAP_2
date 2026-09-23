@@ -1,0 +1,1991 @@
+[
+  {
+    "name": "WORK_SFACT_PROD_MDCL_ADDNL_PA_CUBE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/WORK_SFACT_PROD_MDCL_ADDNL_PA_CUBE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "WORK_NTWK_PA_CUBE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/WORK_NTWK_PA_CUBE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "WORK_NTWK_LVL_2_XWALK",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/WORK_NTWK_LVL_2_XWALK",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "WORK_DIM_NTWK_CUBE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/WORK_DIM_NTWK_CUBE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "WORK_DDIM_PA_CSTM_STNDRD_CUBE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/WORK_DDIM_PA_CSTM_STNDRD_CUBE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_VSN_COST_SHR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_VSN_COST_SHR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_SPCFC_STPLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_SPCFC_STPLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_PHRMCY_COST_SHR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_PHRMCY_COST_SHR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_PHRMCY_ADDNL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_PHRMCY_ADDNL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_MDCL_COST_SHR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/SFACT_PROD_MDCL_COST_SHR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_MDCL_ADDNL_1",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_MDCL_ADDNL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_MDCL_ADDNL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_MDCL_ADDNL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_DNTL_COST_SHR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_DNTL_COST_SHR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "SFACT_PROD_AGRGT_STPLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/SFACT_PROD_AGRGT_STPLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "LKUP_PROD_KEY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/LKUP_PROD_KEY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBRSHP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBRSHP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_PROD_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_PROD_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_PROD_SUBCLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_PROD_SUBCLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_PROD_CLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_PROD_CLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_PRCG_PROD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_PRCG_PROD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_PRCG_PGM",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_PRCG_PGM",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_HW_INCNTV_DSBRSMNT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_HW_INCNTV_DSBRSMNT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_HW_INCNTV_ACTVTY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_HW_INCNTV_ACTVTY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_WBS_MBR_ELGBL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_WBS_MBR_ELGBL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_VSN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_VSN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_STPLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_STPLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_RDR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_RDR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_PHRMCY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_PHRMCY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_MDCL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/FACT_PROD_MDCL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_DNTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_DNTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PROD_ADMNSTRN_NTWK",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PROD_ADMNSTRN_NTWK",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_SALE_LPSE_GRP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PRDA_SALE_LPSE_GRP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_SALE_LPSE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PRDA_SALE_LPSE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_RSTTD_MBRSHP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PRDA_RSTTD_MBRSHP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_MBR_DGTL_INTRCTN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/FACT_PRDA_MBR_DGTL_INTRCTN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_DGTL_RGSTRN_LHO",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/FACT_PRDA_DGTL_RGSTRN_LHO",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_DGTL_RGSTRN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/FACT_PRDA_DGTL_RGSTRN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_BHF_MBR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PRDA_BHF_MBR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_PRDA_BHF_IVR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_PRDA_BHF_IVR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_INCDNT_SESN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_INCDNT_SESN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_WORK_MBR_MDCL_PROD_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_WORK_MBR_MDCL_PROD_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_WBS_PROD_OUTRCH",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_WBS_PROD_OUTRCH",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_SRVY_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_SRVY_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_SPRVSR_RFRL_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_SPRVSR_RFRL_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_MNGMNT_CNSLTTN_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_MNGMNT_CNSLTTN_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_MBR_INCDNT_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_MBR_INCDNT_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_GRP_SUBGRP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_GRP_SUBGRP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "FACT_EAP_EVNT_DTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_EAP_EVNT_DTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_TIER_STRCTR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_TIER_STRCTR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_SPLT_TIER_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_SPLT_TIER_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_REIMBMNT_BNFT_CTGRY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_REIMBMNT_BNFT_CTGRY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PSTRR_CMPST",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PSTRR_CMPST",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRVT_EXCHNG",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRVT_EXCHNG",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRVNTV_COST_SHR_TRTMNT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRVNTV_COST_SHR_TRTMNT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PROD_PFOL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PROD_PFOL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PROD_FMLY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PROD_FMLY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_ZIP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_ZIP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_STNDRD_AGE_MNTH",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_STNDRD_AGE_MNTH",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_RWRD_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_RWRD_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_REFIL_BY_MAIL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_REFIL_BY_MAIL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_RDR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_RDR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_QHP_VRTN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_QHP_VRTN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PROD_VRSN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PROD_VRSN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PROD_STTS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PROD_STTS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PROD_CRVOUT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PROD_CRVOUT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PROD_CF",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PROD_CF",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PROD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PROD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PRFL_1",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PRFL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PRFL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PRFL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_PLAN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_PLAN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_MTRNTY_RISK",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_MTRNTY_RISK",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_MBU_CF",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_MBU_CF",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_MBR_CVRG_EXCLSN_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_MBR_CVRG_EXCLSN_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_MBR_AGE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_MBR_AGE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_MBR_ACCT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_MBR_ACCT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_LIFE_CTGRY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_LIFE_CTGRY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_JAA",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_JAA",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_HW_PKG_PGM",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_HW_PKG_PGM",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_HOME_DLVRY_OPT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_HOME_DLVRY_OPT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_GSTTNL_DLVRY_AGE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_GSTTNL_DLVRY_AGE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_GRP_MBR_SIZE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_GRP_MBR_SIZE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_GRP_MBR_RNG",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_GRP_MBR_RNG",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_GRP_CNTRCT_SIZE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_GRP_CNTRCT_SIZE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_GNDR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_GNDR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_FUNDG_CF",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_FUNDG_CF",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_DT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_DT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_DGTL_STTS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_DGTL_STTS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_CSTM_VRSS_STNDRD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_CSTM_VRSS_STNDRD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_CMPNY_CF",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_CMPNY_CF",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_CLNT_GRP_SUBGRP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_CLNT_GRP_SUBGRP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_CDHP_ADMNSTRN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_CDHP_ADMNSTRN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_CALL_CHAT_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_CALL_CHAT_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_BRTH_WT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_BRTH_WT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_BHFP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_BHFP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_BHF_RWRD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_BHF_RWRD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PRDA_BHF_MBR_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PRDA_BHF_MBR_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PLCY_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PLCY_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PFOL_BRNDNG",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PFOL_BRNDNG",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PFOL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PFOL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_PCP_RQRD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_PCP_RQRD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_OON_REIMBMNT_LVL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_OON_REIMBMNT_LVL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_NTWK_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_NTWK_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_NTWK_CPAY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_NTWK_CPAY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_MTHD_OF_STLMNT",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_MTHD_OF_STLMNT",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_MRKTG_STTS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_MRKTG_STTS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_MDLR_PROD_LVL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_MDLR_PROD_LVL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_LMT_CALCN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_LMT_CALCN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_LGL_ENTY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_LGL_ENTY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_LENS_CVRG_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_LENS_CVRG_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_GNRC_MNDTRY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_GNRC_MNDTRY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_FRTH_QTR_CRYOVR",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_FRTH_QTR_CRYOVR",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_ENTRPR_PLAN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_ENTRPR_PLAN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_ENHNCD_CSM",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_ENHNCD_CSM",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SUBGRP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SUBGRP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_ST",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_ST",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SRVY_WOS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SRVY_WOS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SRVY_PHQ",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SRVY_PHQ",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SRVY_HIPEAP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SRVY_HIPEAP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SRVY_GAD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SRVY_GAD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SRVY_DFD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SRVY_DFD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_SESN_MDL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_SESN_MDL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_RFRL_RSN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_RFRL_RSN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_PROD_DESC",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_PROD_DESC",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_PROD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_PROD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_SRVC_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_SRVC_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_PRSNT_PRBLM",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_PRSNT_PRBLM",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_PROV_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_PROV_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_ENTY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_ENTY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_CNSLG_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_CNSLG_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_INCDNT_ACTY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_INCDNT_ACTY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_GRP",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_GRP",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_EVNT_SRVC_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_EVNT_SRVC_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_CNSLT_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_CNSLT_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_EAP_CALR_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_EAP_CALR_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_DGTL_PROV_AVLBLTY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_DGTL_PROV_AVLBLTY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_DGTL_PROV",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_DGTL_PROV",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CVRD_OOA",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CVRD_OOA",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CRYOVR_APLYS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CRYOVR_APLYS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CNTRCT_STTS",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CNTRCT_STTS",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CNTRBTN_MTHD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CNTRBTN_MTHD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CLM_CVRG_TYPE",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CLM_CVRG_TYPE",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CLM_ADMNSTRN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CLM_ADMNSTRN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CHCE_PROD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CHCE_PROD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_CDHP_PRFRD_PLTFRM",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_CDHP_PRFRD_PLTFRM",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DIM_ADMNSTRN_NTWK",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DIM_ADMNSTRN_NTWK",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DDIM_STRCTR_PLAN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DDIM_STRCTR_PLAN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "DDIM_PRDA_PROD",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/DDIM_PRDA_PROD",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "ADIM_PRDA_VISN",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/ADIM_PRDA_VISN",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "ADIM_PRDA_RX",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/ADIM_PRDA_RX",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "ADIM_PRDA_MDCL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/ADIM_PRDA_MDCL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "ADIM_PRDA_GRP_STOP_LOSS_SMRY",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/ADIM_PRDA_GRP_STOP_LOSS_SMRY",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
+    "name": "ADIM_PRDA_DNTL",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/PA_MEMBRSHP/ADIM_PRDA_DNTL",
+        "itemId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  }
+]

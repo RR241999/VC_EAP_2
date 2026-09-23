@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_EAP_GRP_SUBGRP"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6f672c8e-97a1-99f7-45b0-c6e6dfbe15fd"
+  }
+}

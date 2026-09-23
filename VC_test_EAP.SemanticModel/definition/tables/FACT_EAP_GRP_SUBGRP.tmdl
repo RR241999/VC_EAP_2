@@ -1,0 +1,422 @@
+table FACT_EAP_GRP_SUBGRP
+	lineageTag: 89641580-3bba-402c-8be1-c819f1160faa
+
+	measure 'Employee Eligibility Base' =
+			VAR a =
+			    SUMMARIZE (
+			        FACT_EAP_GRP_SUBGRP,
+			        FACT_EAP_GRP_SUBGRP[ELGBL_MNTH_NBR],
+			        FACT_EAP_GRP_SUBGRP[EAP_GRP_ID],
+			        "max_cnt", MAX ( 'FACT_EAP_GRP_SUBGRP'[Group Employee Count] )
+			    )
+			RETURN
+			    SUMX ( a, [max_cnt] )
+		lineageTag: 9e2e8512-dd61-4cbc-8bf6-53ec23072ade
+
+	measure 'Estimated Members Eligible Base' =
+			VAR a =
+			    SUMMARIZE (
+			        FACT_EAP_GRP_SUBGRP,
+			        FACT_EAP_GRP_SUBGRP[ELGBL_MNTH_NBR],
+			        FACT_EAP_GRP_SUBGRP[EAP_GRP_ID],
+			        "max_cnt", MAX ( 'FACT_EAP_GRP_SUBGRP'[Group Estimated Member Count] )
+			    )
+			RETURN
+			    SUMX ( a, [max_cnt] )
+		lineageTag: 4a6388a1-0b27-4a8c-b762-c834604c7e10
+
+	measure 'Employee Eligibility PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Employee Eligibility], ALL ( 'Incurred Month' ), __PP1 )
+		lineageTag: 90431e03-a25b-4267-b4c5-054b30e58621
+
+	measure 'Employee Eligibility %  Change' =
+			VAR __Current = [Employee Eligibility]
+			VAR __PastPeriod = [Employee Eligibility PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 85c4c83b-2878-4ff2-8ba8-33ba8506414a
+
+	measure 'Estimated Members Eligible PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Members Eligible], ALL ( 'Incurred Month' ), __PP1 )
+		lineageTag: 35daf281-4fc7-408e-b154-ab2e147a8835
+
+	measure 'Estimated Members Eligible %  Change' =
+			VAR __Current = [Estimated Members Eligible]
+			VAR __PastPeriod = [Estimated Members Eligible PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 387183ff-9c60-4f01-9b02-411d4a507339
+
+	measure 'Employee Eligibility' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DIVIDE (
+			            [Employee Eligibility Base],
+			            DISTINCTCOUNT ( 'Incurred Month'[Incurred Month Begin Dt] )
+			        ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 6223c7ea-7fda-4de1-a56d-d586a8b62968
+
+	measure 'Estimated Members Eligible' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DIVIDE (
+			            [Estimated Members Eligible Base],
+			            DISTINCTCOUNT ( 'Incurred Month'[Incurred Month Begin Dt] )
+			        ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: ce9dc34c-742c-4a5a-8f11-14ce028e3a16
+
+	measure 'Member Eligibility Base' = ```
+			/*CALCULATE (
+			    [MemberMonths],
+			    FILTER (
+			        KEEPFILTERS ( VALUES ( 'WORK_MBR_HW_TXNMY'[Program Name] ) ),
+			        SEARCH ( "EAP", 'WORK_MBR_HW_TXNMY'[Program Name], 1, 0 ) >= 1
+			    )
+			)
+			
+			*/
+			
+			[EAP MemberMonths]
+			
+			
+			```
+		lineageTag: bcdfc68d-4247-498d-97fc-5d7b4a674077
+
+	measure 'Member Eligibility' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			VAR _NUM =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			RETURN
+			    DIVIDE ( [EAP MemberMonths], _NUM )
+		formatString: #,0
+		lineageTag: d95302e6-fff0-41eb-938f-f82f3dc56549
+
+	measure 'Member Eligibility PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Member Eligibility], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 4bbaa2fb-e58c-4857-932c-3f0e0af4958d
+
+	measure 'Member Eligibility %  Change' =
+			VAR __Current = [Member Eligibility]
+			VAR __PastPeriod = [Member Eligibility PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5505ccfe-4e21-4b3e-82f6-bd3c3238b5b9
+
+	measure 'EAP MemberMonths' = ```
+			VAR a =
+			    SELECTEDVALUE ( 'Standalone'[Standalone Code] )
+			RETURN
+			    IF (
+			        a = "YES",
+			        BLANK (),
+			        IF (
+			            [IsEAPProductLevel?],
+			            CALCULATE ( [EAP MemberMonthsMLevel], ALL ( 'Standalone'[Standalone Code] ) ),
+			            IF (
+			                ISFILTERED ( 'DIM_EAP_PROD_DESC'[Reporting Program Name] ),
+			                CALCULATE ( [Member Months], ALL ( 'Standalone'[Standalone Code] ) ),
+			                CALCULATE (
+			                    [EAP MemberMonthsProdSubClsLevel],
+			                    ALL ( 'Standalone'[Standalone Code] )
+			                )
+			            )
+			        )
+			    )
+			/*
+			VAR a =
+			    SELECTEDVALUE ( 'Standalone'[Standalone Code] )
+			RETURN
+			    IF (
+			        a = "YES",
+			        BLANK (),
+			        IF (
+			            [IsEAPProductLevel?],
+			            CALCULATE ( [EAP MemberMonthsMLevel], ALL ( 'Standalone'[Standalone Code] ) ),
+			            IF (
+			                ISFILTERED ( DIM_EAP_PROD_DESC[RPTG_PGM_NM] ),
+			                CALCULATE ( [EAP MemberMonthsPGMLevel], ALL ( 'Standalone'[Standalone Code] ) ),
+			                IF (
+			                    ISFILTERED ( DIM_EAP_PROD_DESC[RPT_PROD_NM] ),
+			                    CALCULATE ( [EAP MemberMonthsProdLevel], ALL ( 'Standalone'[Standalone Code] ) ),
+			                    IF (
+			                        ISFILTERED ( 'DIM_EAP_PROD_DESC'[PGM_SUB_CLS_DESC] ),
+			                        CALCULATE (
+			                            [EAP MemberMonthsProdSubClsLevel],
+			                            ALL ( 'Standalone'[Standalone Code] )
+			                        ),
+			                        IF (
+			                            ISFILTERED ( 'DIM_EAP_PROD_DESC'[PGM_SUB_CLS_DESC] ),
+			                            CALCULATE (
+			                                [EAP MemberMonthsProdClsLevel],
+			                                ALL ( 'Standalone'[Standalone Code] )
+			                            ),
+			                            CALCULATE (
+			                                [EAP MemberMonthsProdTypeLevel],
+			                                ALL ( 'Standalone'[Standalone Code] )
+			                            )
+			                        )
+			                    )
+			                )
+			            )
+			        )
+			    )
+			    
+			    */
+			```
+		lineageTag: 8cb87ab3-55ad-4666-96aa-5e1de9c98d1b
+
+	measure IsEAPProductLevel? =
+			IF (
+			    ISFILTERED ( DIM_EAP_PROD_DESC[PROD_TYPE_DESC] )
+			        || ISFILTERED ( DIM_EAP_PROD_DESC[PROD_CLS_DESC] )
+			        || ISFILTERED ( DIM_EAP_PROD_DESC[RPT_PROD_NM] )
+			        || ISFILTERED ( 'DIM_EAP_PROD_DESC'[Program Subclass Description] )
+			        || ISFILTERED ( 'DIM_EAP_PROD_DESC'[Reporting Program Name] ),
+			    FALSE (),
+			    TRUE ()
+			)
+		lineageTag: 7bedbc36-e41d-4b1f-a44d-86979c5b9c93
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: a1cf35b4-e3db-4ac2-8349-a474cbf5ed4c
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: b577a4ec-eda5-46f5-8c3c-a1946c1cf73a
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_SUBGRP_ID
+		dataType: string
+		lineageTag: f41b1f55-fb21-4acc-94f1-8f33f3513a03
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Chart Field Code'
+		dataType: int64
+		lineageTag: 20d59242-f357-4ee3-9c55-1de46d4ed8f6
+		summarizeBy: none
+		sourceColumn: Company_Chart_Field_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: 79d72617-4019-4cda-876e-68f64d190297
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: b3b93e57-af8f-4a60-9c4a-69b61ac9f358
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ST_KEY
+		dataType: int64
+		lineageTag: 844963f9-a100-4595-8423-0dd4ca8913dd
+		summarizeBy: none
+		sourceColumn: INCDNT_ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: 5e1430da-41c2-4e0d-b08e-66fc9de2d1ef
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: 8d4acd92-6c8e-418b-bc18-a36440b200e4
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column ELGBL_MNTH_NBR
+		dataType: int64
+		lineageTag: a6959c34-68a8-4a2a-9ca0-f6d57a5b102d
+		summarizeBy: none
+		sourceColumn: ELGBL_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Group Employee Count'
+		dataType: int64
+		lineageTag: 39a05b3b-2596-485c-a1b3-c9320fd8709d
+		summarizeBy: sum
+		sourceColumn: Group_Employee_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Group Estimated Member Count'
+		dataType: double
+		lineageTag: 93e705f1-2405-4084-9361-7bc6ec90c533
+		sourceColumn: Group_Estimated_Member_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Subgroup Employee Count'
+		dataType: int64
+		lineageTag: 86d2f11e-2c3e-4813-89e1-b44e28a8c081
+		summarizeBy: sum
+		sourceColumn: Subgroup_Employee_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Subgroup Estimated Member Count'
+		dataType: int64
+		lineageTag: 61f9b462-b069-41d9-b1ba-e90b70db9402
+		summarizeBy: sum
+		sourceColumn: Subgroup_Estimated_Member_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 27cc9331-1c6b-48b4-8ad5-f5be45730fec
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: e73be5cc-f20d-44d2-b5c2-c95a49f4fa1b
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_grp_subgrp_eap = Source{[Schema="dbo",Item="fact_eap_grp_subgrp_eap"]}[Data]
+				in
+				dbo.fact_eap_grp_subgrp_eap
+

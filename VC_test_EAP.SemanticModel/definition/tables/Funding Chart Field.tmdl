@@ -1,0 +1,114 @@
+table 'Funding Chart Field'
+	lineageTag: df422f2e-3373-4502-a824-c9af6dc9ab32
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: 2661c271-d0f7-447c-912e-db8b40a816b0
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column 'Funding Chart Field Cd'
+		dataType: string
+		lineageTag: beb6e7a9-4063-45cf-accb-9058c0f91593
+		summarizeBy: none
+		sourceColumn: Funding_Chart_Field_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Chart Field'
+		dataType: string
+		lineageTag: 716752d6-6c07-4226-8f3a-0d16ebf8d0aa
+		summarizeBy: none
+		sourceColumn: Funding_Chart_Field
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Chart Field Type Cd'
+		dataType: string
+		lineageTag: eea21113-aa34-48cf-b2f7-a397d29cb961
+		summarizeBy: none
+		sourceColumn: Funding_Chart_Field_Type_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Type'
+		dataType: string
+		lineageTag: bfd82610-4c6b-4f6a-9b00-394631cf08a5
+		summarizeBy: none
+		sourceColumn: Funding_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Sub Class Cd'
+		dataType: string
+		lineageTag: 7ec1f5f0-a2eb-459a-952c-a24a2c37ec23
+		summarizeBy: none
+		sourceColumn: Funding_Sub_Class_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Sub Class'
+		dataType: string
+		lineageTag: 1768b97c-3b61-4482-a41f-8376c3183e10
+		summarizeBy: none
+		sourceColumn: Funding_Sub_Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Class Cd'
+		dataType: string
+		lineageTag: 1f810a63-de7a-47a2-a536-1a354e851e2f
+		summarizeBy: none
+		sourceColumn: Funding_Class_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Class'
+		dataType: string
+		lineageTag: 9ab23fc9-5e6f-48ac-bf11-1945108c63b9
+		summarizeBy: none
+		sourceColumn: Funding_Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CLS_LONG_DESC
+		dataType: string
+		lineageTag: 6130d71c-f173-400b-a1e9-3522979b695b
+		summarizeBy: none
+		sourceColumn: FUNDG_CLS_LONG_DESC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funding Type Dashboard'
+		dataType: string
+		lineageTag: 6316877a-f83a-4c5e-b0ae-6d3944dab995
+		summarizeBy: none
+		sourceColumn: Funding_Type_Dashboard
+
+		annotation SummarizationSetBy = Automatic
+
+	column MEWA_IND
+		dataType: string
+		lineageTag: 4c0dd754-6be3-4c4a-9ec0-dcbd91e5b7c7
+		summarizeBy: none
+		sourceColumn: MEWA_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	column ABF_IND
+		dataType: string
+		lineageTag: fa77761c-07b3-4370-80b2-6f3d98b5de59
+		summarizeBy: none
+		sourceColumn: ABF_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.funding_chart_field_eap = Source{[Schema="dbo",Item="funding_chart_field_eap"]}[Data]
+				in
+				dbo.funding_chart_field_eap
+

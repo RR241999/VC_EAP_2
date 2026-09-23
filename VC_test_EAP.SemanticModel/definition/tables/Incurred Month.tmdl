@@ -1,0 +1,291 @@
+table 'Incurred Month'
+	lineageTag: b1ca31c9-7c9d-4560-b820-b4c655b74985
+
+	column 'Incurred Business Day of Month Nbr'
+		dataType: int64
+		lineageTag: 1c5a9734-57e2-4eb2-b9c0-469d74f16e89
+		summarizeBy: sum
+		sourceColumn: Incurred_Business_Day_of_Month_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Calendar Year and Week Nbr'
+		dataType: int64
+		lineageTag: e48808ed-0533-4e98-8b46-94894ab054dd
+		summarizeBy: sum
+		sourceColumn: Incurred_Calendar_Year_and_Week_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Date Nbr'
+		dataType: int64
+		lineageTag: e1216951-21b3-437f-be68-275d6ee2650e
+		summarizeBy: sum
+		sourceColumn: Incurred_Date_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Day of Month Nbr'
+		dataType: int64
+		lineageTag: 71de1c0a-1a3e-41c0-9a4d-ae294d7041a5
+		summarizeBy: sum
+		sourceColumn: Incurred_Day_of_Month_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Day of Week Nm'
+		dataType: string
+		lineageTag: 2c421819-f4b5-42a1-b7fb-6b3ad266cb4d
+		summarizeBy: none
+		sourceColumn: Incurred_Day_of_Week_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Day of Week Nbr'
+		dataType: int64
+		lineageTag: 8f5bc4b6-012f-4d05-ba72-661524991130
+		summarizeBy: sum
+		sourceColumn: Incurred_Day_of_Week_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Day of Week Short Nm'
+		dataType: string
+		lineageTag: 3fbe460a-0e2c-433e-8977-2f40408c3964
+		summarizeBy: none
+		sourceColumn: Incurred_Day_of_Week_Short_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Federal Holiday Ind'
+		dataType: string
+		lineageTag: 8bb09027-2c50-44cb-a43e-5cec9a52c183
+		summarizeBy: none
+		sourceColumn: Incurred_Federal_Holiday_Ind
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Half Year Nm'
+		dataType: string
+		lineageTag: 1a4598d9-9d93-4dc8-ae8f-c8089555e335
+		summarizeBy: none
+		sourceColumn: Incurred_Half_Year_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Half Year Nbr'
+		dataType: int64
+		lineageTag: 1e8433eb-2559-45d0-af66-349dd6580c1e
+		summarizeBy: sum
+		sourceColumn: Incurred_Half_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Julian Dt of Year Nbr'
+		dataType: int64
+		lineageTag: 2a7fb3b4-5143-4de2-a459-c0dd2cbf5eaf
+		summarizeBy: sum
+		sourceColumn: Incurred_Julian_Dt_of_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Month of Year Nm'
+		dataType: string
+		lineageTag: 09d5bdb1-2ede-4f98-88a3-871a6a1ec3a3
+		summarizeBy: none
+		sourceColumn: Incurred_Month_of_Year_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Month of Year Nbr'
+		dataType: int64
+		lineageTag: b4cccca8-8170-41b8-90b8-e6f5182bf580
+		summarizeBy: sum
+		sourceColumn: Incurred_Month_of_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Month of Year Short Nm'
+		dataType: string
+		lineageTag: 53a31b94-0f12-4353-81eb-7584e4e7a60f
+		summarizeBy: none
+		sourceColumn: Incurred_Month_of_Year_Short_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Quarter of Year Nbr'
+		dataType: int64
+		lineageTag: b435f32f-6c6c-4f4b-a045-da021d96801a
+		summarizeBy: sum
+		sourceColumn: Incurred_Quarter_of_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Week of Year Nbr'
+		dataType: int64
+		lineageTag: 6794303b-8d4e-45d2-ac80-cab92eb4481e
+		summarizeBy: sum
+		sourceColumn: Incurred_Week_of_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year and Half Year Nbr'
+		dataType: int64
+		lineageTag: 9fc24b94-d9b9-4e97-8148-28702c4c98b3
+		summarizeBy: sum
+		sourceColumn: Incurred_Year_and_Half_Year_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year and Quarter Nbr'
+		dataType: int64
+		lineageTag: 58259329-8de1-41ab-967c-9e5981fe8914
+		summarizeBy: sum
+		sourceColumn: Incurred_Year_and_Quarter_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year Month Nbr'
+		dataType: int64
+		lineageTag: 9f741e94-7ebc-4f54-a872-d52117376fe0
+		summarizeBy: none
+		sourceColumn: Incurred_Year_Month_Nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year'
+		dataType: int64
+		lineageTag: fe4c63bd-d7c0-467f-b425-5dce014dab5f
+		summarizeBy: sum
+		sourceColumn: Incurred_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Day Type'
+		dataType: string
+		lineageTag: b8a5a50e-4e8a-4fe5-b7bc-f2f772a62311
+		summarizeBy: none
+		sourceColumn: Incurred_Day_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year and Half Year Nm'
+		dataType: string
+		lineageTag: ec73f98d-9ac9-48b5-ac14-a528cf1a84d1
+		summarizeBy: none
+		sourceColumn: Incurred_Year_and_Half_Year_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year and Month Nm'
+		dataType: string
+		lineageTag: 1706abc4-2041-4cdb-b941-fc61d066eb7f
+		summarizeBy: none
+		sourceColumn: Incurred_Year_and_Month_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Year and Quarter Nm'
+		dataType: string
+		lineageTag: 6751d527-ba25-4ae8-8b6e-1c401de0a92b
+		summarizeBy: none
+		sourceColumn: Incurred_Year_and_Quarter_Nm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Month Begin Dt'
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 97dfb8e5-41ab-4869-a659-946c58bfbe45
+		summarizeBy: none
+		sourceColumn: Incurred_Month_Begin_Dt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Incurred Month EndDt'
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: a3391695-f124-4de0-9964-dfaf72b9657b
+		summarizeBy: none
+		sourceColumn: Incurred_Month_EndDt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DefaultYearMonth
+		dataType: string
+		lineageTag: 8a006cd1-209a-4c8c-9a19-311c430cf623
+		summarizeBy: none
+		sourceColumn: DefaultYearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incurred Month Year Dashboard' = 'Incurred Month'[Incurred Month of Year Short Nm] & "'" & RIGHT('Incurred Month'[Incurred Year],2)
+		lineageTag: 5fd7a57a-c660-4649-ac5d-1c8d268c9c96
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Difference' =
+			
+			VAR mxm =
+			    MAX ( [Incurred Month Begin Dt] )
+			RETURN
+			    DATEDIFF ( [Incurred Month Begin Dt], mxm, MONTH )
+		lineageTag: 1daba63e-9ba4-4893-8641-ce267d90db11
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column LatestIncurredMonthInd =
+			IF (
+			    'Incurred Month'[Incurred Year Month Nbr] = 'Incurred Month'[Latest Incurred Month],
+			    "Current",
+			    IF (
+			        'Incurred Month'[Incurred Year Month Nbr] > 'Incurred Month'[Latest Incurred Month],
+			        " Current + 1 Month (Advanced)",
+			        "Previous"
+			    )
+			)
+		lineageTag: 04fcd286-d2a5-4112-897e-43f147ec3d45
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Latest Incurred Month' =
+			CALCULATE (
+			    MAX ( 'Incurred Month'[Incurred Year Month Nbr] ),
+			    FILTER (
+			        'Incurred Month',
+			        'Incurred Month'[Incurred Year Month Nbr]
+			            <> MAX ( 'Incurred Month'[Incurred Year Month Nbr] )
+			    )
+			)
+		lineageTag: 53d555eb-5208-47a7-aaf2-9918f2c691e4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Latest_Incurred_Month
+		lineageTag: 272e6955-62a1-4f85-9b55-2a8d43f9f8da
+
+		level LatestIncurredMonthInd
+			lineageTag: 40bcbf58-c232-4443-9d4e-c939cfb906df
+			column: LatestIncurredMonthInd
+
+		level 'Incurred Year Month Nbr'
+			lineageTag: 970e0ca0-b479-4dc8-b218-72eb28ab1a9c
+			column: 'Incurred Year Month Nbr'
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.incurred_month_eap = Source{[Schema="dbo",Item="incurred_month_eap"]}[Data]
+				in
+				dbo.incurred_month_eap
+

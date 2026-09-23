@@ -1,0 +1,87 @@
+table DIM_EAP_INCDNT_ENTY
+	lineageTag: cfb2da67-c997-434a-9897-378c9a1e1bb3
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: be6003f0-4145-4199-b0cd-3095758757b2
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Entity ID'
+		dataType: string
+		lineageTag: 532feec4-40e3-4755-b9f9-67b6622f23c8
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Entity_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Code'
+		dataType: string
+		lineageTag: 3b0e4e61-d69b-4de5-8b09-452ab1c8a8d5
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Group Code'
+		dataType: string
+		lineageTag: 4a1c60b3-5e27-4db1-b1b5-ac9865f95bc1
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Group Description'
+		dataType: string
+		lineageTag: cee77818-057f-44a6-bdca-df3131a51549
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Counseling Indicator'
+		dataType: string
+		lineageTag: f407fcb5-983f-41f9-8b7b-d39bc706c6eb
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Counseling_Indicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Service Key'
+		dataType: double
+		lineageTag: 05695684-f9a7-4f1d-b4b0-191e6c12d7ea
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Service_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column TelehealthPreferenceCategory =
+			IF (
+			    OR (
+			        DIM_EAP_INCDNT_ENTY[EAP Incident Service Code] = "EAP_NETWORK_COUNSELOR_LIVE_HEALTH_ONLINE",
+			        DIM_EAP_INCDNT_ENTY[EAP Incident Service Code] = "EAP_NETWORK_COUNSELOR_TELEHEALTH"
+			    ),
+			    "Telehealth",
+			    IF (
+			        OR (
+			            DIM_EAP_INCDNT_ENTY[EAP Incident Service Code] = "EAP_NETWORK_COUNSELOR_FACE_TO_FACE",
+			            DIM_EAP_INCDNT_ENTY[EAP Incident Service Code] = "EAP_NETWORK_COUNSELOR_ONSITE"
+			        ),
+			        "Non-Telehealth"
+			    )
+			)
+		dataType: string
+		lineageTag: 47b47809-6f37-4a4e-8b4b-9ff45ccc9b94
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_incdnt_enty_eap = Source{[Schema="dbo",Item="dim_eap_incdnt_enty_eap"]}[Data]
+				in
+				dbo.dim_eap_incdnt_enty_eap
+

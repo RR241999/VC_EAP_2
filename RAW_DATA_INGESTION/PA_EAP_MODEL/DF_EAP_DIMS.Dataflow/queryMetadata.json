@@ -1,0 +1,136 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DF_EAP_DIMS",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "gatewayObjectId": "bbd9e328-e017-4998-9654-e7e3406005e5",
+  "queriesMetadata": {
+    "DIM_EAP_SUBGRP": {
+      "queryId": "66a2cbad-5249-472c-8d37-ceaa4a49c600",
+      "queryName": "DIM_EAP_SUBGRP",
+      "loadEnabled": false
+    },
+    "DIM_EAP_PROD": {
+      "queryId": "28a5431f-63bc-499e-81d5-96a80077b131",
+      "queryName": "DIM_EAP_PROD",
+      "loadEnabled": false
+    },
+    "DIM_EAP_CALR_TYPE": {
+      "queryId": "70c05ce7-57bc-4456-95be-122738472c0c",
+      "queryName": "DIM_EAP_CALR_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_EAP_INCDNT_ACTY": {
+      "queryId": "6498603f-0bfc-4698-b7a4-a1d17738add3",
+      "queryName": "DIM_EAP_INCDNT_ACTY",
+      "loadEnabled": false
+    },
+    "DIM_EAP_INCDNT_PRSNT_PRBLM": {
+      "queryId": "9d33b588-5597-48a6-949d-f111fe9ae208",
+      "queryName": "DIM_EAP_INCDNT_PRSNT_PRBLM",
+      "loadEnabled": false
+    },
+    "DIM_EAP_INCDNT_SRVC_TYPE": {
+      "queryId": "7d29e97e-2962-4178-9f54-56c242fac1da",
+      "queryName": "DIM_EAP_INCDNT_SRVC_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_EAP_INCDNT_PROV_TYPE": {
+      "queryId": "b27eeb69-cd38-48e3-bf17-5025c0162b39",
+      "queryName": "DIM_EAP_INCDNT_PROV_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_EAP_INCDNT_ENTY": {
+      "queryId": "2c2c7d0b-ea87-4e78-8f9a-ae35e67e5897",
+      "queryName": "DIM_EAP_INCDNT_ENTY",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SESN_MDL": {
+      "queryId": "37529082-f600-49b9-9cdf-682796ce43bb",
+      "queryName": "DIM_EAP_SESN_MDL",
+      "loadEnabled": false
+    },
+    "DIM_EAP_EVNT_SRVC_TYPE": {
+      "queryId": "70bbf16c-127d-46e2-9624-25a329f27567",
+      "queryName": "DIM_EAP_EVNT_SRVC_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_EAP_CNSLT_TYPE": {
+      "queryId": "0b4f6f39-e68a-4827-a65f-10feadd5da6b",
+      "queryName": "DIM_EAP_CNSLT_TYPE",
+      "loadEnabled": false
+    },
+    "DIM_EAP_RFRL_RSN": {
+      "queryId": "7d5e99f9-9ffa-42c7-9c83-c667cc9aea17",
+      "queryName": "DIM_EAP_RFRL_RSN",
+      "loadEnabled": false
+    },
+    "DIM_EAP_RFRL_RSN_DataDestination": {
+      "queryId": "ff5393b2-282b-474f-a9d3-26d6776a853b",
+      "queryName": "DIM_EAP_RFRL_RSN_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DIM_EAP_PROD_DESC": {
+      "queryId": "4fe553d7-e308-41d6-bfdd-786d571a0021",
+      "queryName": "DIM_EAP_PROD_DESC",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SRVY_WOS": {
+      "queryId": "98b93213-5ca3-47e1-8b23-e5075759b57b",
+      "queryName": "DIM_EAP_SRVY_WOS",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SRVY_PHQ": {
+      "queryId": "9c94a57f-af26-4a33-92e3-d8c485d9714e",
+      "queryName": "DIM_EAP_SRVY_PHQ",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SRVY_GAD": {
+      "queryId": "45691337-0d95-428c-8449-368bc0144982",
+      "queryName": "DIM_EAP_SRVY_GAD",
+      "loadEnabled": false
+    },
+    "DIM_EAP_ST": {
+      "queryId": "62d37a6d-0505-4e32-abfe-b50adcf84ee6",
+      "queryName": "DIM_EAP_ST",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SRVY_HIPEAP": {
+      "queryId": "9d4eba32-15d3-4752-996d-3a66ac8c3bbd",
+      "queryName": "DIM_EAP_SRVY_HIPEAP",
+      "loadEnabled": false
+    },
+    "DIM_EAP_SRVY_DFD": {
+      "queryId": "770fd9c5-e04f-4a8a-bada-d33bad90f0f9",
+      "queryName": "DIM_EAP_SRVY_DFD",
+      "loadEnabled": false
+    },
+    "DefaultDestination": {
+      "queryId": "ad8f42bd-e341-4461-b8e2-feb3e9536e97",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DIM_EAP_GRP": {
+      "queryId": "52b5187a-767a-400d-873d-30e4abcaaef9",
+      "queryName": "DIM_EAP_GRP",
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "carelon-eda_preprod.privatelink.snowflakecomputing.com;U01_PRDA_APP_WH_XL",
+      "kind": "Snowflake",
+      "connectionId": "{\"ClusterId\":\"bbd9e328-e017-4998-9654-e7e3406005e5\",\"DatasourceId\":\"b162934d-4617-4906-91f5-4bd2d4664c8c\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"2b108bbe-9ab4-4bda-8436-6287cc187aee\",\"DatasourceId\":\"a1b08474-bc57-42c3-b981-d7f9162ece26\"}"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","TMDLView_Desktop","DevMode"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DIM_EAP_GRP","DIM_EAP_SUBGRP","DIM_EAP_PROD","DIM_EAP_ST","DIM_EAP_SESN_MDL","DIM_EAP_CALR_TYPE","DIM_EAP_INCDNT_ACTY","DIM_EAP_INCDNT_PRSNT_PRBLM","DIM_EAP_INCDNT_SRVC_TYPE","DIM_EAP_INCDNT_ENTY","DIM_EAP_EVNT_SRVC_TYPE","DIM_EAP_RFRL_RSN","DIM_EAP_CNSLT_TYPE","Company Chart Field","DIM_EAP_INCDNT_PROV_TYPE","MBU Chart Field","DIM_EAP_SRVY_WOS","DIM_EAP_SRVY_PHQ","DIM_EAP_SRVY_GAD","DIM_EAP_PROD_DESC","DIM_EAP_SRVY_HIPEAP","DIM_EAP_SRVY_DFD","Funding Chart Field","Client","Incurred Month","Standalone","FACT_EAP_GRP_SUBGRP","FACT_EAP_WBS_PROD_OUTRCH","FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS","FACT_EAP_WORK_MBR_MDCL_PROD_DTL","FACT_EAP_SPRVSR_RFRL_DTL","FACT_EAP_MBR_INCDNT_DTL","FACT_EAP_EVNT_DTL","FACT_EAP_MNGMNT_CNSLTTN_DTL","FACT_EAP_SRVY_DTL","Periods","FACT_INCDNT_SESN","Lakehousename","Servername"]
+
+ref table DIM_EAP_GRP
+ref table DIM_EAP_SUBGRP
+ref table DIM_EAP_PROD
+ref table DIM_EAP_ST
+ref table DIM_EAP_SESN_MDL
+ref table DIM_EAP_CALR_TYPE
+ref table DIM_EAP_INCDNT_ACTY
+ref table DIM_EAP_INCDNT_PRSNT_PRBLM
+ref table DIM_EAP_INCDNT_SRVC_TYPE
+ref table DIM_EAP_INCDNT_ENTY
+ref table DIM_EAP_EVNT_SRVC_TYPE
+ref table DIM_EAP_RFRL_RSN
+ref table DIM_EAP_CNSLT_TYPE
+ref table 'Company Chart Field'
+ref table DIM_EAP_INCDNT_PROV_TYPE
+ref table 'MBU Chart Field'
+ref table DIM_EAP_SRVY_WOS
+ref table DIM_EAP_SRVY_PHQ
+ref table DIM_EAP_SRVY_GAD
+ref table DIM_EAP_PROD_DESC
+ref table DIM_EAP_SRVY_HIPEAP
+ref table DIM_EAP_SRVY_DFD
+ref table 'Funding Chart Field'
+ref table Client
+ref table 'Incurred Month'
+ref table Standalone
+ref table FACT_EAP_GRP_SUBGRP
+ref table FACT_EAP_WBS_PROD_OUTRCH
+ref table FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS
+ref table FACT_EAP_WORK_MBR_MDCL_PROD_DTL
+ref table FACT_EAP_SPRVSR_RFRL_DTL
+ref table FACT_EAP_MBR_INCDNT_DTL
+ref table FACT_EAP_EVNT_DTL
+ref table FACT_EAP_MNGMNT_CNSLTTN_DTL
+ref table FACT_EAP_SRVY_DTL
+ref table Periods
+ref table FACT_INCDNT_SESN
+

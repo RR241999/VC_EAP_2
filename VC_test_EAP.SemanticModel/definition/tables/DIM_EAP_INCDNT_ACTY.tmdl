@@ -1,0 +1,60 @@
+table DIM_EAP_INCDNT_ACTY
+	lineageTag: 58379e0e-24e4-405c-bac4-1d3b8f719760
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 4110bbb7-2b63-4e01-a3b2-31096e2eeeaf
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Activity Code'
+		dataType: string
+		lineageTag: edf0dc09-0f1c-4d39-9864-83c49c7cf675
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Activity_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Activity Description'
+		dataType: string
+		lineageTag: 8f5676ae-2165-451e-be02-fa9b19cb4180
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Activity_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ACTY_KEY
+		dataType: int64
+		lineageTag: fa6db04d-7fb0-4636-9b1e-87f4b4d193eb
+		summarizeBy: none
+		sourceColumn: INCDNT_ACTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Derived EAP Incident Activity Description' = ```
+			
+			 
+			 IF(
+			        OR(
+			             'DIM_EAP_INCDNT_ACTY'[EAP Incident Activity Description] = "Life Threatning Risk Emergency",
+			             'DIM_EAP_INCDNT_ACTY'[EAP Incident Activity Description] = "Non Life Threatning Risk Emergency"
+			        ), 
+			        "Emergency", 
+			        'DIM_EAP_INCDNT_ACTY'[EAP Incident Activity Description]
+			    )
+			```
+		dataType: string
+		lineageTag: faca4e9b-cda4-4956-931f-ba6aeb62c175
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_incdnt_acty_eap = Source{[Schema="dbo",Item="dim_eap_incdnt_acty_eap"]}[Data]
+				in
+				dbo.dim_eap_incdnt_acty_eap
+

@@ -1,0 +1,236 @@
+table FACT_EAP_MNGMNT_CNSLTTN_DTL
+	lineageTag: 820298f8-0324-483e-8c1b-ad2a671761fc
+
+	measure 'Management Consultations' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Management Consultations Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 3ac6b884-2b38-465a-9c2d-0dee5ae5ca88
+
+	measure 'Management Consultations PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Management Consultations], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: aba0fe44-7ac9-4922-a945-64f46aa65a11
+
+	measure 'Management Consultations %  Change' =
+			
+			VAR __Current = [Management Consultations]
+			VAR __PastPeriod = [Management Consultations PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8744f9a1-26ca-434d-8493-0209dc20c5e2
+
+	measure 'Management Consultations Base' = ```
+			 Distinctcount('FACT_EAP_MNGMNT_CNSLTTN_DTL'[Management Consultation ID])
+			```
+		lineageTag: 0d8f9717-d985-4957-bab1-d4831391c956
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: c91de34f-6f77-4e00-9a92-3d96f7b3255b
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: de5587b3-db04-4368-b1ee-f3bb901c4620
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP SUBGRP ID'
+		dataType: string
+		lineageTag: 97e5c164-b643-4600-add1-5fa28016548d
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Master Consumer Identifier (MCID)'
+		dataType: int64
+		lineageTag: c511d071-1052-444a-b647-2c498b26fcdb
+		summarizeBy: sum
+		sourceColumn: Master_Consumer_Identifier_MCID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Key'
+		dataType: string
+		lineageTag: 088afc09-3e84-4221-9d77-76dbdc61c9f2
+		summarizeBy: none
+		sourceColumn: Member_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MCID EDM Member Account Key'
+		dataType: int64
+		lineageTag: 42fe991f-013f-4d4c-b971-4b8cd8c60cb8
+		summarizeBy: count
+		sourceColumn: MCID_EDM_Member_Account_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROD_KEY
+		dataType: int64
+		lineageTag: b359b1e5-8ce5-4e32-b971-a3b2c345b884
+		summarizeBy: sum
+		sourceColumn: PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EDM Member Account Key'
+		dataType: int64
+		lineageTag: 10c23d23-5f1a-47a5-a1ed-e83f54e53c24
+		summarizeBy: count
+		sourceColumn: EDM_Member_Account_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Chart Field Code'
+		dataType: int64
+		lineageTag: 477d9f18-4612-40ff-a50c-278c72912bf7
+		summarizeBy: none
+		sourceColumn: Company_Chart_Field_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: 229101b8-3424-4588-8892-3dbfc9e84c6f
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: eeda1fb1-4c8b-4b4d-9f56-0e67903777bf
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column INCDNT_ST_KEY
+		dataType: int64
+		lineageTag: 013ae3d8-0018-48ea-9b57-be1ab8fe69dd
+		summarizeBy: none
+		sourceColumn: INCDNT_ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: 12cfaa86-6cbd-45aa-a550-b42179ad5dd1
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column CNSLT_TYPE_KEY
+		dataType: int64
+		lineageTag: 1f9dc365-7424-4a10-9b47-d19ca3318a8d
+		summarizeBy: none
+		sourceColumn: CNSLT_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Management Consultation ID'
+		dataType: int64
+		lineageTag: 320c4df3-85ab-4b53-ae6e-5b66f5310f34
+		summarizeBy: count
+		sourceColumn: Management_Consultation_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: 30eee344-f7ca-4070-a766-d4048d60e97c
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		lineageTag: 7062aaeb-faef-4552-b777-f5b60cfc4d69
+		summarizeBy: none
+		sourceColumn: RPTG_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Consultation Time'
+		dataType: int64
+		lineageTag: dc194c6c-8e8d-400e-86a8-41c6ea8febd9
+		summarizeBy: sum
+		sourceColumn: Total_Consultation_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Reference Number'
+		dataType: string
+		lineageTag: 91385fdc-1ed0-4121-8c3b-65f7dcbea99f
+		summarizeBy: none
+		sourceColumn: Member_Reference_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 8b950630-848b-4ea7-85f4-d5c986f17f47
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: 5529eff7-1843-4c2a-b81f-25198c10f785
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_mngmnt_cnslttn_dtl_eap = Source{[Schema="dbo",Item="fact_eap_mngmnt_cnslttn_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_mngmnt_cnslttn_dtl_eap
+

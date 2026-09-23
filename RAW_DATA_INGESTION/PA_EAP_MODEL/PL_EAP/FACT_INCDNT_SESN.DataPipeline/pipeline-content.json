@@ -1,0 +1,76 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT * \nFROM U01_PRDA.PRDA_RPTG_ALLPHI_NOGBD.FACT_INCDNT_SESN\nWHERE SNAP_YEAR_MNTH_NBR =( SELECT MAX(SNAP_YEAR_MNTH_NBR) FROM U01_PRDA.PRDA_RPTG_ALLPHI_NOGBD.FACT_INCDNT_SESN)",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "enableTimestampNtz": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_INCDNT_SESN"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_INCDNT_SESN",
+        "dependsOn": []
+      }
+    ]
+  }
+}

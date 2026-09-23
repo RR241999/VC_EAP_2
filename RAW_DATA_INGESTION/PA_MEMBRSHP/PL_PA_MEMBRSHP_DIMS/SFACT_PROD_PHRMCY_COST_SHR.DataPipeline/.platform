@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "SFACT_PROD_PHRMCY_COST_SHR"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "15cfba4f-63ea-97d8-4d61-7855c03c4b10"
+  }
+}

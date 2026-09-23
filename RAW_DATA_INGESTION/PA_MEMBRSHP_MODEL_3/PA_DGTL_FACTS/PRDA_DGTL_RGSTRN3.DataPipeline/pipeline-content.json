@@ -1,0 +1,233 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT *\nFROM U01_PRDA.PRDA_RPTG_NOGBD.FACT_PRDA_DGTL_RGSTRN\nWHERE INCRD_YEAR_MNTH_NBR >= TO_CHAR(DATEADD(MONTH, -21, CURRENT_DATE), 'YYYYMM')  \n  AND INCRD_YEAR_MNTH_NBR <= TO_CHAR(DATEADD(MONTH, -19, CURRENT_DATE), 'YYYYMM')",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": false,
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_PRDA_DGTL_RGSTRN"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "externalReferences": {
+                    "connection": "46c4e750-9cd9-4413-bb93-88d1dd5505e1"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_PRDA_DGTL_RGSTRN7",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT *\nFROM U01_PRDA.PRDA_RPTG_NOGBD.FACT_PRDA_DGTL_RGSTRN\nWHERE INCRD_YEAR_MNTH_NBR >= TO_CHAR(DATEADD(MONTH, -24, CURRENT_DATE), 'YYYYMM')  \n  AND INCRD_YEAR_MNTH_NBR <= TO_CHAR(DATEADD(MONTH, -22, CURRENT_DATE), 'YYYYMM')",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": false,
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_PRDA_DGTL_RGSTRN"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "externalReferences": {
+                    "connection": "46c4e750-9cd9-4413-bb93-88d1dd5505e1"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_PRDA_DGTL_RGSTRN8",
+        "dependsOn": [
+          {
+            "activity": "FACT_PRDA_DGTL_RGSTRN7",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "SnowflakeSource",
+            "query": "SELECT *\nFROM U01_PRDA.PRDA_RPTG_NOGBD.FACT_PRDA_DGTL_RGSTRN\nWHERE INCRD_YEAR_MNTH_NBR >= TO_CHAR(DATEADD(MONTH, -27, CURRENT_DATE), 'YYYYMM')  \n  AND INCRD_YEAR_MNTH_NBR <= TO_CHAR(DATEADD(MONTH, -25, CURRENT_DATE), 'YYYYMM')",
+            "exportSettings": {
+              "type": "SnowflakeExportCopyCommand"
+            },
+            "datasetSettings": {
+              "type": "SnowflakeTable",
+              "typeProperties": {
+                "database": "U01_PRDA"
+              },
+              "version": "1.1",
+              "schema": [],
+              "externalReferences": {
+                "connection": "b162934d-4617-4906-91f5-4bd2d4664c8c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": false,
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "FACT_PRDA_DGTL_RGSTRN"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "RAW_LAKEHOUSE",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "17f3c3db-1ef9-ab45-4096-d325c0e64c56",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "externalReferences": {
+                    "connection": "46c4e750-9cd9-4413-bb93-88d1dd5505e1"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FACT_PRDA_DGTL_RGSTRN9",
+        "dependsOn": [
+          {
+            "activity": "FACT_PRDA_DGTL_RGSTRN8",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

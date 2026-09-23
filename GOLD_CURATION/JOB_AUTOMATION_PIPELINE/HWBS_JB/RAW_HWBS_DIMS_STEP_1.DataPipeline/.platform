@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "RAW_HWBS_DIMS_STEP_1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "72a00ac3-d780-bebf-4db7-f0c1894e4ad1"
+  }
+}

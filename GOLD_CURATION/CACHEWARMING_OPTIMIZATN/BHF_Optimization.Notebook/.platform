@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "BHF_Optimization"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "72c078c9-0c1d-8ff3-4af9-dd112e182cea"
+  }
+}

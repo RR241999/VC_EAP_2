@@ -1,0 +1,48 @@
+table 'Company Chart Field'
+	lineageTag: aba30eea-52ea-4c96-8c7a-67af2b43b823
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 31cc40fe-6e31-41c2-b8e4-6a93e05da1b2
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CMPNY_CF_KEY
+		dataType: double
+		sourceProviderType: float
+		lineageTag: d30dc9e4-c561-4560-8ce0-fffaeabaa0ec
+		summarizeBy: none
+		sourceColumn: CMPNY_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Company Chart Field Cd'
+		dataType: string
+		lineageTag: 28e0aef4-8b71-45bb-ab5b-4f3b2986c7a9
+		summarizeBy: none
+		sourceColumn: Company_Chart_Field_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Chart Field'
+		dataType: string
+		lineageTag: caa68c99-054e-48d2-bd3b-4ffe365acbd7
+		summarizeBy: none
+		sourceColumn: Company_Chart_Field
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.company_chart_field_eap = Source{[Schema="dbo",Item="company_chart_field_eap"]}[Data]
+				in
+				dbo.company_chart_field_eap
+

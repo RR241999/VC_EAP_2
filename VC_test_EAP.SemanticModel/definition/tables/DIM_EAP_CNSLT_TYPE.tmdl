@@ -1,0 +1,58 @@
+table DIM_EAP_CNSLT_TYPE
+	lineageTag: f469170d-c1bb-4cc4-bc2f-6e021739de45
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 2590ec44-7753-47a8-869c-b588d6723272
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Consultation Type Code'
+		dataType: string
+		lineageTag: c33fcea2-d348-4e85-ac3d-4a008df57996
+		summarizeBy: none
+		sourceColumn: EAP_Management_Consultation_Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Consultation Type Description'
+		dataType: string
+		lineageTag: 62eb8ca4-7e86-4093-9b21-2dc4459493c8
+		summarizeBy: none
+		sourceColumn: EAP_Management_Consultation_Type_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Consultation Group Code'
+		dataType: string
+		lineageTag: e2654ab2-876c-41fc-a151-91a2b23f9881
+		summarizeBy: none
+		sourceColumn: EAP_Management_Consultation_Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Consultation Group Description'
+		dataType: string
+		lineageTag: 5da7f64e-d968-46f3-b689-6d7d60bb92ba
+		summarizeBy: none
+		sourceColumn: EAP_Management_Consultation_Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column CNSLT_TYPE_KEY
+		dataType: int64
+		lineageTag: 4c37869c-2ad4-4ca5-a5ff-e2dc557aad8e
+		summarizeBy: none
+		sourceColumn: CNSLT_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_cnslt_type_eap = Source{[Schema="dbo",Item="dim_eap_cnslt_type_eap"]}[Data]
+				in
+				dbo.dim_eap_cnslt_type_eap
+

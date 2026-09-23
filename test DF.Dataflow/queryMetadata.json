@@ -1,0 +1,35 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "test DF",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "gatewayObjectId": "bbd9e328-e017-4998-9654-e7e3406005e5",
+  "queriesMetadata": {
+    "DIM_EAP_SUBGRP": {
+      "queryId": "29509fca-db9f-49d0-b5a2-14432156418d",
+      "queryName": "DIM_EAP_SUBGRP",
+      "loadEnabled": false
+    },
+    "DefaultDestination": {
+      "queryId": "8bd23c5f-b8c0-4d04-a7cb-604c70d4544a",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "carelon-eda_preprod.privatelink.snowflakecomputing.com;U01_PRDA_APP_WH_XL",
+      "kind": "Snowflake",
+      "connectionId": "{\"ClusterId\":\"bbd9e328-e017-4998-9654-e7e3406005e5\",\"DatasourceId\":\"b162934d-4617-4906-91f5-4bd2d4664c8c\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"2b108bbe-9ab4-4bda-8436-6287cc187aee\",\"DatasourceId\":\"a1b08474-bc57-42c3-b981-d7f9162ece26\"}"
+    }
+  ]
+}

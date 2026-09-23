@@ -1,0 +1,114 @@
+table 'MBU Chart Field'
+	lineageTag: bea7c299-22bb-42a9-99fc-66131e0a2a3a
+
+	column 'MBU CF KEY'
+		dataType: int64
+		lineageTag: 7dfc7c74-cb40-439b-9f3d-715f94899fc4
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU CF CD'
+		dataType: string
+		lineageTag: 42ced72e-741a-47a2-b8d3-40783ec901bb
+		summarizeBy: none
+		sourceColumn: MBU_CF_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Chart Field'
+		dataType: string
+		lineageTag: 44a760a2-99ba-400f-8f59-cfd833c42963
+		summarizeBy: none
+		sourceColumn: MBU_Chart_Field
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU BRND TYPE CD'
+		dataType: string
+		lineageTag: 62b50d01-96d3-464f-8d3a-315a0fb5f27c
+		summarizeBy: none
+		sourceColumn: MBU_BRND_TYPE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Brand Type'
+		dataType: string
+		lineageTag: 65d9200a-cc4b-4c8b-bf03-0c53aadc3113
+		summarizeBy: none
+		sourceColumn: MBU_Brand_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Service Area State Cd'
+		dataType: string
+		lineageTag: 6eb013dc-6cbe-4f4f-9df4-a695cfc7fca2
+		summarizeBy: none
+		sourceColumn: Service_Area_State_Cd
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Service Area State Shortdesc'
+		dataType: string
+		lineageTag: 9e9c00c9-0d01-4284-a841-881047fa9328
+		summarizeBy: none
+		sourceColumn: Service_Area_State_Shortdesc
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOB
+		dataType: string
+		lineageTag: 0453adf7-bbfc-4350-8572-97a684d4db61
+		summarizeBy: none
+		sourceColumn: LOB
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Sub Class'
+		dataType: string
+		lineageTag: a33a2419-73d9-4c0a-bd89-80eb8da81002
+		summarizeBy: none
+		sourceColumn: MBU_Sub_Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Class'
+		dataType: string
+		lineageTag: 9aa61510-da07-47d3-b75d-c875a1a3bfe2
+		summarizeBy: none
+		sourceColumn: MBU_Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU TYPE'
+		dataType: string
+		lineageTag: 6230b5db-c616-4ba6-8e6f-c6db10f9fa86
+		summarizeBy: none
+		sourceColumn: MBU_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Class FullForm'
+		dataType: string
+		lineageTag: 92beaabc-440c-4f0d-acf4-336c1455c764
+		summarizeBy: none
+		sourceColumn: MBU_Class_FullForm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MBU Class Sort'
+		dataType: int64
+		lineageTag: d7f27b77-26ec-467a-aab1-f41462719cce
+		summarizeBy: sum
+		sourceColumn: MBU_Class_Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.mbu_chart_field_eap = Source{[Schema="dbo",Item="mbu_chart_field_eap"]}[Data]
+				in
+				dbo.mbu_chart_field_eap
+

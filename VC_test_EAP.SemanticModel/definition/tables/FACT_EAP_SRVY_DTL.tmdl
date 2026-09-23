@@ -1,0 +1,5400 @@
+table FACT_EAP_SRVY_DTL
+	lineageTag: bd26f9c5-209f-4031-93f1-be415701b997
+
+	measure 'Total WOS SurveysReceived Base' = ```
+			 VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[WOS_MATCH_IND] in { 1,0}
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			            
+			            )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: a5db8fc8-13e3-464d-809e-17220297fad2
+
+	measure 'Total WOS SurveysReceived' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total WOS SurveysReceived Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: f3d2f2f3-2927-4ce4-9c55-310b51305309
+
+	measure 'Total WOS SurveysReceived PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total WOS SurveysReceived], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 807ce4aa-c969-4d8c-a613-fdb2d24cca33
+
+	measure 'Total WOS SurveysReceived %  Change' = ```
+			VAR __Current = [Total WOS SurveysReceived]
+			VAR __PastPeriod = [Total WOS SurveysReceived PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6211093c-8edf-4090-83b7-30509a016a36
+
+	measure 'Total WOS SurveysSent Base' = ```
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 2
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND,
+			        'DIM_EAP_SRVY_WOS'[EAP Type Name] = "WOS"
+			    )
+			
+			```
+		lineageTag: 5b0f949d-992e-45ec-a7c0-bce7277dac50
+
+	measure 'Total WOS SurveysSent' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total WOS SurveysSent Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 21fa13fc-196f-496c-ae28-9c2a5469a3a2
+
+	measure 'Total WOS SurveysSent PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total WOS SurveysSent], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: d2d42f37-3eec-41ab-8d6f-a8cd44105a8b
+
+	measure 'Total WOS SurveysSent %  Change' = ```
+			VAR __Current = [Total WOS SurveysSent]
+			VAR __PastPeriod = [Total WOS SurveysSent PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 13a9258e-2775-419c-a70d-a7ab56fc59f5
+
+	measure 'WOS Post Survey Completion Rate' = ```
+			divide([Total WOS SurveysReceived],[Total WOS SurveysSent])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 838b21ed-c81a-4ed6-a836-f84b97ed9a1a
+
+	measure 'WOS Post Survey Completion Rate PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [WOS Post Survey Completion Rate], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ab2b57dd-d55b-452a-bd8c-26faa3b2901b
+
+	measure 'WOS Post Survey Completion Rate %  Change' = ```
+			VAR __Current = [WOS Post Survey Completion Rate]
+			VAR __PastPeriod = [WOS Post Survey Completion Rate PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f1117f82-d2ff-4af7-b30c-776ad437d51c
+
+	measure 'Total GAD SurveysReceived Base' = ```
+			 VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        'FACT_EAP_SRVY_DTL'[GAD_MATCH_IND] = 2
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			            && 'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code] IN {"GAD-2","GAD-7"}
+			            )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: 8b60d10f-3bad-4951-98a1-7ddc9efca032
+
+	measure 'Total GAD SurveysReceived' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total GAD SurveysReceived Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 0ba6eb5d-0fe7-42e1-9dd4-afc9e7856398
+
+	measure 'Total GAD SurveysReceived PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total GAD SurveysReceived], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 70ac2d5a-eabb-47aa-9814-366e105474d4
+
+	measure 'Total GAD SurveysReceived %  Change' = ```
+			VAR __Current = [Total GAD SurveysReceived]
+			VAR __PastPeriod = [Total GAD SurveysReceived PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 024af5c7-2d04-4ef7-973b-14c078151f7b
+
+	measure 'Total GAD SurveysSent Base' = ```
+			 VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 2
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			            
+			            )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND ,'DIM_EAP_SRVY_GAD'[EAP Type Name] = "GAD"
+			    )
+			
+			```
+		lineageTag: 940aabf7-dbf7-4524-b133-ca7cf49b216c
+
+	measure 'Total GAD SurveysSent' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total GAD SurveysSent Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: c52bcda3-0fba-4e4c-8ff4-3374e619db40
+
+	measure 'Total GAD SurveysSent PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total GAD SurveysSent], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 93896204-b400-4cc2-b3b1-617fa22fbc2c
+
+	measure 'Total GAD SurveysSent %  Change' = ```
+			VAR __Current = [Total GAD SurveysSent]
+			VAR __PastPeriod = [Total GAD SurveysSent PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c677a202-3221-412c-b4e1-10812fd0898a
+
+	measure 'GAD Post Survey Completion Rate' = ```
+			divide([Total GAD SurveysReceived],[Total GAD SurveysSent])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 58eb0dc9-8107-4b4b-b548-26c05a99ddf1
+
+	measure 'GAD Post Survey Completion Rate PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD Post Survey Completion Rate], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ed9d0ae8-b7f1-4e1b-8143-281f840c6fc5
+
+	measure 'GAD Post Survey Completion Rate %  Change' = ```
+			VAR __Current = [GAD Post Survey Completion Rate]
+			VAR __PastPeriod = [GAD Post Survey Completion Rate PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5f8250df-93f9-4e6c-868f-fb60ecafcd7f
+
+	measure 'Total PHQ SurveysReceived Base' = ```
+			 VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[PHQ_MATCH_IND] = 2
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			            &&  'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code] IN {"PHQ-9","PHQ-2"}
+			            )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: 86c20565-3213-4ea5-a318-8b83642e3d57
+
+	measure 'Total PHQ SurveysReceived' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total PHQ SurveysReceived Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 0890ebcd-4678-45ae-a6c8-018d1a0f433d
+
+	measure 'Total PHQ SurveysReceived PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total PHQ SurveysReceived], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: a1212312-a925-49ed-96e5-99b6371eec56
+
+	measure 'Total PHQ SurveysReceived %  Change' = ```
+			VAR __Current = [Total PHQ SurveysReceived]
+			VAR __PastPeriod = [Total PHQ SurveysReceived PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 00260234-7812-411b-856b-deac9627f437
+
+	measure 'Total PHQ SurveysSent Base' = ```
+			 VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[PHQ_MATCH_IND] = 2
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			            
+			            )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND ,'DIM_EAP_SRVY_PHQ'[EAP Type Name] = "PHQ"
+			    )
+			
+			```
+		lineageTag: 0836959d-21ec-4bca-b0af-b61bac49bca9
+
+	measure 'Total PHQ SurveysSent' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total PHQ SurveysSent Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 80797e41-56e2-488f-8143-83aa5e9ac0ae
+
+	measure 'Total PHQ SurveysSent PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total PHQ SurveysSent], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: e52f624c-a0d2-4328-a5ae-fcb73bdfcdeb
+
+	measure 'PHQ Post Survey Completion Rate' = ```
+			divide([Total PHQ SurveysReceived],[Total PHQ SurveysSent])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6542e858-441c-4c62-aa1e-cae2fd71d815
+
+	measure 'PHQ Post Survey Completion Rate PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ Post Survey Completion Rate], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2f3e1b51-a78a-40c7-8cfa-9d4ad00a7775
+
+	measure 'PHQ Post Survey Completion Rate %  Change' = ```
+			VAR __Current = [PHQ Post Survey Completion Rate]
+			VAR __PastPeriod = [PHQ Post Survey Completion Rate PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 140e2624-0e79-4c04-a9ed-3614fe3c525f
+
+	measure 'SuperScore Respondents Base' = ```
+			
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        'FACT_EAP_SRVY_DTL'[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND -- 'FACT_EAP_SRVY_DTL'[WOS_MATCH_IND] = 1,
+			        -- 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK",
+			        --NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			
+			```
+		lineageTag: 8f33f9ed-da05-4218-89ac-818b68fdc06d
+
+	measure 'SuperScore Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [SuperScore Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 46d8a800-9728-426f-b3d7-8e8352f561a4
+
+	measure 'SuperScore Respondents PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [SuperScore Respondents], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 6a909649-94f8-44e5-97e5-93a4d282922e
+
+	measure 'SuperScore Respondents %  Change' = ```
+			VAR __Current = [SuperScore Respondents]
+			VAR __PastPeriod = [SuperScore Respondents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a7e4e7f6-3279-4e4e-b664-2a8c42daf063
+
+	measure 'SuperScore Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "Valmember", calculate(SUM ( 'DIM_EAP_SRVY_WOS'[Value Number] ),keepfilters('DIM_EAP_SRVY_WOS'[Supervisor Score Code] = "YES" ))
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ), 'DIM_EAP_SRVY_WOS'[Supervisor Score Code] = "YES")
+			
+			```
+		lineageTag: 740d097f-b007-44ab-a230-0035d17ca08c
+
+	measure 'SuperScore Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [SuperScore Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: bc68b789-3e17-44e3-b1c7-4b200a11b7b8
+
+	measure 'SuperScore Response PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [SuperScore Response], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: cae84cd6-ac47-4488-85d0-0f80fdddba60
+
+	measure 'SuperScore Response %  Change' = ```
+			VAR __Current = [SuperScore Response]
+			VAR __PastPeriod = [SuperScore Response PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 54115a28-f4e3-4c92-8241-dc3aa0d1c442
+
+	measure 'Super ScoreAverage' = ```
+			CALCULATE (
+			    DIVIDE ( [SuperScore Response], [SuperScore Respondents] )--,
+			   -- DIM_EAP_SRVY_WOS[SUPR_SCOR_CD] = "YES"
+			)
+			
+			```
+		lineageTag: db40782a-6e2b-4fff-9f74-70bf8042da1f
+
+	measure 'Job Performance Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "Valmember", calculate(SUM ( 'DIM_EAP_SRVY_WOS'[Value Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Job Performance")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ))
+			
+			```
+		lineageTag: 7a042fd9-96fb-4b0f-8f24-1ae0e2c90adf
+
+	measure 'Job Performance Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Job Performance Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 12a689c6-ea59-4214-b92b-164337d42dcb
+
+	measure 'Job Performance Response PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job Performance Response], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: dad709cb-3caa-4c1f-a0c0-2d15fd3c6d2d
+
+	measure 'Job Performance Response %  Change' = ```
+			VAR __Current = [Job Performance Response]
+			VAR __PastPeriod = [Job Performance Response PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 507124ed-5ed9-4622-9956-03974ece80fb
+
+	measure 'Job Performance Respondents Base' = ```
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        'FACT_EAP_SRVY_DTL'[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND,
+			    'DIM_EAP_SRVY_WOS'[Title Name] = "Job Performance"
+			    )
+			
+			```
+		lineageTag: 8855be4d-d6f1-400a-b261-14c1ae51c04b
+
+	measure 'Job Performance Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Job Performance Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 696690de-53f3-45f7-93f0-f6036e842056
+
+	measure 'Job Performance Respondents PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job Performance Respondents], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 8737b637-40bc-4b99-b9ee-b5a0f03301a4
+
+	measure 'Job Performance Respondents %  Change' = ```
+			VAR __Current = [Job Performance Respondents]
+			VAR __PastPeriod = [Job Performance Respondents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ffa18ed7-ef35-48ab-942f-d29a9fe5bbbf
+
+	measure 'Job PerformanceAverage' = ```
+			CALCULATE (
+			    DIVIDE ( [Job Performance Response], [Job Performance Respondents] )--,
+			   -- DIM_EAP_SRVY_WOS[SUPR_SCOR_CD] = "YES"
+			)
+			
+			```
+		lineageTag: f00fa479-32db-4b48-b433-ee00cc6b127f
+
+	measure 'Job PerformanceAverage PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job PerformanceAverage], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		lineageTag: 98e85632-3366-4990-abb4-a57f661d7389
+
+	measure 'Super ScoreAverage PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Super ScoreAverage], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		lineageTag: c7674e18-ef1d-48fe-aeb3-5882e85b9eea
+
+	measure 'Super ScoreAverage %  Change' = ```
+			VAR __Current = [Super ScoreAverage]
+			VAR __PastPeriod = [Super ScoreAverage PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4d97ba84-039f-47db-b196-6028abec154a
+
+	measure 'Job PerformanceAverage %  Change' = ```
+			VAR __Current = [Job PerformanceAverage]
+			VAR __PastPeriod = [Job PerformanceAverage PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b6b02fd4-44b0-4016-9576-4ec6cad17635
+
+	measure 'Estimated Total Absent Hours (in last 30days) Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			   && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "TotalHours", CALCULATE(SUM ( 'DIM_EAP_SRVY_WOS'[Normative Absent Hours Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [TotalHours] ))
+			
+			```
+		lineageTag: cdd74249-48ff-45b5-8e1b-416ef6800085
+
+	measure 'Estimated Total Absent Hours (in last 30days)' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Estimated Total Absent Hours (in last 30days) Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 588104e5-d940-4cd3-b4fb-cdbbe13305de
+
+	measure 'Estimated Total Absent Hours (in last 30days) PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days)], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 4b375187-fa1e-48e4-bb08-e08d87091284
+
+	measure 'Estimated Productivity Rate' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN*/
+			    calculate(DIVIDE ( [Estimated Productive Hours] , [SuperScore Respondents] ))
+			
+			```
+		formatString: #,##0.0%
+		lineageTag: 4873dc86-15f3-4943-b9ba-b7cb874775e4
+
+	measure 'Estimated Productive Hours Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "TotalHours", CALCULATE(SUM ( 'DIM_EAP_SRVY_WOS'[Effective Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Work Presenteeism")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [TotalHours] ))
+			
+			```
+		lineageTag: a596be8f-4fea-4eaf-ba07-10cc9a0ac40e
+
+	measure 'Estimated Productive Hours' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Estimated Productive Hours Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,##0.00
+		lineageTag: 3c60d56e-6166-40fd-8edd-a85b6bdc0160
+
+	measure 'Estimated Productive Hours PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Productive Hours], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0.00
+		lineageTag: 5a1dd34f-8875-4ccf-996f-bd7aa24ef508
+
+	measure 'GAD7 Respondents Base' = ```
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        'FACT_EAP_SRVY_DTL'[GAD7_MATCH_IND] = 7
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: c3082d24-4a92-41b7-8ffd-3872a45d2aa9
+
+	measure 'GAD7 Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 592553a6-f453-4358-b7a5-b094ebae1ae1
+
+	measure 'GAD Respondents' = ```
+			
+			VAR _A = [GAD7 Respondents] + [GAD2 Respondents]
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			```
+		formatString: #,0
+		lineageTag: 1816505b-def2-4e7f-8df2-87e5d9832949
+
+	measure 'GAD2 Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_GAD'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: cbac032c-ef13-40b5-889d-98e7fbf46f39
+
+	measure 'GAD2 Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD2 Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: deecedf2-a36e-42bb-9e98-bf2bcaa733c6
+
+	measure 'GAD Response' = ```
+			[GAD2 Response]+
+			    [GAD7 Response]
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 905ef674-78a3-4edc-bf30-5f34b654bdb4
+
+	measure 'GAD AnxietyScore Average' = ```
+			CALCULATE (
+			    DIVIDE ( [GAD2 Response], [GAD2 Respondents] )
+			  )+CALCULATE (
+			    DIVIDE ( [GAD7 Response], [GAD7 Respondents] )
+			  )
+			
+			```
+		lineageTag: 49eceb42-dc42-4c7e-8d93-f24b0b84004a
+
+	measure 'GAD AnxietyScore Average PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD AnxietyScore Average], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 7ed46ef4-e21b-441c-9827-525f5b011e8c
+
+	measure 'GAD AnxietyScore Average %  Change' = ```
+			VAR __Current = [GAD AnxietyScore Average]
+			VAR __PastPeriod = [GAD AnxietyScore Average PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 840ae1bd-8d7f-4ae3-a09c-5e6c49b51e8a
+
+	measure 'Work Related Problem Levels Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			    FILTER (
+			        KEEPFILTERS (
+			            VALUES ( 'FACT_EAP_SRVY_DTL'[PRE EAP Survey Problem Total] )
+			        ),
+			        NOT ( ISBLANK ( 'FACT_EAP_SRVY_DTL'[PRE EAP Survey Problem Total] ) )
+			    ),
+			    FILTER (
+			        KEEPFILTERS (
+			            VALUES ( FACT_EAP_SRVY_DTL[PRE EAP Survey Problem Total] )
+			        ),
+			        FACT_EAP_SRVY_DTL[PRE EAP Survey Problem Total] >= 0
+			    )
+			)
+			
+			```
+		lineageTag: b1423c58-b87f-4c57-9f57-f4bfef88a738
+
+	measure 'Work Related Problem Levels' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Work Related Problem Levels Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,##0
+		lineageTag: f0aae640-5582-4aa1-acf8-0925d3c28ca5
+
+	measure 'Work Related Problem Levels PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Work Related Problem Levels], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0
+		lineageTag: e5e4e30b-d221-4475-bb4c-f5495c946c94
+
+	measure 'Work Related Problem Levels %  Change' = ```
+			VAR __Current = [Work Related Problem Levels]
+			VAR __PastPeriod = [Work Related Problem Levels PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6fb97889-5793-427c-8d1d-3911de31a93c
+
+	measure 'Presenting Problems Reported inWOS Survey Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			    TREATAS ( { "WOS" }, 'DIM_EAP_SRVY_WOS'[EAP Type Name] ),
+			    FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 2
+			)
+			
+			```
+		lineageTag: af8f9fac-74f6-4d6b-917f-8c564d20f014
+
+	measure 'Presenting Problems Reported inWOS Survey' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Presenting Problems Reported inWOS Survey Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,##0
+		lineageTag: 07593298-509d-4069-b82f-7bfbd0289fab
+
+	measure 'Presenting Problems Reported inWOS Survey PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Presenting Problems Reported inWOS Survey], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0
+		lineageTag: 1937ab2e-7735-40b9-8e8a-8cb74501dcdb
+
+	measure 'Presenting Problems Reported inWOS Survey %  Change' = ```
+			VAR __Current = [Presenting Problems Reported inWOS Survey]
+			VAR __PastPeriod = [Presenting Problems Reported inWOS Survey PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bcaa6d5b-fd87-493d-9599-0b0bf36c8412
+
+	measure 'PHQ9 Respondents Base' = ```
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] =9
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: 2217d911-a021-4f53-8e17-5d24a0efc6d6
+
+	measure 'PHQ9 Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 48d44b0e-a4f0-4bcd-8c9f-4578e41efb85
+
+	measure 'PHQ Respondents' = ```
+			
+			VAR _A =    [PHQ9 Respondents]+ [PHQ2 Respondents]
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			```
+		formatString: #,0
+		lineageTag: f420d01c-c221-4b6f-82bf-325d87959665
+
+	measure 'PHQ9 Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 9
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_PHQ'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: 52d65538-249a-4ee2-b336-0365125ba780
+
+	measure 'PHQ9 Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: c378dd28-30c7-48ed-bfba-4736633ec2bf
+
+	measure 'PHQ Response' = ```
+			    [PHQ9 Response] + [PHQ2 Response]
+			
+			```
+		formatString: #,0
+		lineageTag: 7dae9938-96b0-4e0d-94fa-e5343bca00a0
+
+	measure 'PHQ Response PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ Response], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 92b3ba6b-ed1d-4c36-ad42-cd026e960122
+
+	measure 'PHQ Response %  Change' = ```
+			VAR __Current = [PHQ Response]
+			VAR __PastPeriod = [PHQ Response PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 17121dc8-2c05-4817-b1bc-ce8f975ae77b
+
+	measure 'PHQ Respondents PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ Respondents], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: eb3c3de2-f065-44d8-b52e-61d53f1a4b85
+
+	measure 'PHQ Respondents %  Change' = ```
+			VAR __Current = [PHQ Respondents]
+			VAR __PastPeriod = [PHQ Respondents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5deb221d-0bc9-4979-98be-11c95fd505d4
+
+	measure 'GAD Response PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD Response], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 70b75c11-d63d-47d3-8f9d-97cc8d1758d4
+
+	measure 'GAD Response %  Change' = ```
+			VAR __Current = [GAD Response]
+			VAR __PastPeriod = [GAD Response PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8eaeee05-3f7a-489a-bfd5-efa49e0af41e
+
+	measure 'GAD Respondents PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD Respondents], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 5f1c0497-4826-4a9e-8de6-1bbb5efb5f6d
+
+	measure 'GAD Respondents %  Change' = ```
+			VAR __Current = [GAD Respondents]
+			VAR __PastPeriod = [GAD Respondents PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ea5833d3-717a-475f-8d5e-25d77256e47d
+
+	measure 'Presenting Problems Reported in WOS Survey Total PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Presenting Problems Reported in WOS Survey Total], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0
+		lineageTag: 57325339-e444-48d3-89b0-01a2180ac271
+
+	measure 'Work Related Problem Levels Total' = ```
+			CALCULATE (
+			    [Work Related Problem Levels],
+			    ALL(FACT_EAP_SRVY_DTL[PRE EAP Survey Problem Total])
+			)
+			
+			```
+		formatString: #,##0
+		lineageTag: 0131fd1d-30b4-43c2-9c4a-a276b421fd7b
+
+	measure 'Presenting Problems Reported in WOS Survey Total' = ```
+			CALCULATE (
+			    [Presenting Problems Reported inWOS Survey],
+			    ALL ( DIM_EAP_INCDNT_PRSNT_PRBLM[EAP Incident Presenting Problem 1 Description] )
+			)
+			
+			```
+		formatString: #,##0
+		lineageTag: 6525c2bd-4681-4c21-84ff-39e45f07f76b
+
+	measure 'Work Related Problem Levels Total PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Work Related Problem Levels Total], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0
+		lineageTag: 4f846f89-684e-49cc-a84d-0e72e14540b4
+
+	measure 'Estimated Total Absent Hours (in last 30days) Total' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [SuperScore Respondents base],
+			        FACT_EAP_SRVY_DTL[Absence Hours Category] <> "NA",
+			        'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism",
+			        ALL ( FACT_EAP_SRVY_DTL[Absence Hours Category] ),
+			        ALL ( FACT_EAP_SRVY_DTL[ABSENT_HOURS_CATGRY_SORT] ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 05fbee91-85ae-4c0c-93bb-e5c0fca22185
+
+	measure 'Estimated Total Absent Hours (in last 30days) Total PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days) Total], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 01a796b1-fcd7-484b-8f5c-019677a561ad
+
+	measure 'PHQ DepressionScore Average' = ```
+			CALCULATE (
+			    DIVIDE ( [PHQ2 Response], [PHQ2 Respondents] )
+			) +
+			CALCULATE (
+			    DIVIDE ( [PHQ9 Response], [PHQ9 Respondents] )
+			)
+			
+			
+			
+			```
+		lineageTag: 0876835a-e592-4664-9be8-7606cca270e4
+
+	measure 'PHQ DepressionScore Average PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ DepressionScore Average], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 2d37d3b1-5742-4347-90b0-b9b2997a966c
+
+	measure 'PHQ DepressionScore Average %  Change' = ```
+			VAR __Current = [PHQ DepressionScore Average]
+			VAR __PastPeriod = [PHQ DepressionScore Average PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ad72e962-595c-4730-86a5-9bd9fafe31f8
+
+	measure SuperScoreResponseDrilthrough = ```
+			VAR a =
+			    CALCULATE (
+			        [SuperScore Respondents],
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text] ),
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text_sort] )
+			    )
+			VAR b =
+			    CALCULATE ( [SuperScore Respondents] )
+			RETURN
+			    DIVIDE ( b, a )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bd3c8d87-dbcb-4933-9103-fb94b1f61983
+
+	measure 'Estimated Total Absent Hours (in last 30days) DrillThrough' = ```
+			VAR a =
+			    CALCULATE (
+			        [SuperScore Respondents],
+			        'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism"
+			    )
+			VAR b =
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days) Total] )
+			RETURN
+			    DIVIDE ( a, b )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 49f8e775-b7ce-4d55-bd77-3c348327e95f
+
+	measure 'SuperScore Response Total' = ```
+			
+			    CALCULATE (
+			        [SuperScore Response],
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text] ),
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text_sort] ),
+			        all('DIM_EAP_SRVY_WOS'[Title Name])
+			    )
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 8f423477-c5cb-42a6-bd75-c32be74195b3
+
+	measure 'SuperScore ResponseInitial to FollowUp' = ```
+			VAR _ini =
+			    CALCULATE (
+			        [Super ScoreAverage],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Super ScoreAverage],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1b0eafe2-0d83-43b6-98c2-dc41a73cec74
+
+	measure 'Job Performance ResponseInitial to FollowUp' = ```
+			
+			VAR _ini =
+			    CALCULATE (
+			        [Job PerformanceAverage],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Job PerformanceAverage],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 79599a5b-fdd4-4172-9336-135056cb366f
+
+	measure 'Job Performance improved' = ```
+			
+			    CALCULATE (
+			        [Job Performance Respondents],
+			        FACT_EAP_SRVY_DTL[JOB_PERF_IMPROVE_IND] = 1
+			    )
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 83f27063-28fb-46d6-8dd8-82d9736b4e65
+
+	measure SuperScoreImproved = ```
+			
+			    CALCULATE ( [SuperScore Respondents], FACT_EAP_SRVY_DTL[WOS_IMPROVE_IND] = 1 )
+			
+			
+			```
+		formatString: #,0
+		lineageTag: e1c310d0-77a7-4a58-aa74-6e8b6f6639ab
+
+	measure 'PHQ9 Respondents Improved' = ```
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 Respondents Improved Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: 634c7eed-e774-4176-a0eb-5be390052ecf
+
+	measure 'PHQ Respondents Improved' = ```
+			
+			    [PHQ9 Respondents Improved]
+			
+			```
+		formatString: #,##0
+		lineageTag: e803d9fd-7a5a-4066-a5be-b312e636976b
+
+	measure 'GAD7 Respondents Improved' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 Respondents Improved Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 023eebee-cee4-48f7-9c82-82873ddcdbbc
+
+	measure 'GAD Respondents Improved' = ```
+			
+			    [GAD7 Respondents Improved]
+			
+			```
+		formatString: #,##0
+		lineageTag: fa9eb602-7d8f-478a-880b-d4ee27dfaf73
+
+	measure SuperScoreImproved% = ```
+			DIVIDE (
+			    [SuperScoreImproved],
+			    [SuperScore Respondents]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 23237cb3-c56e-4d97-8d3d-87f873eb754b
+
+	measure 'GAD Respondents improved%' = ```
+			DIVIDE (
+			    [GAD Respondents Improved],
+			    [GAD Respondents]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 98bab49e-b368-481a-80fa-3ebb430c5cea
+
+	measure 'PHQ Respondents improved%' = ```
+			DIVIDE (
+			    [PHQ Respondents Improved],
+			    [PHQ Respondents]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 81dc1e64-4627-48fd-a101-dfed14034c09
+
+	measure 'Job Performance improved%' = ```
+			DIVIDE (
+			    [Job Performance improved],
+			    [Job Performance Respondents]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 46f2427f-066d-4d81-9e3a-10309fefb6f0
+
+	measure 'PHQ ResponseTotal PHQ9' = ```
+			CALCULATE (
+			    [PHQ9 Response],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Depression Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Depression Severity Category Short Description] ),
+			    FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1,
+			    ALL ( 'FACT_EAP_SRVY_DTL'[PHQ9_CATGRY_SORT] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 6bdc882f-6dab-4f5a-ad33-0f56199a24d0
+
+	measure 'PHQ Response DrillthroughPHQ9Initial' = ```
+			VAR A =
+			    CALCULATE (
+			        [PHQ9 Response],
+			     --   FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			RETURN
+			    DIVIDE ( a, [PHQ ResponseTotal PHQ9] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f0715142-81d7-470a-a5fd-b18870a405e5
+
+	measure 'GAD ResponseTotal GAD7' = ```
+			CALCULATE (
+			    [GAD2 Response],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category Short Description] ),
+			    FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 1,
+			    ALL ( FACT_EAP_SRVY_DTL[GAD7_CATGRY_sort] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: d5c21c6f-9cf5-48e7-9743-4cb575337ee3
+
+	measure 'GAD Response DrillthroughGAD7Initial' = ```
+			VAR A =
+			    CALCULATE (
+			        [GAD2 Response],
+			      ---  FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			RETURN
+			    DIVIDE ( a, [GAD ResponseTotal GAD7] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6d24a632-ec1a-4a1e-bafd-3fc2256adad6
+
+	measure 'GAD Response Drillthrough' = ```
+			VAR A = [GAD Response]
+			    
+			RETURN
+			    DIVIDE ( a, [GAD Response Total] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7181d0f9-cb78-43cb-a942-34c38a1bde16
+
+	measure 'PHQ Response Drillthrough' = ```
+			VAR A = [PHQ Response] RETURN DIVIDE ( a, [PHQ ResponseTotal] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 01740d15-cc3b-4c1b-b58c-e6698c932768
+
+	measure 'PHQ Response DrillthroughPHQ9Initial to FollowUp' = ```
+			VAR A = [PHQ ResponseTotal PHQ9]
+			VAR B = CALCULATE([PHQ9 Response], 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up")
+			RETURN
+			    DIVIDE ( B, A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4f7c13b3-ccf8-46a4-8d89-cc7b7767a793
+
+	measure 'GAD Response DrillthroughGAD7Initial to FollowUp' = ```
+			VAR A = [GAD ResponseTotal GAD7]
+			VAR B =
+			    CALCULATE (
+			        [GAD2 Response],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			RETURN
+			    DIVIDE ( B, A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b1754166-5304-495a-a2ee-c54bdff7614f
+
+	measure 'Job Performance ResponsesTotal' = ```
+			
+			    CALCULATE (
+			        [Job Performance Respondents],
+			        ALL('DIM_EAP_SRVY_WOS'[Reply Text]),ALL('DIM_EAP_SRVY_WOS'[Reply Text_sort])
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 6ed03677-c5ac-4cd5-be95-1c21d49cadcc
+
+	measure 'Job Performance ResponseDrillthrough' = ```
+			
+			    VAR A = [Job Performance Respondents]
+			    RETURN 
+			    DIVIDE ( a, [Job Performance ResponsesTotal] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3fd4f718-9319-4262-9f3f-efa357df7348
+
+	measure 'Estimated Total Absent Hours Rate' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN*/
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)],[SuperScore Respondents] ))
+			
+			```
+		formatString: 0.0
+		lineageTag: f62cde33-e4af-4c72-9388-1af4a2114250
+
+	measure 'GAD Response Initial to FollowUp' = ```
+			VAR _ini =
+			    CALCULATE (
+			        [GAD AnxietyScore Average],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [GAD AnxietyScore Average],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 18d3e8c2-fc2b-45d1-afc7-1809a1eb0a70
+
+	measure 'PHQ Response Initial to FollowUp' = ```
+			VAR _ini =
+			    CALCULATE (
+			        [PHQ DepressionScore Average],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [PHQ DepressionScore Average],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: db4b3fe8-acd0-45f2-bd2d-0a01a9a1851a
+
+	measure 'PHQ9 Respondents NotImproved' = ```
+			VAR _TOTAL= [PHQ Respondents]
+			VAR _IMPROV = [PHQ9 Respondents Improved]
+			
+			 RETURN
+			 CALCULATE(_TOTAL - _IMPROV)
+			
+			```
+		formatString: #,0
+		lineageTag: 6d6e7c81-d8b2-40f5-b3ef-a759db8d4cda
+
+	measure 'PHQ Respondents NotImproved' = ```
+			
+			    [PHQ9 Respondents NotImproved]
+			
+			
+			```
+		formatString: #,##0
+		lineageTag: 15d60109-b1ab-4772-8952-e3be3f338eea
+
+	measure 'GAD7 Respondents NotImproved' = ```
+			
+			VAR _TOTAL =   [GAD Respondents]
+			   
+			VAR _IMPROV =
+			    [GAD7 Respondents Improved]
+			RETURN
+			    CALCULATE ( _TOTAL - _IMPROV )
+			
+			```
+		formatString: #,0
+		lineageTag: 7853da76-0a34-433f-a9a5-0e490815368f
+
+	measure 'GAD Respondents NotImproved' = ```
+			
+			    [GAD7 Respondents NotImproved]
+			
+			
+			```
+		formatString: #,##0
+		lineageTag: a0991e9f-a53c-498d-8f32-684346909dea
+
+	measure 'GAD Response Total' = ```
+			
+			CALCULATE (
+			    [GAD Response],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[GAD7_CATGRY_SORT] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category Short Description] )
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: e6a56165-8374-47f5-8b13-0c8b8cb5d837
+
+	measure 'PHQ ResponseTotal' = ```
+			
+			    [PHQ ResponseTotal PHQ9]
+			
+			```
+		formatString: #,0
+		lineageTag: b7a7b14d-b281-4916-996a-dd32f9eef675
+
+	measure 'Estimated Total Absent Hours Rate Initial to Followup' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)],[SuperScore Respondents] ))
+			*/
+			VAR _ini =
+			    CALCULATE (
+			        [Estimated Total Absent Hours Rate],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Estimated Total Absent Hours Rate],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			
+			
+			```
+		formatString: #,##0.00 %
+		lineageTag: 8bc9d42f-b8cc-4a8e-a6c1-423b6104e3d8
+
+	measure 'Estimated Productivity Rate Initial to Followup' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)],[SuperScore Respondents] ))
+			*/
+			VAR _ini =
+			    CALCULATE (
+			        [Estimated Productivity Rate],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Estimated Productivity Rate],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			
+			
+			
+			```
+		formatString: #,##0.00 %
+		lineageTag: 9dd72a9d-3fb4-43b4-9c00-159553be8ab1
+
+	measure 'GAD ResponseInitial' = ```
+			
+			    CALCULATE (
+			        [GAD2 Response],
+			   
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 81d82cce-1ed7-4056-990b-e93b6a7fbbb9
+
+	measure 'GAD ResponseFollowUp' = ```
+			
+			    CALCULATE (
+			        [GAD2 Response],
+			   
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: a1450fe2-7498-4caa-aa9a-6a995441e331
+
+	measure 'PHQ ResponseInitial' = ```
+			
+			    CALCULATE (
+			        [PHQ9 Response],
+			     --   FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 96ce365e-65f5-4560-a7c2-5175798eac67
+
+	measure 'PHQ ResponseFollowUp' = ```
+			
+			    CALCULATE (
+			        [PHQ9 Response],
+			     --   FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 93c5e89f-8142-4cf2-8947-2e64f1725264
+
+	measure 'SuperScore ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 11
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "Valmember", calculate(SUM ( 'DIM_EAP_SRVY_WOS'[Value Number] ),keepfilters('DIM_EAP_SRVY_WOS'[Supervisor Score Code] = "YES" ))
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ), 'DIM_EAP_SRVY_WOS'[Supervisor Score Code] = "YES")
+			
+			```
+		lineageTag: fedaa50a-2f67-4556-a819-355beaa012f5
+
+	measure 'SuperScore ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [SuperScore ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 885a4962-4f66-48c6-861d-76bd0ae3779d
+
+	measure 'SuperScore ResponseDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [SuperScore ResponseDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 87d792cf-695c-4c08-a261-f8d3ccb0ca8b
+
+	measure 'SuperScore ResponseDFD %  Change' = ```
+			VAR __Current = [SuperScore ResponseDFD]
+			VAR __PastPeriod = [SuperScore ResponseDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c7344089-4420-4af5-9516-4c6bd30b0bf1
+
+	measure 'SuperScore RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 11,
+			     'DIM_EAP_SRVY_WOS'[Supervisor Score Code] = "YES",
+			     'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			 )
+			
+			```
+		lineageTag: 4599c217-d4dd-4596-99af-8e19b44f66fb
+
+	measure 'SuperScore RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [SuperScore RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: e1b5b0d3-160d-4b14-a4cb-3100111c1baf
+
+	measure 'SuperScoreResponseDrilthrough total' = ```
+			
+			    CALCULATE (
+			        [SuperScore Respondents],
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text] ),
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text_sort] )
+			    )
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 1e6a281a-dc6f-4fa5-b121-53511a2b5a63
+
+	measure 'GAD7 Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 7
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_GAD'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: 5ead7cbd-cd39-4ad2-898e-9c1b7533455a
+
+	measure 'GAD7 Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 5847be5a-2d15-417f-a696-74d18364644b
+
+	measure 'GAD2 Respondents Base' = ```
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        'FACT_EAP_SRVY_DTL'[GAD7_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: 03de1037-acd2-49da-9de5-7d47d39b0945
+
+	measure 'GAD2 Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD2 Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 7473ad0a-6bd5-42ab-9e06-96a1c1e4142f
+
+	measure 'PHQ2 Response Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[Incident Number],
+			        'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_PHQ'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: 705baa75-c0c4-438a-b871-0c466899d11a
+
+	measure 'PHQ2 Response' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ2 Response Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 3df77e81-58f2-447f-8852-890bef331d8e
+
+	measure 'PHQ2 Respondents Base' = ```
+			
+			VAR _IND =
+			    FILTER (
+			        FACT_EAP_SRVY_DTL,
+			        FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] =1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			            && NOT ISBLANK ( 'FACT_EAP_SRVY_DTL'[Incident Number] )
+			    )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			        _IND 
+			    )
+			
+			```
+		lineageTag: 65003790-46b9-456c-9cc5-883d2cfd7172
+
+	measure 'PHQ2 Respondents' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ2 Respondents Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 671c7643-d56e-464e-93cf-254af4c05b84
+
+	measure 'PHQ9 Respondents Improved Base' = ```
+			CALCULATE (
+			       DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			       FACT_EAP_SRVY_DTL[PHQ9_IMPROVE_IND] =1,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			    )
+			    
+			    
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: a4e15d6f-e491-4d1c-982d-6613e4ed4d2c
+
+	measure 'GAD7 Respondents Improved Base' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			     FILTER('FACT_EAP_SRVY_DTL', 'FACT_EAP_SRVY_DTL'[GAD7_IMPROVE_IND] = 1 ),
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 8d881aec-6067-43cb-94f9-432de9dbcfdd
+
+	measure 'SuperScore RespondentsDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [SuperScore RespondentsDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 762fc0dd-ee3e-4d61-adeb-18f9c1fe23a8
+
+	measure 'SuperScore RespondentsDFD %  Change' = ```
+			VAR __Current = [SuperScore RespondentsDFD]
+			VAR __PastPeriod = [SuperScore RespondentsDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8e6b0bd9-dcc3-46e4-9f82-47dc9d8ae006
+
+	measure 'Total GAD SurveysReceivedDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[GAD_MATCH_IND]  =4,
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK",
+			     'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code] IN {"GAD-2","GAD-7"}
+			 )
+			
+			```
+		lineageTag: 4d6eb467-6c70-45e9-b17a-84516a5c721c
+
+	measure 'Total GAD SurveysReceivedDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total GAD SurveysReceivedDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 184f0269-e518-49bf-a802-f728c34d131f
+
+	measure 'Total GAD SurveysReceivedDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total GAD SurveysReceivedDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 818bb457-302f-45de-b092-623327440990
+
+	measure 'Total GAD SurveysReceivedDFD %  Change' = ```
+			VAR __Current = [Total GAD SurveysReceivedDFD]
+			VAR __PastPeriod = [Total GAD SurveysReceivedDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7d89ad58-af06-4e8e-9816-baafbb47db95
+
+	measure 'Total GAD SurveysSentDFD Base' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			    'DIM_EAP_SRVY_GAD'[EAP Type Name] = "GAD",'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK",
+			    FACT_EAP_SRVY_DTL[GAD_MATCH_IND] = 4
+			)
+			
+			```
+		lineageTag: 9fd471e9-9531-419d-9235-8b3677e02cfc
+
+	measure 'Total GAD SurveysSentDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total GAD SurveysSentDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 53d32958-6e46-451d-9294-52c8aa802c24
+
+	measure 'Total GAD SurveysSentDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total GAD SurveysSentDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: df353bcb-517b-45ab-82d3-abe06f21c914
+
+	measure 'Total GAD SurveysSentDFD %  Change' = ```
+			VAR __Current = [Total GAD SurveysSentDFD]
+			VAR __PastPeriod = [Total GAD SurveysSentDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bef89b3a-a7c1-4de2-8f43-0953e22a41b8
+
+	measure 'Total PHQ SurveysReceivedDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[PHQ_MATCH_IND] = 4,
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",'FACT_EAP_SRVY_DTL'[Incident Number]="UNK",
+			     'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code] IN {"PHQ-9","PHQ-2"}
+			)
+			
+			```
+		lineageTag: 98d99a0d-3e69-4031-a35a-eea17b55a0ed
+
+	measure 'Total PHQ SurveysReceivedDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total PHQ SurveysReceivedDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 84529a2b-0973-4671-8601-47f3906c08a9
+
+	measure 'Total PHQ SurveysReceived DFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total PHQ SurveysReceivedDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: da396269-fd46-4805-8e0a-e89c701ad8fd
+
+	measure 'Total PHQ SurveysReceivedDFD %  Change' = ```
+			VAR __Current = [Total PHQ SurveysReceivedDFD]
+			VAR __PastPeriod = [Total PHQ SurveysReceivedDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a886fcf3-ba7d-4208-a082-a71e87729b04
+
+	measure 'Total PHQ SurveysSentDFD Base' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			    'DIM_EAP_SRVY_PHQ'[EAP Type Name] = "PHQ",'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK",
+			    FACT_EAP_SRVY_DTL[PHQ_MATCH_IND] = 4
+			)
+			
+			```
+		lineageTag: 97c662dc-0fa7-4baa-b104-0075dae6db5e
+
+	measure 'Total PHQ SurveysSentDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total PHQ SurveysSentDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: ae66d3a8-9742-4f5d-9677-a1314840d775
+
+	measure 'Total PHQ SurveysSentDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total PHQ SurveysSentDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 6919653a-c782-4407-93f4-36f3166193bb
+
+	measure 'Total PHQ SurveysSent %  Change' = ```
+			VAR __Current = [Total PHQ SurveysSent]
+			VAR __PastPeriod = [Total PHQ SurveysSent PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0e3c88f5-0bb9-4014-aa62-a597f99ef4e6
+
+	measure 'Total PHQ SurveysSentDFD %  Change' = ```
+			VAR __Current = [Total PHQ SurveysSentDFD]
+			VAR __PastPeriod = [Total PHQ SurveysSentDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 99089522-f45b-4db7-ae5e-2c1864ceac8b
+
+	measure 'Total WOS SurveysReceivedDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[WOS_MATCH_IND] IN { 11, 0 },
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK",
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			)
+			
+			```
+		lineageTag: eaece4fe-19ee-48d7-baa0-27acea95976f
+
+	measure 'Total WOS SurveysReceivedDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total WOS SurveysReceivedDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 30f9d1cf-6f09-45f9-8944-9450fc7a4f7a
+
+	measure 'Total PHQ SurveysReceivedDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total PHQ SurveysReceivedDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 8af4079c-edc3-4d41-9d55-fe817dacfbc7
+
+	measure 'Total WOS SurveysReceivedDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total WOS SurveysReceivedDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: ae8cfc56-cf27-4f98-bfc3-2251074b327c
+
+	measure 'Total WOS SurveysReceivedDFD %  Change' = ```
+			VAR __Current = [Total WOS SurveysReceivedDFD]
+			VAR __PastPeriod = [Total WOS SurveysReceivedDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bc1edb0d-23e4-4ef1-96dc-b505711618d8
+
+	measure 'Total WOS SurveysSentDFD Base' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			    'DIM_EAP_SRVY_WOS'[EAP Type Name] = "WOS",'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK",
+			    FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 2
+			)
+			
+			```
+		lineageTag: 13f30e56-d0ac-4a06-81fb-10acf3a2fbcd
+
+	measure 'Total WOS SurveysSentDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Total WOS SurveysSentDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: b44d7b40-0d05-4b9e-81e1-af7092538fa5
+
+	measure 'Total WOS SurveysSentDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Total WOS SurveysSentDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: c828373b-6684-405d-b16a-b5e9d3dabb21
+
+	measure 'Total WOS SurveysSentDFD %  Change' = ```
+			VAR __Current = [Total WOS SurveysSentDFD]
+			VAR __PastPeriod = [Total WOS SurveysSentDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4aedc61d-2cef-4177-a94b-310f8b2f09b8
+
+	measure 'WOS Post Survey Completion RateDFD' = ```
+			divide([Total WOS SurveysReceivedDFD],[Total WOS SurveysSentDFD])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bdf91bf1-fe78-4a7d-bb79-d2b3b6afa217
+
+	measure 'WOS Post Survey Completion RateDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [WOS Post Survey Completion RateDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0698ae89-ef47-47a1-aaf1-d9b6a02995c3
+
+	measure 'WOS Post Survey Completion RateDFD %  Change' = ```
+			VAR __Current = [WOS Post Survey Completion RateDFD]
+			VAR __PastPeriod = [WOS Post Survey Completion RateDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fd741944-ac24-40b7-9d16-aef5894a7815
+
+	measure 'PHQ Post Survey Completion RateDFD' = ```
+			divide([Total PHQ SurveysReceivedDFD],[Total PHQ SurveysSentDFD])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1d1e700d-4e39-4068-ab42-42ee2a692da4
+
+	measure 'PHQ Post Survey Completion RateDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ Post Survey Completion RateDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 49880cab-4d22-4ebc-9db2-230dae5f36f8
+
+	measure 'PHQ Post Survey Completion RateDFD %  Change' = ```
+			VAR __Current = [PHQ Post Survey Completion RateDFD]
+			VAR __PastPeriod = [PHQ Post Survey Completion RateDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b4639a24-1321-4e70-a095-64fdddaba529
+
+	measure 'GAD Post Survey Completion RateDFD' = ```
+			divide([Total GAD SurveysReceivedDFD],[Total GAD SurveysSentDFD])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 49672268-f757-4678-94ab-ed7843953fc7
+
+	measure 'GAD Post Survey Completion RateDFD %  Change' = ```
+			VAR __Current = [GAD Post Survey Completion RateDFD]
+			VAR __PastPeriod = [GAD Post Survey Completion RateDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9160e75d-6287-4c82-bc91-5b4856de7575
+
+	measure 'GAD Post Survey Completion RateDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD Post Survey Completion RateDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b6acdbf1-cc79-4d31-9408-4508accecb0e
+
+	measure 'Estimated Productive HoursDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "TotalHours", CALCULATE(SUM ( 'DIM_EAP_SRVY_WOS'[Effective Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Work Presenteeism")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [TotalHours] ))
+			
+			```
+		lineageTag: a620951e-8291-483b-812d-e4f3c8617361
+
+	measure 'Estimated Productive HoursDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Estimated Productive HoursDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,##0.00
+		lineageTag: 941269f9-4383-47d7-93c4-407ec950e58b
+
+	measure 'Estimated Productive HoursDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Productive HoursDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,##0.00
+		lineageTag: 711e3c88-448e-4925-98e8-d2fab7077ffb
+
+	measure 'Estimated Total Absent Hours (in last 30days)DFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 1
+			   && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "TotalHours", CALCULATE(SUM ( 'DIM_EAP_SRVY_WOS'[Normative Absent Hours Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [TotalHours] ))
+			
+			```
+		lineageTag: 84a90081-4146-4ba9-aeaa-f0f7a8ea1d22
+
+	measure 'Estimated Total Absent Hours (in last 30days)DFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Estimated Total Absent Hours (in last 30days)DFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: b9f23ec4-7f29-4fc9-acd6-7a50169c8d3c
+
+	measure 'Estimated Total Absent Hours (in last 30days)DFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days)DFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: fdc703ca-7746-48ed-802f-d21bac026a64
+
+	measure 'Estimated Total Absent Hours (in last 30days)DFD Total' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [SuperScore RespondentsDFD],
+			        FACT_EAP_SRVY_DTL[Absence Hours Category] <> "NA",
+			        'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism",
+			        ALL ( FACT_EAP_SRVY_DTL[Absence Hours Category] ),
+			        ALL ( FACT_EAP_SRVY_DTL[ABSENT_HOURS_CATGRY_SORT] ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 24045e8f-86dc-400e-a030-c9cc61bbd9cc
+
+	measure 'Estimated Total Absent Hours (in last 30days)DFD Total PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days)DFD Total], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: b099c4df-a699-4b34-9f72-d2e5d0214e14
+
+	measure 'Estimated Productivity RateDFD' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN*/
+			    calculate(DIVIDE ( [Estimated Productive HoursDFD] , [SuperScore RespondentsDFD] ))
+			
+			```
+		formatString: #,##0.0 %
+		lineageTag: 1db350a2-c780-4283-9c25-e44d8216d02f
+
+	measure 'Estimated Productivity Rate Initial to FollowupDFD' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)],[SuperScore Respondents] ))
+			*/
+			VAR _ini =
+			    CALCULATE (
+			        [Estimated Productivity RateDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Estimated Productivity RateDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			
+			
+			
+			```
+		formatString: #,##0.00 %
+		lineageTag: b71127bf-6be1-40f4-81c2-d47e183e8229
+
+	measure 'Estimated Total Absent Hours (in last 30days) DrillThroughDFD' = ```
+			VAR a =
+			    CALCULATE (
+			        [SuperScore RespondentsDFD],
+			        'DIM_EAP_SRVY_WOS'[Title Name] = "Work Absenteeism"
+			    )
+			VAR b =
+			    CALCULATE ( [Estimated Total Absent Hours (in last 30days)DFD Total] )
+			RETURN
+			    DIVIDE ( a, b )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6fff6227-3c96-4fa2-a669-b7fb935d14ee
+
+	measure 'Estimated Total Absent Hours RateDFD' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN*/
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)DFD],[SuperScore RespondentsDFD] ))
+			
+			```
+		formatString: 0.0
+		lineageTag: 62b05d46-a0dc-4518-a55b-cb1d3ac6ab4d
+
+	measure 'Estimated Total Absent Hours Rate Initial to FollowupDFD' = ```
+			/*VAR __Resp = [SuperScore Respondents]
+			VAR __Prod = [Estimated Total Absent Hours (in last 30days)]
+			RETURN
+			calculate( DIVIDE ( [Estimated Total Absent Hours (in last 30days)],[SuperScore Respondents] ))
+			*/
+			VAR _ini =
+			    CALCULATE (
+			        [Estimated Total Absent Hours RateDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Estimated Total Absent Hours RateDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			
+			
+			```
+		formatString: #,##0.00 %
+		lineageTag: fa423169-b3a3-41d8-a601-d5384c6b6fd4
+
+	measure 'GAD2 RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 11,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			)
+			
+			```
+		lineageTag: 5c428d92-0d40-4548-a2b0-fd530a0e125e
+
+	measure 'GAD2 RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD2 RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 1464ec20-afb6-4c1f-be8f-a755a0cad869
+
+	measure 'GAD2 ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 11
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_GAD'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: 7a8bba02-6f0b-422e-acc4-b4f7b42c0d76
+
+	measure 'Presenting Problems Reported inWOS Survey %CY' = ```
+			DIVIDE (
+			    [Presenting Problems Reported inWOS Survey],
+			    [Presenting Problems Reported in WOS Survey Total]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a6ac91a3-3b02-421b-ac59-ff2126336018
+
+	measure 'Presenting Problems Reported inWOS Survey %PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE (
+			        [Presenting Problems Reported inWOS Survey %CY],
+			        ALL ( 'Incurred Month' ),
+			        __PP1
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 781fdb41-a918-406b-aa4e-a16f1382b0c1
+
+	measure 'Work Related Problem Levels% CY' = ```
+			
+			DIVIDE([Work Related Problem Levels],[Work Related Problem Levels Total])
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 659144e7-9286-4f61-93bb-b9935d4b7dfc
+
+	measure 'Work Related Problem Levels% PY' = ```
+			
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Work Related Problem Levels% CY], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 06214031-6270-4f74-9b90-2d4a0ca3321d
+
+	measure 'GAD2 ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD2 ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: ae8c724a-8ba9-48c0-a0b6-c910262a95d3
+
+	measure 'GAD7 RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 77 ,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			)
+			
+			```
+		lineageTag: 62235e6d-54b3-4158-9e25-8bf3bbed919b
+
+	measure 'GAD7 ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 77
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[General Anxiety Disorder (GAD) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_GAD'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: cc9abd03-a266-4e08-bd91-6efe8e53e8df
+
+	measure 'GAD7 ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 9bc538f6-28f7-4837-b513-7029af71302c
+
+	measure 'GAD7 RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 37ff7c27-70bc-4f9b-a9c4-8b5b754d2822
+
+	measure 'GAD7 Respondents ImprovedDFD Base' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			   FACT_EAP_SRVY_DTL[GAD7_IMPROVE_IND] = 11,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: accd10cf-4559-43ee-bc3f-e0485a45ad96
+
+	measure 'GAD7 Respondents ImprovedDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 Respondents ImprovedDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: b2d4a0ad-16db-43cf-8748-02d70311b36c
+
+	measure 'GAD7 Respondents NotImprovedDFD' = ```
+			
+			VAR _TOTAL =   [GAD RespondentsDFD]
+			   
+			VAR _IMPROV =
+			    [GAD7 Respondents ImprovedDFD]
+			RETURN
+			    CALCULATE ( _TOTAL - _IMPROV )
+			
+			```
+		formatString: #,0
+		lineageTag: 04c0ceef-9c6f-4b50-bd97-de81746ebfae
+
+	measure 'GAD ResponseDFD' = ```
+			[GAD2 ResponseDFD]+
+			    [GAD7 ResponseDFD]
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 3c7c3121-7244-46c0-a67b-bd094de82ba4
+
+	measure 'GAD RespondentsDFD' = ```
+			
+			    [GAD7 RespondentsDFD] +[GAD2 RespondentsDFD]
+			
+			
+			```
+		formatString: #,0
+		lineageTag: f5e5d36d-73b6-44c3-a4d1-b8a8a13fe617
+
+	measure 'GAD ResponseFollowUpDFD' = ```
+			
+			    CALCULATE (
+			        [GAD2 ResponseDFD],
+			   
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: f9e053c5-54ac-4358-a9d9-c0f3179d683a
+
+	measure 'GAD ResponseInitialDFD' = ```
+			
+			    CALCULATE (
+			        [GAD2 ResponseDFD],
+			   
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 5c91fcc6-5c74-4403-8406-ec5a636db78e
+
+	measure 'GAD ResponseDFD Total' = ```
+			
+			CALCULATE (
+			    [GAD ResponseDFD],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[GAD7_CATGRY_SORT] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category Short Description] )
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 90c9b468-f580-4d3e-8e65-ec430ff92f88
+
+	measure 'GAD Response DrillthroughDFD' = ```
+			VAR A = [GAD ResponseDFD]
+			    
+			RETURN
+			    DIVIDE ( a, [GAD ResponseDFD Total] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a9f01f26-5765-4fb5-be1a-f6d9b707b6f5
+
+	measure 'GAD Response DrillthroughGAD7InitialDFD' = ```
+			VAR A =
+			    CALCULATE (
+			        [GAD2 ResponseDFD],
+			      ---  FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			RETURN
+			    DIVIDE ( a, [GAD ResponseTotal GAD7DFD] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c5ce5574-8285-4a15-87eb-548108f41e24
+
+	measure 'GAD ResponseTotal GAD7DFD' = ```
+			CALCULATE (
+			    [GAD2 ResponseDFD],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category Short Description] ),
+			    FACT_EAP_SRVY_DTL[GAD7_MATCH_IND] = 11,
+			    ALL ( FACT_EAP_SRVY_DTL[GAD7_CATGRY_sort] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 9f6445ea-6b39-4d87-959f-1de7b62d53a4
+
+	measure 'GAD Response Initial to FollowUpDFD' = ```
+			
+			VAR _ini =
+			    CALCULATE (
+			        [GAD ResponseDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [GAD ResponseDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 528c620b-40f6-49df-9470-c3147f741326
+
+	measure 'GAD Response DrillthroughGAD7Initial to FollowUpDFD' = ```
+			VAR A = [GAD ResponseTotal GAD7DFD]
+			VAR B =
+			    CALCULATE (
+			        [GAD2 ResponseDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			RETURN
+			    DIVIDE ( B, A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a25af7d6-a9ea-4ae3-a90c-1c58cd58fb8a
+
+	measure 'GAD Respondents ImprovedDFD' = ```
+			
+			    [GAD7 Respondents ImprovedDFD]
+			
+			```
+		formatString: #,##0
+		lineageTag: cdd0fd95-fc0e-4bc7-a36c-804b84cc7c0d
+
+	measure 'GAD Respondents NotImprovedDFD' = ```
+			
+			    [GAD7 Respondents NotImprovedDFD]
+			
+			
+			```
+		formatString: #,##0
+		lineageTag: 28b940f9-e64d-46dc-9318-b184b3d2b523
+
+	measure 'GAD RespondentsDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD RespondentsDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 1f3f7743-6891-425f-a2b4-3391dc7df7ec
+
+	measure 'GAD Respondents improved%DFD' = ```
+			DIVIDE (
+			    [GAD Respondents ImprovedDFD],
+			    [GAD RespondentsDFD]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e928676f-2730-4d0d-a32c-269296f34df5
+
+	measure 'GAD AnxietyScore AverageDFD' = ```
+			CALCULATE (
+			    DIVIDE ( [GAD2 ResponseDFD], [GAD2 RespondentsDFD] )
+			  )+CALCULATE (
+			    DIVIDE ( [GAD7 ResponseDFD], [GAD7 RespondentsDFD] )
+			  )
+			
+			```
+		lineageTag: ea39c5d3-e466-4246-8727-fa0e7fd1997a
+
+	measure 'GAD AnxietyScore AverageDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [GAD AnxietyScore AverageDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 141df930-0a00-40f9-bbe4-e86f4bc162d7
+
+	measure 'GAD AnxietyScore AverageDFD %  Change' = ```
+			VAR __Current = [GAD AnxietyScore AverageDFD]
+			VAR __PastPeriod = [GAD AnxietyScore AverageDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2b5901ed-7213-47ec-b404-a0dcbe24bb05
+
+	measure 'Job Performance RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[WOS_MATCH_IND] =11,
+			    'DIM_EAP_SRVY_WOS'[Title Name] = "Job Performance",
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			 )
+			
+			```
+		lineageTag: e689fd00-2f89-4573-9f23-dabe1b02cc9d
+
+	measure 'Job Performance RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Job Performance RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 532a5cf0-12b7-4055-9a91-8a89ad22914d
+
+	measure 'Job Performance RespondentsDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job Performance RespondentsDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: b1a76506-1075-4996-9a2a-31328c500738
+
+	measure 'Job Performance RespondentsDFD %  Change' = ```
+			VAR __Current = [Job Performance RespondentsDFD]
+			VAR __PastPeriod = [Job Performance RespondentsDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bd3308f9-f562-40bd-b5c7-e80f4a97159e
+
+	measure 'Job Performance ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[WOS_MATCH_IND] = 11
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name],
+			        "Valmember", calculate(SUM ( 'DIM_EAP_SRVY_WOS'[Value Number] ),'DIM_EAP_SRVY_WOS'[Title Name] = "Job Performance")
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ))
+			
+			```
+		lineageTag: 2f6f0e09-c349-4904-939f-3271e7041d9e
+
+	measure 'Job Performance ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Job Performance ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 1019db09-ffd9-455c-a7bb-3fa45317fe23
+
+	measure 'Job Performance ResponseDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job Performance ResponseDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 487bd370-899b-4212-886d-8660d29fdac1
+
+	measure 'Job Performance ResponseDFD %  Change' = ```
+			VAR __Current = [Job Performance ResponseDFD]
+			VAR __PastPeriod = [Job Performance ResponseDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 28cc5208-e23d-4b6d-bae8-124b93993d7f
+
+	measure 'Job Performance ResponsesDFDTotal' = ```
+			
+			    CALCULATE (
+			        [Job Performance RespondentsDFD],
+			        ALL('DIM_EAP_SRVY_WOS'[Reply Text]),ALL('DIM_EAP_SRVY_WOS'[Reply Text_sort])
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 18cc8be3-0a3f-4a97-9388-fb6f31251e82
+
+	measure 'Job Performance ResponseDrillthroughDFD' = ```
+			
+			    VAR A = [Job Performance RespondentsDFD]
+			    RETURN 
+			    DIVIDE ( a, [Job Performance ResponsesDFDTotal] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 03b5c0a7-874c-4e3b-bf32-37f9117f1a3a
+
+	measure 'Job Performance ResponseInitial to FollowUpDFD' = ```
+			
+			VAR _ini =
+			    CALCULATE (
+			        [Job Performance ResponseDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [Job Performance ResponseDFD],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up"
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c7573d24-f9ec-40fe-9dfc-43662508d543
+
+	measure 'Job Performance improvedDFD' = ```
+			
+			CALCULATE (
+			    [Job Performance RespondentsDFD],
+			    FACT_EAP_SRVY_DTL[JOB_PERF_IMPROVE_IND] = 11
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 8a5a828f-fac6-4ff6-9da2-d0103a5a91c8
+
+	measure 'Job Performance improved%DFD' = ```
+			DIVIDE (
+			    [Job Performance improvedDFD],
+			    [Job Performance RespondentsDFD]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e25baf25-b4a0-4acf-88e8-aa32117a9379
+
+	measure 'Job PerformanceAverageDFD' = ```
+			CALCULATE (
+			    DIVIDE ( [Job Performance ResponseDFD], [Job Performance RespondentsDFD] )--,
+			   -- DIM_EAP_SRVY_WOS[SUPR_SCOR_CD] = "YES"
+			)
+			
+			```
+		lineageTag: e105bde6-f6ec-48e5-bb6d-1b03263f7fe2
+
+	measure 'Job PerformanceAverageDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Job PerformanceAverageDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		lineageTag: 91212abb-6262-46ce-b20b-455c0f1d32ab
+
+	measure 'Job PerformanceAverageDFD %  Change' = ```
+			VAR __Current = [Job PerformanceAverageDFD]
+			VAR __PastPeriod = [Job PerformanceAverageDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a8d06665-545c-496a-badc-f0aa32b7b937
+
+	measure 'PHQ2 RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] =11,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			 )
+			
+			```
+		lineageTag: ceb9f390-433f-480a-b13d-4fc93027ff6a
+
+	measure 'PHQ2 RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ2 RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: ac972c91-e2ae-41c1-88fa-dacfe239daf1
+
+	measure 'PHQ9 RespondentsDFD Base' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			    FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] =99,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			 )
+			
+			```
+		lineageTag: a9b716b1-383e-4687-b923-e49ad4d9012a
+
+	measure 'PHQ9 RespondentsDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 RespondentsDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: d79aedcd-0151-47fd-ab5e-a3147e594935
+
+	measure 'PHQ ResponseTotal PHQ9DFD' = ```
+			CALCULATE (
+			    [PHQ9 Response],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Depression Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Depression Severity Category Short Description] ),
+			    FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 11,
+			    ALL ( 'FACT_EAP_SRVY_DTL'[PHQ9_CATGRY_SORT] ),
+			    'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: d55c42bc-45a0-4030-ba15-55ef9902c6c1
+
+	measure 'PHQ ResponseTotalDFD' = ```
+			
+			    [PHQ ResponseTotal PHQ9DFD]
+			
+			```
+		formatString: #,0
+		lineageTag: 9d6488de-0ea4-418a-8f12-21d23fa54def
+
+	measure 'PHQ RespondentsDFD' = ```
+			
+			    [PHQ9 RespondentsDFD]+ [PHQ2 RespondentsDFD]
+			
+			
+			```
+		formatString: #,0
+		lineageTag: d18618e7-9a17-469d-b36d-2e379ebb0552
+
+	measure 'PHQ RespondentsDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ RespondentsDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: 959aa49c-a757-4f2c-a5ae-0aa9e79de627
+
+	measure 'PHQ RespondentsDFD %  Change' = ```
+			VAR __Current = [PHQ RespondentsDFD]
+			VAR __PastPeriod = [PHQ RespondentsDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 17a31a8b-79a6-48a3-ba5b-6cb1e955bf99
+
+	measure 'PHQ2 ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 11
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_PHQ'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: fa3c75d5-3807-4896-a09a-7e6d2a4b59f8
+
+	measure 'PHQ2 ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ2 ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 14aa2577-444d-4414-9028-b92bf5457dad
+
+	measure 'PHQ9 ResponseDFD Base' = ```
+			VAR A =
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_EAP_SRVY_DTL,
+			            FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 99
+			            && 'FACT_EAP_SRVY_DTL'[Incident Number] ="UNK"
+			        ),
+			        'FACT_EAP_SRVY_DTL'[EAP Member Reference Number],
+			        'FACT_EAP_SRVY_DTL'[Patient Health Questionnaire (PHQ) Type Code],
+			        "Valmember", SUM ( 'DIM_EAP_SRVY_PHQ'[Value Score Number] )
+			    )
+			RETURN
+			    CALCULATE ( SUMX ( a, [Valmember] ) )
+			
+			```
+		lineageTag: 7c95005f-eeba-4020-8fce-3a319cb44eb8
+
+	measure 'PHQ9 ResponseDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 ResponseDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 1702a145-c34b-4abc-b064-d100b7599d64
+
+	measure 'PHQ ResponseDFD' = ```
+			    [PHQ9 ResponseDFD] + [PHQ2 ResponseDFD]
+			
+			```
+		formatString: #,0
+		lineageTag: e090c901-586e-4883-85e8-3e86194a9465
+
+	measure 'PHQ ResponseDFD PY' = ```
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [PHQ ResponseDFD], ALL ( 'Incurred Month' ), __PP1 )
+			
+			```
+		formatString: #,0
+		lineageTag: b195879d-61a0-4ea0-9304-0ed578d580db
+
+	measure 'PHQ ResponseDFD %  Change' = ```
+			VAR __Current = [PHQ ResponseDFD]
+			VAR __PastPeriod = [PHQ ResponseDFD PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2b93f279-3625-4034-acd2-754d31ad450f
+
+	measure 'PHQ Response DrillthroughDFD' = ```
+			VAR A = [PHQ ResponseDFD] RETURN DIVIDE ( a, [PHQ ResponseTotalDFD] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0537ba94-e0bd-4730-a8f2-90a988adcf87
+
+	measure 'PHQ Response DrillthroughPHQ9InitialDFD' = ```
+			VAR A =
+			    CALCULATE (
+			        [PHQ9 ResponseDFD],
+			     --   FACT_EAP_SRVY_DTL[PHQ9_MATCH_IND] = 1,
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			    )
+			RETURN
+			    DIVIDE ( a, [PHQ ResponseTotal PHQ9DFD] )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 317a2bef-4162-46c5-9cfb-da09426d9332
+
+	measure 'PHQ Response DrillthroughPHQ9Initial to FollowUpDFD' = ```
+			VAR A = [PHQ ResponseTotal PHQ9DFD]
+			VAR B = CALCULATE([PHQ9 ResponseDFD], 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up")
+			RETURN
+			    DIVIDE ( B, A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d5ef1775-7b7c-492a-9773-c5f238d3fc6d
+
+	measure 'PHQ Respondents ImprovedDFD' = ```
+			
+			    [PHQ9 Respondents ImprovedDFD]
+			
+			```
+		formatString: #,##0
+		lineageTag: 9c6125b3-05b9-486b-86c4-12db975ee88a
+
+	measure 'PHQ9 Respondents ImprovedDFD Base' = ```
+			CALCULATE (
+			       DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			       FACT_EAP_SRVY_DTL[PHQ9_IMPROVE_IND] =11,
+			    'FACT_EAP_SRVY_DTL'[Incident Number] = "UNK"
+			    )
+			    
+			    
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: 4cad7765-6d8e-475f-b865-23c6d8d59ed0
+
+	measure 'PHQ9 Respondents ImprovedDFD' = ```
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 Respondents ImprovedDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: 16e3cb3e-88d7-4618-9a42-aac54ca64773
+
+	measure 'PHQ9 Respondents NotImprovedDFD' = ```
+			VAR _TOTAL= [PHQ RespondentsDFD]
+			VAR _IMPROV = [PHQ9 Respondents ImprovedDFD]
+			
+			 RETURN
+			 CALCULATE(_TOTAL - _IMPROV)
+			
+			```
+		formatString: #,0
+		lineageTag: ac8d3d50-8fac-4cc6-9ccd-b5de3a5079d8
+
+	measure 'PHQ Respondents NotImprovedDFD' = ```
+			
+			    [PHQ9 Respondents NotImprovedDFD]
+			
+			
+			```
+		formatString: #,##0
+		lineageTag: 2b049dbd-4b0e-4cef-8a9d-a7385a932326
+
+	measure 'PHQ Respondents improved%DFD' = ```
+			DIVIDE (
+			    [PHQ Respondents ImprovedDFD],
+			    [PHQ RespondentsDFD]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 54ebc043-a0cc-47a6-88a2-76126ff8787d
+
+	measure 'GAD Respondents Total' = ```
+			
+			CALCULATE (
+			    [GAD Respondents],
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[GAD7_CATGRY_SORT] ),
+			    ALL ( 'FACT_EAP_SRVY_DTL'[Anxiety Severity Category Short Description] )
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 0bb079cb-2cd4-4b96-8d94-cbe8c1fd368b
+
+	measure 'GAD Responses Initial to FollowUp' = ```
+			VAR _ini =
+			    CALCULATE (
+			        [GAD Respondents],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [GAD Respondents],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _Foll - _ini )
+			RETURN
+			    DIVIDE ( _Total, _ini )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0bd9ac7a-5143-43bd-bef1-2ef0cb6ce0f6
+
+	measure 'PHQ Responses Initial to FollowUp' = ```
+			VAR _ini =
+			    CALCULATE (
+			        [PHQ Respondents],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Foll =
+			    CALCULATE (
+			        [PHQ Respondents],
+			        'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Follow-Up",
+			        ALL ( 'FACT_EAP_SRVY_DTL'[Survey Type Name] ),
+			        ALL ( FACT_EAP_SRVY_DTL[SRVY_TYPE_NM_SORT] )
+			    )
+			VAR _Total = ( _ini- _Foll )
+			RETURN
+			    DIVIDE ( _Total, _Foll )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4ec484c0-00ce-4094-8e35-9afd886fe584
+
+	measure 'GAD7 Respondents Improved InitialBase' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			     FILTER('FACT_EAP_SRVY_DTL', 'FACT_EAP_SRVY_DTL'[GAD7_IMPROVE_INIT_IND] = 1 ),
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 9c5d8666-5589-479e-ab5f-0a887ee8fece
+
+	measure 'GAD7 Respondents Improved Initial' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			VAR _A =
+			    CALCULATE (
+			        [GAD7 Respondents Improved InitialBase],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			```
+		formatString: #,0
+		lineageTag: 7697ec19-395e-4601-8e47-73a76323eb22
+
+	measure 'GAD Respondents Initial' = ```
+			CALCULATE([GAD Respondents],'FACT_EAP_SRVY_DTL'[Survey Type Name] ="Initial")
+			
+			```
+		formatString: #,0
+		lineageTag: 7a32699d-200d-48e2-84b8-291d18e72dc5
+
+	measure 'GAD Respondents improved Initial%' = ```
+			VAR _A =
+			    DIVIDE ( [GAD7 Respondents Improved Initial], [GAD Respondents Initial] )
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 412c3b89-047d-4a62-9c8f-5de9cd452e9a
+
+	measure 'PHQ Respondents Initial' = ```
+			CALCULATE([PHQ Respondents],'FACT_EAP_SRVY_DTL'[Survey Type Name] ="Initial")
+			
+			
+			
+			```
+		formatString: #,0
+		lineageTag: f915c8cf-2175-4814-8c8c-77608f450535
+
+	measure 'PHQ9 Respondents Improved Initial Base' = ```
+			CALCULATE (
+			       DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			       filter(FACT_EAP_SRVY_DTL,'FACT_EAP_SRVY_DTL'[PHQ9_IMPROVE_INIT_IND] = 1 ),
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			    )
+			    
+			    
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: 8244290b-39ad-4a3a-b45c-5f8ad621d804
+
+	measure 'PHQ Respondents improved Initial%' = ```
+			VAR _A =
+			    DIVIDE ( [PHQ9 Respondents Improved Initial], [PHQ Respondents Initial] )
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6955b487-8dd7-4ded-9f28-5bbea6e0d67f
+
+	measure 'PHQ9 Respondents Improved Initial' = ```
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			VAR _A =
+			    CALCULATE (
+			        [PHQ9 Respondents Improved Initial Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			RETURN
+			    IF ( ISBLANK ( _A ), 0, _A )
+			
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: e4c44fb4-7d60-4f09-94be-5da863f685f7
+
+	measure 'SuperScore ResponseDFD Total' = ```
+			
+			    CALCULATE (
+			        [SuperScore ResponseDFD],
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text] ),
+			        ALL ( 'DIM_EAP_SRVY_WOS'[Reply Text_sort] ),
+			        all('DIM_EAP_SRVY_WOS'[Title Name])
+			    )
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 352e8b97-d5f3-4d6a-b189-f64b04640454
+
+	measure 'GAD7 Respondents Improved InitialDFDBase' = ```
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] ),
+			     FILTER('FACT_EAP_SRVY_DTL', 'FACT_EAP_SRVY_DTL'[GAD7_IMPROVE_INIT_IND] = 11 ),
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 480f55ff-1b9e-486a-b4c4-104bbbea032c
+
+	measure 'GAD7 Respondents Improved InitialDFD' = ```
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [GAD7 Respondents Improved InitialDFDBase],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			```
+		formatString: #,0
+		lineageTag: 92bd2f9e-383d-44a5-adb7-35bd4dc48346
+
+	measure 'GAD Respondents InitialDFD' = ```
+			CALCULATE([GAD RespondentsDFD],'FACT_EAP_SRVY_DTL'[Survey Type Name] ="Initial")
+			
+			```
+		formatString: #,0
+		lineageTag: 6ae2f591-0ff6-4996-a32b-b111120cd45b
+
+	measure 'GAD Respondents improved InitialDFD%' = ```
+			DIVIDE (
+			    [GAD7 Respondents Improved InitialDFD],
+			    [GAD Respondents InitialDFD]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 90096cf5-37c1-45eb-98c5-1bbfd0002d8c
+
+	measure 'PHQ Respondents InitialDFD' = ```
+			CALCULATE([PHQ RespondentsDFD],'FACT_EAP_SRVY_DTL'[Survey Type Name] ="Initial")
+			
+			
+			
+			```
+		formatString: #,0
+		lineageTag: 3a6d30e9-10d0-416f-9f4c-a028d56fb830
+
+	measure 'PHQ9 Respondents Improved InitialDFD Base' = ```
+			CALCULATE (
+			       DISTINCTCOUNT ( 'FACT_EAP_SRVY_DTL'[Incident Number] ),
+			       filter(FACT_EAP_SRVY_DTL,'FACT_EAP_SRVY_DTL'[PHQ9_IMPROVE_INIT_IND] = 11 ),
+			    'FACT_EAP_SRVY_DTL'[Incident Number] <> "UNK"
+			    )
+			    
+			    
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: a0ea9294-2172-484c-bcb7-b1ee2ee0b006
+
+	measure 'PHQ9 Respondents Improved InitialDFD' = ```
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [PHQ9 Respondents Improved InitialDFD Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+			
+			
+			 
+			
+			```
+		formatString: #,0
+		lineageTag: d06c2388-219a-4f70-afaf-322d3a908ee0
+
+	measure 'PHQ Respondents improved InitialDFD%' = ```
+			DIVIDE (
+			    [PHQ9 Respondents Improved InitialDFD],
+			    [PHQ Respondents InitialDFD]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4477cf5f-bc71-481b-a6c0-0b5e912ad462
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: f1d7d25d-3468-497a-ac9e-d8c75dd71cd6
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		lineageTag: 4bb3ab91-969d-43ee-aa4b-09fa0a0ab762
+		summarizeBy: none
+		sourceColumn: RPTG_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column QSTNR_MBR_RSPNS_ID
+		dataType: string
+		lineageTag: 98b97d29-9de8-4c00-9d98-25791ec4ab57
+		summarizeBy: none
+		sourceColumn: QSTNR_MBR_RSPNS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Questionnaire ID'
+		dataType: string
+		lineageTag: 427a42ee-bf55-4e3b-8691-aee157780c33
+		summarizeBy: none
+		sourceColumn: QSTNR_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Created Date Time'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bacfeb1a-117f-4dd8-a99a-fbdd7ec98fee
+		summarizeBy: none
+		sourceColumn: CREATD_DTM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Last Modified Date Time'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cb7d1da7-6ece-4d31-829e-7f2ba95824cd
+		summarizeBy: none
+		sourceColumn: LAST_MDFD_DTM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'EAP Member Reference Number'
+		dataType: string
+		lineageTag: efcba0b7-7bc0-4e7c-9e60-b242db962f85
+		summarizeBy: none
+		sourceColumn: EAP_MBR_RFRNC_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Survey Type Name'
+		dataType: string
+		lineageTag: 3de7ec01-b614-4d26-925e-af6c7b5db64d
+		summarizeBy: none
+		sourceColumn: SRVY_TYPE_NM
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outreach ID'
+		dataType: string
+		lineageTag: 892db0b2-ced9-481a-bab2-0b12f92afa78
+		summarizeBy: none
+		sourceColumn: OUTRCH_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outreach Completed Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f9bea4e8-f3e3-41e6-a896-ee194726ebef
+		summarizeBy: none
+		sourceColumn: OUTRCH_CMPLTD_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Outreach Sent Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 788135de-bae7-40c1-961e-4205ef626566
+		summarizeBy: none
+		sourceColumn: OUTRCH_SENT_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OUTRCH_RMNDR_DT
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c25c07ff-4f3d-4f9e-a614-f525ac2dd646
+		summarizeBy: none
+		sourceColumn: OUTRCH_RMNDR_DT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Incident Number'
+		dataType: string
+		lineageTag: dfa86995-bdd2-4a55-996c-8ed8f52f2601
+		summarizeBy: none
+		sourceColumn: INCDNT_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Item Link ID'
+		dataType: string
+		lineageTag: a2231ffe-01ae-49fc-8cc4-cf89de4b7558
+		summarizeBy: none
+		sourceColumn: ITEM_LNK_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Item 2 Link ID'
+		dataType: string
+		lineageTag: f4d74b7a-0749-473d-b0a4-efe8da6c8d46
+		summarizeBy: none
+		sourceColumn: ITEM_2_LNK_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Group ID'
+		dataType: string
+		lineageTag: a69a9ef8-8db3-40b4-8c5b-bd891617a534
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_SUBGRP_ID
+		dataType: string
+		lineageTag: 95c8e75e-119b-41b7-94db-3e72eb9432ff
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ST_KEY
+		dataType: int64
+		lineageTag: b0245ddd-3b0d-4eb8-80b7-cb40cbd57525
+		summarizeBy: none
+		sourceColumn: ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_CMPLTD_CNT
+		dataType: int64
+		lineageTag: 74b719d3-9833-4542-ac25-020f08e135ca
+		summarizeBy: sum
+		sourceColumn: SESN_CMPLTD_CNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: f2fcbe89-75ea-41b2-8b0c-d6d75ad7b86f
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: 5f3851c6-142e-4c9a-a3ad-72c37c6e1b32
+		summarizeBy: sum
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: cf3171a9-264d-4843-bb7d-104e8dca67fe
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 8f363fa0-b817-482a-8c0c-82a48cb61fd9
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column WOS_MATCH_IND
+		dataType: int64
+		lineageTag: e8056bae-5d69-4807-a9ea-b5a86b4da3d7
+		summarizeBy: none
+		sourceColumn: WOS_MATCH_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	column PHQ_MATCH_IND
+		dataType: int64
+		lineageTag: 6ef48d40-ed08-4f99-a0b8-66e11835806e
+		summarizeBy: none
+		sourceColumn: PHQ_MATCH_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	column GAD_MATCH_IND
+		dataType: int64
+		lineageTag: fc434775-8f7a-42a4-ac6d-d1c7b35f8659
+		summarizeBy: none
+		sourceColumn: GAD_MATCH_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Presenting Problem Key'
+		dataType: int64
+		lineageTag: 321c575b-ccb2-4ac2-ad37-1aca3c8ced1d
+		summarizeBy: none
+		sourceColumn: PRSNT_PRBLM_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Health Questionnaire (PHQ) Type Code'
+		dataType: string
+		lineageTag: 15697146-927b-498d-b5d2-987fd05f7733
+		summarizeBy: none
+		sourceColumn: PHQ_TYPE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Outcome Survey (WOS) Type Code'
+		dataType: string
+		lineageTag: 506dbf82-2bde-47b8-b733-3b59672a44d9
+		summarizeBy: none
+		sourceColumn: WOS_TYPE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'General Anxiety Disorder (GAD) Type Code'
+		dataType: string
+		lineageTag: 3ebffa9d-701b-46ad-8e04-2d8a31646913
+		summarizeBy: none
+		sourceColumn: GAD_TYPE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Survey Active Indicator'
+		dataType: string
+		lineageTag: 578f92cb-a19d-4752-8f36-f8e757a32203
+		summarizeBy: none
+		sourceColumn: SRVY_ACTV_IND
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outreach Type'
+		dataType: string
+		lineageTag: 307abf0c-c9f5-4727-9f5f-8ebad39de86a
+		summarizeBy: none
+		sourceColumn: OUTRCH_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column STDALN_CD
+		dataType: string
+		lineageTag: c04fca8a-52f8-4e24-9f48-d13bb40b2b7f
+		summarizeBy: none
+		sourceColumn: STDALN_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBR_INCDNT_KEY
+		dataType: string
+		lineageTag: 9064dff3-5e4d-4aec-bc6f-9f44a9a68906
+		summarizeBy: none
+		sourceColumn: MBR_INCDNT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PRE EAP Survey Problem Total' =
+			VAR MemberId = 'FACT_EAP_SRVY_DTL'[Incident Number]
+			VAR MonthNbr = 'FACT_EAP_SRVY_DTL'[RPTG_MNTH_NBR]
+			
+			VAR DistinctTTLPrblm =
+			    DISTINCT (
+			        SELECTCOLUMNS (
+			            FILTER (
+			                ALL ( 'FACT_EAP_SRVY_DTL' ),
+			                'FACT_EAP_SRVY_DTL'[Incident Number] = MemberId
+			                    && 'FACT_EAP_SRVY_DTL'[RPTG_MNTH_NBR] = MonthNbr
+			                    && 'FACT_EAP_SRVY_DTL'[WOS_MATCH_IND] = 2
+			                    && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			                    && 'FACT_EAP_SRVY_DTL'[TTL_NM]
+			                        IN {
+			                            "Workplace Distress",
+			                            "Work Presenteeism",
+			                            "Work Absenteeism",
+			                            "Work Engagement"
+			                        }
+			            ),
+			            "TTL_NM",    'FACT_EAP_SRVY_DTL'[TTL_NM],
+			            "PRBLM_NBR", 'FACT_EAP_SRVY_DTL'[PRBLM_NBR]
+			        )
+			    )
+			RETURN
+			    SUMX ( DistinctTTLPrblm, [PRBLM_NBR] )
+		dataType: int64
+		formatString: #,##0
+		lineageTag: fe1e204e-0804-42c1-bb9f-3763ea47c14b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PRE EAP Survey Problem TotalDFD' =
+			VAR MemberId = 'FACT_EAP_SRVY_DTL'[EAP Member Reference Number]
+			VAR MonthNbr = 'FACT_EAP_SRVY_DTL'[RPTG_MNTH_NBR]
+			
+			VAR DistinctTTLPrblm =
+			    DISTINCT (
+			        SELECTCOLUMNS (
+			            FILTER (
+			                ALL ( 'FACT_EAP_SRVY_DTL' ),
+			                'FACT_EAP_SRVY_DTL'[EAP Member Reference Number] = MemberId
+			                    && 'FACT_EAP_SRVY_DTL'[RPTG_MNTH_NBR] = MonthNbr
+			                    && 'FACT_EAP_SRVY_DTL'[WOS_MATCH_IND] = 2
+			                    && 'FACT_EAP_SRVY_DTL'[Survey Type Name] = "Initial"
+			                    && 'FACT_EAP_SRVY_DTL'[TTL_NM]
+			                        IN {
+			                            "Workplace Distress",
+			                            "Work Presenteeism",
+			                            "Work Absenteeism",
+			                            "Work Engagement"
+			                        }
+			            ),
+			            "TTL_NM",    'FACT_EAP_SRVY_DTL'[TTL_NM],
+			            "PRBLM_NBR", 'FACT_EAP_SRVY_DTL'[PRBLM_NBR]
+			        )
+			    )
+			RETURN
+			    SUMX ( DistinctTTLPrblm, [PRBLM_NBR] )
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 7c045fe0-2441-49f6-8448-c6a86b08e97a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: int64
+		formatString: 0
+		lineageTag: 85623f48-67ab-4b74-8a16-1aca042b1bec
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_srvy_dtl_eap = Source{[Schema="dbo",Item="fact_eap_srvy_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_srvy_dtl_eap
+

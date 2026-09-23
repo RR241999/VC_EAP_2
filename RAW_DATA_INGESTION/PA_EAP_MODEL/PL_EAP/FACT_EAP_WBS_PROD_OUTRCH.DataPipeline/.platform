@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_EAP_WBS_PROD_OUTRCH"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "74664335-0243-82d9-4724-e49dc46b59a2"
+  }
+}

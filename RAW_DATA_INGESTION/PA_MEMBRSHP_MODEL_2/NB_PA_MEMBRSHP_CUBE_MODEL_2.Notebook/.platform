@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "NB_PA_MEMBRSHP_CUBE_MODEL_2"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "47de575f-d8f6-9a50-411d-76210a83c7e9"
+  }
+}

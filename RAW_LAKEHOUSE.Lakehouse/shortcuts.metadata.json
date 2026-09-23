@@ -1,0 +1,14 @@
+[
+  {
+    "name": "FACT_INCDNT_SESN_old_data",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/FACT_INCDNT_SESN",
+        "itemId": "00000000-0000-0000-0000-000000000000",
+        "workspaceId": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  }
+]

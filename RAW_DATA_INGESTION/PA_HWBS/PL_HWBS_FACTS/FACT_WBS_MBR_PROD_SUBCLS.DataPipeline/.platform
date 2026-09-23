@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_WBS_MBR_PROD_SUBCLS"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1c52f4fc-706d-8370-4717-3119afccb821"
+  }
+}

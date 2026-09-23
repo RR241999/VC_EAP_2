@@ -1,0 +1,106 @@
+table DIM_EAP_INCDNT_PRSNT_PRBLM
+	lineageTag: ddefd928-b91e-40dd-8cbb-8b99d3a77b61
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: e2b183e3-2b53-46d0-b184-b15cf2577aea
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Presenting Problem Group Code'
+		dataType: string
+		lineageTag: e1366ae9-2de8-4bcb-bfbf-5ae27c222139
+		summarizeBy: none
+		sourceColumn: EAP_Presenting_Problem_Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Presenting Problem Group Description'
+		dataType: string
+		lineageTag: 167b3f22-4b7e-489f-81df-e7cf317c2578
+		summarizeBy: none
+		sourceColumn: EAP_Presenting_Problem_Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 1 Code'
+		dataType: string
+		lineageTag: 1b7b607a-47c9-4616-9e22-bfbb8bc0d517
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_1_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 1 Description'
+		dataType: string
+		lineageTag: 451504b4-7508-458a-bd0d-fcbd8126dbcc
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_1_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 1 Detail Code'
+		dataType: string
+		lineageTag: 5724baf6-16fc-469e-a63a-241b15fff9b3
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_1_Detail_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 1 Detail Description'
+		dataType: string
+		lineageTag: cca031dd-32b0-4c47-8483-191d4ffaa0c5
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_1_Detail_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem Key'
+		dataType: int64
+		lineageTag: e9843d8d-f398-4f6c-9484-240ce6fcac5a
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 2 Detail Code'
+		dataType: string
+		lineageTag: e78bc75d-ab76-424b-ba48-6eae8476b3ba
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_2_Detail_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 2 Detail Description'
+		dataType: string
+		lineageTag: 66e31477-780d-46e2-931b-f8b5870f822a
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_2_Detail_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 2 Code'
+		dataType: string
+		lineageTag: 3c17a770-101b-4594-ae17-adf333665ee5
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_2_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Presenting Problem 2 Description'
+		dataType: string
+		lineageTag: dd2bca87-a00d-44c7-a195-fe34f9925ae7
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Presenting_Problem_2_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_incdnt_prsnt_prblm_eap = Source{[Schema="dbo",Item="dim_eap_incdnt_prsnt_prblm_eap"]}[Data]
+				in
+				dbo.dim_eap_incdnt_prsnt_prblm_eap
+

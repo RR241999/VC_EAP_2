@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "DIM_PRDA_CLNT_GRP_SUBGRP_TEST- old to be deleted"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "202ba26e-ca57-83b5-4da4-1ff3df14fde8"
+  }
+}

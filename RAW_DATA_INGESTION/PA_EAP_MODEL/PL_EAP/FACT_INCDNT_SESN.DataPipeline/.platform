@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_INCDNT_SESN"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "82e54851-c6bb-93f7-4612-05df0a548e3e"
+  }
+}

@@ -1,0 +1,211 @@
+table FACT_EAP_WORK_MBR_MDCL_PROD_DTL
+	lineageTag: a582af9e-70aa-41a2-b312-21bcb94ad397
+
+	measure 'EAP MemberMonthsBaseMLevel' = SUM ( 'FACT_EAP_WORK_MBR_MDCL_PROD_DTL'[PRORTD_MBR_MNTH_CNT] )
+		lineageTag: 91c69680-fc40-41c5-a6f7-a7a3db9678ef
+
+	measure 'EAP MemberMonthsMLevel' =
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] )
+			    )
+			RETURN
+			    CALCULATE (
+			        [EAP MemberMonthsBaseMLevel],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		lineageTag: 7db46708-be49-45cd-8db4-c47bc84e0858
+
+	column HW_KEY
+		dataType: int64
+		lineageTag: 4757c435-96d6-4222-9ea0-e87a35b7cfc9
+		summarizeBy: none
+		sourceColumn: HW_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROD_KEY
+		dataType: int64
+		lineageTag: ed9209e1-cf20-46ad-8117-402ae1b75703
+		summarizeBy: sum
+		sourceColumn: PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: f6336873-a203-45e9-bf7c-22b6771eb28d
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCRD_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 03014408-d36b-4642-b989-97070cae6f33
+		summarizeBy: none
+		sourceColumn: INCRD_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: d2750fe2-c41d-4c3b-93c6-58959d76bbb9
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: 91c5f599-4c5b-44ac-aced-38cce9d65aed
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column CMPNY_CF_KEY
+		dataType: int64
+		lineageTag: 4f8dc580-da09-4e70-aba6-37ca2e634431
+		summarizeBy: none
+		sourceColumn: CMPNY_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: f1c406ce-e56a-4ae1-907d-e09012f4c3dc
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: 47fdc1ad-53ff-40df-88b6-f4f8c64060c4
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ST_KEY
+		dataType: int64
+		lineageTag: 29f053ec-206e-42f3-93f5-a5692d55d4b0
+		summarizeBy: none
+		sourceColumn: INCDNT_ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRORTD_MBR_MNTH_CNT
+		dataType: double
+		lineageTag: 2d15b682-20df-4559-a17a-dc8e4e7fbc55
+		sourceColumn: PRORTD_MBR_MNTH_CNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column STDALN_CD
+		dataType: string
+		lineageTag: 759acab2-7998-49ae-bb82-19af4da333ec
+		summarizeBy: none
+		sourceColumn: STDALN_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: 2849bc7b-d193-478b-b329-524abcf8d484
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CALR_TYPE_KEY
+		dataType: int64
+		lineageTag: 3eeb034e-dfa9-4caf-b6f1-44390d2a4a70
+		summarizeBy: sum
+		sourceColumn: CALR_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ACTY_KEY
+		dataType: int64
+		lineageTag: 39de926d-1c89-45cd-9556-ed94bdea9f05
+		summarizeBy: sum
+		sourceColumn: INCDNT_ACTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PROV_TYPE_KEY
+		dataType: int64
+		lineageTag: 43c68b00-3014-4972-9871-a92412a3f6b8
+		summarizeBy: sum
+		sourceColumn: INCDNT_PROV_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PRSNT_PRBLM_KEY
+		dataType: int64
+		lineageTag: dae8a694-fae5-4e19-9834-b40cf699f410
+		summarizeBy: sum
+		sourceColumn: INCDNT_PRSNT_PRBLM_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_SRVC_TYPE_KEY
+		dataType: string
+		lineageTag: 668226cd-c155-409c-a43d-a4a764439024
+		summarizeBy: none
+		sourceColumn: INCDNT_SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ENTY_KEY
+		dataType: int64
+		lineageTag: 0e687bbf-1381-4a7b-9645-df4968d95a82
+		summarizeBy: sum
+		sourceColumn: INCDNT_ENTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_SUBGRP_ID
+		dataType: string
+		lineageTag: b22c4746-32f4-4c7d-aaea-6e3eb718e0fb
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: 59db758a-ce2c-405b-8842-791198f581ff
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_work_mbr_mdcl_prod_dtl_eap = Source{[Schema="dbo",Item="fact_eap_work_mbr_mdcl_prod_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_work_mbr_mdcl_prod_dtl_eap
+

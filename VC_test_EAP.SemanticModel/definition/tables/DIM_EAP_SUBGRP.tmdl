@@ -1,0 +1,42 @@
+table DIM_EAP_SUBGRP
+	lineageTag: fe8626df-e1da-4ecc-95fa-293d7871f776
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 09fcdcb3-3ce4-47ec-8a6a-fb53545f9f33
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Client Subgroup ID'
+		dataType: string
+		lineageTag: 60be1783-2fcf-4d26-bddb-a4263e4a1fba
+		summarizeBy: none
+		sourceColumn: EAP_Client_Subgroup_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Group ID'
+		dataType: string
+		lineageTag: beef6ad2-805b-424c-a7ad-378bcd460481
+		summarizeBy: none
+		sourceColumn: EAP_Group_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Client Subgroup Name'
+		dataType: string
+		lineageTag: 49a7d863-b344-46df-92de-61e6694b21b8
+		summarizeBy: none
+		sourceColumn: EAP_Client_Subgroup_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_subgrp_eap = Source{[Schema="dbo",Item="dim_eap_subgrp_eap"]}[Data]
+				in
+				dbo.dim_eap_subgrp_eap
+

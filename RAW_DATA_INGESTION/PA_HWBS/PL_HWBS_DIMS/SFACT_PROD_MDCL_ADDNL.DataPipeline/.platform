@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "SFACT_PROD_MDCL_ADDNL"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fb278081-a7ca-874f-40d0-c681de03b25d"
+  }
+}

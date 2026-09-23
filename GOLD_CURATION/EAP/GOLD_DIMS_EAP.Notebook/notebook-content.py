@@ -1,0 +1,1171 @@
+# Fabric notebook source
+
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   },
+# META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse": "820ff289-52b1-4c8f-8705-a88c51f147ce",
+# META       "default_lakehouse_name": "GOLD_LAKEHOUSE",
+# META       "default_lakehouse_workspace_id": "890304bc-64e8-46be-93d9-8ea5a5a56669",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "820ff289-52b1-4c8f-8705-a88c51f147ce"
+# META         }
+# META       ]
+# META     }
+# META   }
+# META }
+
+# CELL ********************
+
+# Welcome to your new notebook
+# Type here in the cell editor to add code!
+spark.conf.set("spark.sql.parquet.datetimeRebaseModeInRead", "LEGACY")
+spark.conf.set("spark.sql.parquet.datetimeRebaseModeInWrite", "LEGACY")
+spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", "true")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_GRP_EAP
+# MAGIC (
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC EAP_Source_Group_Number STRING,
+# MAGIC EAP_Client_Group_ID STRING,
+# MAGIC EAP_Client_Group_Name STRING
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_GRP_EAP
+# MAGIC SELECT  
+# MAGIC SNAP_YEAR_MNTH_NBR,
+# MAGIC SRC_GRP_NBR ,
+# MAGIC EAP_GRP_ID,
+# MAGIC GRP_NM
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_GRP;
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SUBGRP_EAP
+# MAGIC (
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC EAP_Group_ID STRING,
+# MAGIC EAP_Client_Subgroup_ID STRING,
+# MAGIC EAP_Client_Subgroup_Name STRING
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SUBGRP_EAP
+# MAGIC SELECT  
+# MAGIC SNAP_YEAR_MNTH_NBR,
+# MAGIC EAP_GRP_ID ,
+# MAGIC EAP_SUBGRP_ID,
+# MAGIC SUBGRP_NM
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SUBGRP;
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD_EAP
+# MAGIC (
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC EAP_Product_Code STRING,
+# MAGIC EAP_Product_Description STRING,
+# MAGIC EAP_Product_Group_Code STRING,
+# MAGIC EAP_Product_Group_Description STRING,
+# MAGIC EAP_PROD_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD_EAP
+# MAGIC SELECT  
+# MAGIC SNAP_YEAR_MNTH_NBR,
+# MAGIC EAP_PROD_CD ,
+# MAGIC PROD_DESC,
+# MAGIC PROD_GRP_CD,
+# MAGIC PROD_GRP_DESC,
+# MAGIC EAP_PROD_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD;
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_ST_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   State_Code_Group_Contract STRING,
+# MAGIC   State_Name_Group_Contract STRING,
+# MAGIC   State_Description_Group_Contract STRING,
+# MAGIC   ST_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_ST_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   ST_CD,
+# MAGIC   ST_NM,
+# MAGIC   ST_DESC,
+# MAGIC   ST_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_ST;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SESN_MDL_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   --EAP_Session_Model_Count INT,
+# MAGIC   EAP_Incident_Session_Model_Code STRING,
+# MAGIC   EAP_Incident_Session_Model_Description STRING,
+# MAGIC   SESN_MDL_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SESN_MDL_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   --SESN_MDL_CNT,
+# MAGIC   SESN_MDL_CD,
+# MAGIC   SESN_MDL_DESC,
+# MAGIC   SESN_MDL_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SESN_MDL;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_CALR_TYPE_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Incident_Caller_Type_Code STRING,
+# MAGIC   EAP_Incident_Caller_Type_Description STRING,
+# MAGIC   CALR_TYPE_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_CALR_TYPE_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   CALR_TYPE_CD,
+# MAGIC   CALR_TYPE_DESC,
+# MAGIC   CALR_TYPE_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_CALR_TYPE;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ACTY_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Incident_Activity_Code STRING,
+# MAGIC   EAP_Incident_Activity_Description STRING,
+# MAGIC   INCDNT_ACTY_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ACTY_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   INCDNT_ACTY_CD,
+# MAGIC   INCDNT_ACTY_DESC,
+# MAGIC   INCDNT_ACTY_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ACTY;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PRSNT_PRBLM_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Presenting_Problem_Group_Code STRING,
+# MAGIC   EAP_Presenting_Problem_Group_Description STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_1_Code STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_1_Description STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_1_Detail_Code STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_1_Detail_Description STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_Key  INT,
+# MAGIC   EAP_Incident_Presenting_Problem_2_Code STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_2_Description STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_2_Detail_Code STRING,
+# MAGIC   EAP_Incident_Presenting_Problem_2_Detail_Description STRING
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PRSNT_PRBLM_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   PRSNT_PRBLM_GRP_CD,
+# MAGIC   PRSNT_PRBLM_GRP_DESC,
+# MAGIC   INCDNT_PRSNT_PRBLM_CD,
+# MAGIC   INCDNT_PRSNT_PRBLM_DESC,
+# MAGIC   INCDNT_PRSNT_PRBLM_DTL_CD,
+# MAGIC   INCDNT_PRSNT_PRBLM_DTL_DESC,
+# MAGIC   INCDNT_PRSNT_PRBLM_KEY,
+# MAGIC   INCDNT_PRSNT_PRBLM_2_CD,
+# MAGIC   INCDNT_PRSNT_PRBLM_2_DESC,
+# MAGIC   INCDNT_PRSNT_PRBLM_DTL_2_CD,
+# MAGIC   INCDNT_PRSNT_PRBLM_DTL_2_DESC
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PRSNT_PRBLM;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_SRVC_TYPE_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Incident_Service_Type_Code STRING,
+# MAGIC   EAP_Incident_Service_Type_Description STRING,
+# MAGIC   INCDNT_SRVC_TYPE_KEY INT
+# MAGIC   );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_SRVC_TYPE_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   INCDNT_SRVC_TYPE_CD,
+# MAGIC   INCDNT_SRVC_TYPE_DESC,
+# MAGIC   INCDNT_SRVC_TYPE_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_SRVC_TYPE;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ENTY_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Incident_Service_Entity_ID STRING,
+# MAGIC   EAP_Incident_Service_Code STRING,
+# MAGIC   EAP_Incident_Service_Group_Code STRING,
+# MAGIC   EAP_Incident_Service_Group_Description STRING,
+# MAGIC   EAP_Incident_Counseling_Indicator STRING,
+# MAGIC   EAP_Incident_Service_Key DECIMAL
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ENTY_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   ENTY_ID,
+# MAGIC   ENTY_NM,
+# MAGIC   ENTY_GRP_CD,
+# MAGIC   ENTY_GRP_DESC,
+# MAGIC   CNSLG_IND,
+# MAGIC   INCDNT_ENTY_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_ENTY;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_EVNT_SRVC_TYPE_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Management_Service_Type_Code STRING,
+# MAGIC   EAP_Management_Service_Type_Description STRING,
+# MAGIC   EAP_Management_Service_Group_Code STRING,
+# MAGIC   EAP_Management_Service_Group_Description STRING,
+# MAGIC   SRVC_TYPE_KEY INT
+# MAGIC 
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_EVNT_SRVC_TYPE_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   SRVC_TYPE_CD,
+# MAGIC   SRVC_TYPE_DESC,
+# MAGIC   SRVC_TYPE_GRP_CD,
+# MAGIC   SRVC_TYPE_GRP_DESC,
+# MAGIC   SRVC_TYPE_KEY  
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_EVNT_SRVC_TYPE;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PROV_TYPE_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Incident_Provider_Type_Code STRING,
+# MAGIC   EAP_Incident_Provider_Type_Description STRING,
+# MAGIC   INCDNT_PROV_TYPE_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PROV_TYPE_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   INCDNT_PROV_TYPE_CD,
+# MAGIC   INCDNT_PROV_TYPE_DESC,
+# MAGIC   INCDNT_PROV_TYPE_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_INCDNT_PROV_TYPE;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_CNSLT_TYPE_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Management_Consultation_Type_Code STRING,
+# MAGIC   EAP_Management_Consultation_Type_Description STRING,
+# MAGIC   EAP_Management_Consultation_Group_Code STRING,
+# MAGIC   EAP_Management_Consultation_Group_Description STRING,
+# MAGIC   CNSLT_TYPE_KEY INT
+# MAGIC 
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_CNSLT_TYPE_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   CNSLT_TYPE_CD,
+# MAGIC   CNSLT_TYPE_DESC,
+# MAGIC   CNSLT_TYPE_GRP_CD,
+# MAGIC   CNSLT_TYPE_GRP_DESC,
+# MAGIC   CNSLT_TYPE_KEY
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_CNSLT_TYPE;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_RFRL_RSN_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   EAP_Management_Referral_Reason_Code STRING,
+# MAGIC   EAP_Management_Referral_Reason_Description STRING,
+# MAGIC   RFRL_RSN_KEY INT
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_RFRL_RSN_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   RFRL_RSN_CD,
+# MAGIC   RFRL_RSN_DESC,
+# MAGIC   RFRL_RSN_KEY  
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_RFRL_RSN;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD_DESC_EAP
+# MAGIC (
+# MAGIC   Key_Factor_Timestamp DATE,
+# MAGIC   Health_and_Well_Being_Key STRING,
+# MAGIC   Program_Subclass_Description STRING,
+# MAGIC   Package_Class_Name STRING,
+# MAGIC   Package_Type_Name STRING,
+# MAGIC   Reporting_Program_Name STRING,
+# MAGIC   PROD_TYPE_DESC STRING,
+# MAGIC   PROD_CLS_DESC STRING,
+# MAGIC   RPT_PROD_NM STRING
+# MAGIC 
+# MAGIC 
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD_DESC_EAP
+# MAGIC SELECT  
+# MAGIC   KF_TMS,
+# MAGIC   HW_KEY,
+# MAGIC   PROD_SUB_CLS_DESC,
+# MAGIC   PKG_CLS_NM,
+# MAGIC   PKG_TYPE_NM,
+# MAGIC   RPTG_PGM_NM,
+# MAGIC   PROD_TYPE_DESC,
+# MAGIC   PROD_CLS_DESC,
+# MAGIC   RPT_PROD_NM
+# MAGIC   
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_PROD_DESC;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC 
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_WOS_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   Work_Outcome_Survey_WOS_Key STRING,
+# MAGIC   EAP_Type_Name STRING,
+# MAGIC   Title_Name STRING,
+# MAGIC   Question_Text STRING,
+# MAGIC   Reply_Text STRING,
+# MAGIC   Value_Number INT,
+# MAGIC   Problem_Number INT,
+# MAGIC   Normative_Absent_Hours_Number INT,
+# MAGIC   Effective_Number INT,
+# MAGIC   Supervisor_Score_Code STRING,
+# MAGIC   Issue_Code STRING,
+# MAGIC   Work_Outcome_Survey_WOS_Question_Number STRING
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_WOS_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   WOS_KEY,
+# MAGIC   EAP_TYPE_NM,
+# MAGIC   TTL_NM,
+# MAGIC   QSTN_TXT,
+# MAGIC   RPLY_TXT,
+# MAGIC   VAL_NBR,
+# MAGIC   PRBLM_NBR,
+# MAGIC   NRMTV_ABSENT_HOURS_NBR,
+# MAGIC   EFCTV_NBR,
+# MAGIC   SUPR_SCOR_CD,
+# MAGIC   SVRTY_LVL_CD,
+# MAGIC   ISSU_CD,
+# MAGIC   WOS_QSTN_NBR
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_WOS;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_PHQ_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   Patient_Health_Questionnaire_PHQ_Key STRING,
+# MAGIC   EAP_Type_Name STRING,
+# MAGIC   Patient_Health_Questionnaire_PHQ_Category_Name STRING,
+# MAGIC   Question_Text STRING,
+# MAGIC   Answer_Text STRING,
+# MAGIC   Patient_Health_Questionnaire_PHQ_Depression_Qualifier_Flag_Number STRING,
+# MAGIC   Value_Score_Number INT,
+# MAGIC   Patient_Health_Questionnaire_PH_Number STRING
+# MAGIC 
+# MAGIC   
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_PHQ_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   PHQ_KEY,
+# MAGIC   EAP_TYPE_NM,
+# MAGIC   PAT_HLTH_QSTNR_CTGRY_NM,
+# MAGIC   QSTN_TXT,
+# MAGIC   ANSWR_TXT,
+# MAGIC   PHQ_DPRSN_QLFR_FLAG_NBR,
+# MAGIC   VAL_SCOR_NBR,
+# MAGIC   PHQ_NBR
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_PHQ;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_GAD_EAP
+# MAGIC (
+# MAGIC   SNAP_YEAR_MNTH_NBR INT,
+# MAGIC   General_Anxiety_Disorder_GAD_Key STRING,
+# MAGIC   EAP_Type_Name STRING,
+# MAGIC   Question_Text STRING,
+# MAGIC   Answer_Text STRING,
+# MAGIC   Value_Score_Number INT,
+# MAGIC   General_Anxiety_Disorder_GAD_Question_Number STRING
+# MAGIC 
+# MAGIC   
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_GAD_EAP
+# MAGIC SELECT  
+# MAGIC   SNAP_YEAR_MNTH_NBR,
+# MAGIC   GAD_KEY,
+# MAGIC   EAP_TYPE_NM,
+# MAGIC   QSTN_TXT,
+# MAGIC   ANSWR_TXT,
+# MAGIC   VAL_SCOR_NBR,
+# MAGIC   GAD_QSTN_NBR
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_GAD;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_HIPEAP_EAP
+# MAGIC (
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC RPTG_MNTH_NBR INT,
+# MAGIC INCDNT_NBR STRING,
+# MAGIC WOS_MTCH_CD INT,
+# MAGIC GAD_7_MTCH_CD INT,
+# MAGIC PHQ_9_MTCH_CD INT,
+# MAGIC GAD_MTCH_CD INT,
+# MAGIC PHQ_MTCH_CD INT,
+# MAGIC WOS_2_MTCH_CD INT,
+# MAGIC ABSNT_HOURS_CTGRY_NM STRING,
+# MAGIC --ABSNT_HOURS_CTGRY_SORT_NBR INT,
+# MAGIC PHQ_9_CTGRY_NM STRING,
+# MAGIC PHQ_9_SHRT_CTGRY_NM STRING,
+# MAGIC PHQ_SCOR_NBR INT,
+# MAGIC PHQ_9_IMPRV_CD INT,
+# MAGIC PHQ_9_IMPRV_INIT_CD INT,
+# MAGIC PHQ_9_CTGRY_SORT_NBR INT,
+# MAGIC GAD_7_CTGRY_NM STRING,
+# MAGIC GAD_7_SHRT_CTGRY_NM STRING,
+# MAGIC GAD_SCOR_NBR INT,
+# MAGIC GAD_7_IMPRV_CD INT,
+# MAGIC GAD_7_IMPRV_INIT_CD INT,
+# MAGIC GAD_7_CTGRY_SORT_NBR INT,
+# MAGIC WOS_IMPRV_CD INT,
+# MAGIC JOB_PRFRMN_IMPRV_CD INT,
+# MAGIC SRVY_TYPE_NM_SORT_NBR INT,
+# MAGIC MBR_INCDNT_KEY STRING
+# MAGIC 
+# MAGIC   
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_HIPEAP_EAP
+# MAGIC SELECT  
+# MAGIC --KF_TMS,
+# MAGIC SNAP_YEAR_MNTH_NBR,
+# MAGIC RPTG_MNTH_NBR,
+# MAGIC INCDNT_NBR,
+# MAGIC WOS_MTCH_CD,
+# MAGIC GAD_7_MTCH_CD,
+# MAGIC PHQ_9_MTCH_CD,
+# MAGIC GAD_MTCH_CD,
+# MAGIC PHQ_MTCH_CD,
+# MAGIC WOS_2_MTCH_CD,
+# MAGIC ABSNT_HOURS_CTGRY_NM,
+# MAGIC --ABSNT_HOURS_CTGRY_SORT_NBR,
+# MAGIC PHQ_9_CTGRY_NM,
+# MAGIC PHQ_9_SHRT_CTGRY_NM,
+# MAGIC PHQ_SCOR_NBR,
+# MAGIC PHQ_9_IMPRV_CD,
+# MAGIC PHQ_9_IMPRV_INIT_CD,
+# MAGIC PHQ_9_CTGRY_SORT_NBR,
+# MAGIC GAD_7_CTGRY_NM,
+# MAGIC GAD_7_SHRT_CTGRY_NM,
+# MAGIC GAD_SCOR_NBR,
+# MAGIC GAD_7_IMPRV_CD,
+# MAGIC GAD_7_IMPRV_INIT_CD,
+# MAGIC GAD_7_CTGRY_SORT_NBR,
+# MAGIC WOS_IMPRV_CD,
+# MAGIC JOB_PRFRMN_IMPRV_CD,
+# MAGIC SRVY_TYPE_NM_SORT_NBR,
+# MAGIC MBR_INCDNT_KEY
+# MAGIC 
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_HIPEAP;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_DFD_EAP
+# MAGIC (
+# MAGIC KF_TMS Date,
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC RPTG_MNTH_NBR INT,
+# MAGIC EAP_MBR_RFRNC_NBR STRING,
+# MAGIC WOS_MTCH_CD INT,
+# MAGIC GAD_7_MTCH_CD INT,
+# MAGIC PHQ_9_MTCH_CD INT,
+# MAGIC GAD_MTCH_CD INT,
+# MAGIC PHQ_MTCH_CD INT,
+# MAGIC WOS_2_MTCH_CD INT,
+# MAGIC ABSNT_HOURS_CTGRY_NM STRING,
+# MAGIC --ABSNT_HOURS_CTGRY_SORT_NBR INT,
+# MAGIC PHQ_9_CTGRY_NM STRING,
+# MAGIC PHQ_9_SHRT_CTGRY_NM STRING,
+# MAGIC PHQ_SCOR_NBR INT,
+# MAGIC PHQ_9_IMPRV_CD INT,
+# MAGIC PHQ_9_IMPRV_INIT_CD INT,
+# MAGIC PHQ_9_CTGRY_SORT_NBR INT,
+# MAGIC GAD_7_CTGRY_NM STRING,
+# MAGIC GAD_7_SHRT_CTGRY_NM STRING,
+# MAGIC GAD_SCOR_NBR INT,
+# MAGIC GAD_7_IMPRV_CD INT,
+# MAGIC GAD_7_IMPRV_INIT_CD INT,
+# MAGIC GAD_7_CTGRY_SORT_NBR INT,
+# MAGIC WOS_IMPRV_CD INT,
+# MAGIC JOB_PRFRMN_IMPRV_CD INT,
+# MAGIC SRVY_TYPE_NM_SORT_NBR INT,
+# MAGIC MBR_INCDNT_KEY STRING
+# MAGIC 
+# MAGIC 
+# MAGIC   
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_DFD_EAP
+# MAGIC SELECT  
+# MAGIC KF_TMS ,
+# MAGIC SNAP_YEAR_MNTH_NBR ,
+# MAGIC RPTG_MNTH_NBR ,
+# MAGIC EAP_MBR_RFRNC_NBR ,
+# MAGIC WOS_MTCH_CD ,
+# MAGIC GAD_7_MTCH_CD ,
+# MAGIC PHQ_9_MTCH_CD ,
+# MAGIC GAD_MTCH_CD ,
+# MAGIC PHQ_MTCH_CD ,
+# MAGIC WOS_2_MTCH_CD ,
+# MAGIC ABSNT_HOURS_CTGRY_NM ,
+# MAGIC --ABSNT_HOURS_CTGRY_SORT_NM ,
+# MAGIC PHQ_9_CTGRY_NM ,
+# MAGIC PHQ_9_SHRT_CTGRY_NM ,
+# MAGIC PHQ_SCOR_NBR ,
+# MAGIC PHQ_9_IMPRV_CD ,
+# MAGIC PHQ_9_IMPRV_INIT_CD ,
+# MAGIC PHQ_9_CTGRY_SORT_NBR ,
+# MAGIC GAD_7_CTGRY_NM ,
+# MAGIC GAD_7_SHRT_CTGRY_NM ,
+# MAGIC GAD_SCOR_NBR ,
+# MAGIC GAD_7_IMPRV_CD ,
+# MAGIC GAD_7_IMPRV_INIT_CD ,
+# MAGIC GAD_7_CTGRY_SORT_NBR ,
+# MAGIC WOS_IMPRV_CD ,
+# MAGIC JOB_PRFRMN_IMPRV_CD ,
+# MAGIC SRVY_TYPE_NM_SORT_NBR ,
+# MAGIC MBR_INCDNT_KEY 
+# MAGIC 
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_EAP_SRVY_DFD;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.Company_Chart_Field_EAP
+# MAGIC 
+# MAGIC (
+# MAGIC   
+# MAGIC 
+# MAGIC CMPNY_CF_KEY	DOUBLE,
+# MAGIC SNAP_YEAR_MNTH_NBR	DOUBLE,
+# MAGIC Company_Chart_Field_Cd STRING,
+# MAGIC Company_Chart_Field	STRING
+# MAGIC );
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.Company_Chart_Field_EAP
+# MAGIC SELECT 
+# MAGIC 
+# MAGIC CMPNY_CF_KEY,
+# MAGIC SNAP_YEAR_MNTH_NBR,
+# MAGIC CMPNY_CF_CD	,
+# MAGIC CMPNY_CF_NM
+# MAGIC from GOLD_LAKEHOUSE.dbo.DIM_PRDA_CMPNY_CF; 
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.MBU_Chart_Field_EAP
+# MAGIC (
+# MAGIC --EDL_LOAD_DTM	TIMESTAMP
+# MAGIC --EDL_RUN_ID	STRING
+# MAGIC --EDL_SOR_CD	STRING
+# MAGIC --KF_TMS	TIMESTAMP,
+# MAGIC --EDL_SCRTY_LVL_CD	STRING
+# MAGIC --EDL_LOB_CD	STRING
+# MAGIC --EDL_EXTRNL_LOAD_CD	STRING
+# MAGIC --EDL_CREAT_DTM	TIMESTAMP
+# MAGIC --EDL_INCRMNTL_LOAD_DTM	TIMESTAMP
+# MAGIC MBU_CF_KEY	INT,
+# MAGIC --SNAP_YEAR_MNTH_NBR	DOUBLE
+# MAGIC MBU_CF_CD STRING,
+# MAGIC MBU_Chart_Field STRING,
+# MAGIC MBU_BRND_TYPE_CD STRING,
+# MAGIC MBU_Brand_Type STRING,
+# MAGIC --MBU_BRND_TYPE_LONG_DESC	STRING,
+# MAGIC --PROD_LINE_CD	STRING,
+# MAGIC --PROD_LINE_SHRT_DESC	STRING,
+# MAGIC --PROD_LINE_LONG_DESC	STRING,
+# MAGIC Service_Area_State_Cd STRING,
+# MAGIC Service_Area_State_Shortdesc STRING,
+# MAGIC --SRVCAREA_ST_LONG_DESC STRING,
+# MAGIC --LOB_CD STRING,
+# MAGIC LOB STRING,
+# MAGIC --LOB_LONG_DESC STRING,
+# MAGIC --MBU_Sub_Class_Cd STRING,
+# MAGIC MBU_Sub_Class STRING,
+# MAGIC --MBU_SUB_CLS_LONG_DESC STRING,
+# MAGIC --MBU_Class_Cd STRING,
+# MAGIC MBU_Class STRING,
+# MAGIC --MBU_CLS_LONG_DESC STRING,
+# MAGIC --MBU_TYPE_CD	STRING,
+# MAGIC MBU_TYPE STRING,
+# MAGIC --MBU_TYPE_LONG_DESC STRING,
+# MAGIC MBU_Class_FullForm STRING,
+# MAGIC MBU_Class_Sort INT
+# MAGIC --BLCD_IND STRING,
+# MAGIC --MBU_CLS_DASHBOARD_NM STRING,
+# MAGIC --MBU_SUB_CLS_DASHBOARD_NM STRING,
+# MAGIC --STDNT_IND STRING,
+# MAGIC --PRFSNL_EMPLR_ORG_IND STRING,
+# MAGIC --LBR_AND_TRST_IND STRING,
+# MAGIC --CA_CHCE_IND	STRING
+# MAGIC );
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.MBU_Chart_Field_EAP
+# MAGIC 
+# MAGIC SELECT
+# MAGIC --EDL_LOAD_DTM
+# MAGIC --EDL_RUN_ID
+# MAGIC --EDL_SOR_CD
+# MAGIC --KF_TMS,
+# MAGIC --EDL_SCRTY_LVL_CD
+# MAGIC --EDL_LOB_CD
+# MAGIC --EDL_EXTRNL_LOAD_CD
+# MAGIC --EDL_CREAT_DTM
+# MAGIC --EDL_INCRMNTL_LOAD_DTM
+# MAGIC CAST(MBU_CF_KEY AS INT) AS MBU_CF_KEY,
+# MAGIC --SNAP_YEAR_MNTH_NBR,
+# MAGIC MBU_CF_CD,
+# MAGIC MBU_CF_NM,
+# MAGIC MBU_BRND_TYPE_CD,
+# MAGIC MBU_BRND_TYPE_SHRT_DESC,
+# MAGIC --MBU_BRND_TYPE_LONG_DESC,
+# MAGIC --PROD_LINE_CD,
+# MAGIC --PROD_LINE_SHRT_DESC,
+# MAGIC --PROD_LINE_LONG_DESC,
+# MAGIC SRVCAREA_ST_CD,
+# MAGIC SRVCAREA_ST_SHRT_DESC,
+# MAGIC --SRVCAREA_ST_LONG_DESC,
+# MAGIC --LOB_CD,
+# MAGIC LOB_SHRT_DESC,
+# MAGIC --LOB_LONG_DESC,
+# MAGIC --MBU_SUB_CLS_CD,
+# MAGIC MBU_SUB_CLS_SHRT_DESC,
+# MAGIC --MBU_SUB_CLS_LONG_DESC,
+# MAGIC --MBU_CLS_CD,
+# MAGIC MBU_CLS_SHRT_DESC,
+# MAGIC --MBU_CLS_LONG_DESC,
+# MAGIC --MBU_TYPE_CD,
+# MAGIC MBU_TYPE_SHRT_DESC,
+# MAGIC --MBU_TYPE_LONG_DESC,
+# MAGIC MBU_CF_CLS_NM,
+# MAGIC MBU_CF_CLS_SORT_ORDR_NBR
+# MAGIC --BLCD_IND,
+# MAGIC --MBU_CLS_DASHBOARD_NM,
+# MAGIC --MBU_SUB_CLS_DASHBOARD_NM,
+# MAGIC --STDNT_IND,
+# MAGIC --PRFSNL_EMPLR_ORG_IND,
+# MAGIC --LBR_AND_TRST_IND,
+# MAGIC --CA_CHCE_IND
+# MAGIC from GOLD_LAKEHOUSE.dbo.DIM_PRDA_MBU_CF; 
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC -- Set datetime rebase modes to LEGACY for this operation to handle ancient dates safely
+# MAGIC SET spark.sql.parquet.datetimeRebaseModeInRead = LEGACY;
+# MAGIC SET spark.sql.parquet.datetimeRebaseModeInWrite = LEGACY;
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.Client_EAP
+# MAGIC (
+# MAGIC SNAP_YEAR_MNTH_NBR INT,
+# MAGIC EDM_CLNT_GRP_SUBGRP_ACCT_KEY INT,
+# MAGIC --CLNT_GRP_SUBGRP_SOR_CD STRING,
+# MAGIC Client_Group_Subgroup_ID STRING,
+# MAGIC Client_Group_Subgroup STRING,
+# MAGIC EDM_CLNT_GRP_ACCT_KEY INT,
+# MAGIC Client_Group_ID STRING,
+# MAGIC Client_Group STRING,
+# MAGIC ACCT_CNTRL_CLNT_GRP_ID STRING,
+# MAGIC ACCT_CNTRL_CLNT_GRP_NM STRING,
+# MAGIC SIC_CD STRING,
+# MAGIC SIC STRING,
+# MAGIC SIC_GRP_CD STRING,
+# MAGIC SIC_Group STRING,
+# MAGIC ELGBL_GRP_SIZE_NBR Double,
+# MAGIC RNWL_MNTH_NBR Double,
+# MAGIC UNDRWRTG_STRT_MNTH_NBR Double,
+# MAGIC CLNT_GRP_SUBGRP_EFCTV_DT DATE,
+# MAGIC CLNT_GRP_SUBGRP_TRMNTN_DT DATE,
+# MAGIC CLNT_GRP_EFCTV_DT DATE,
+# MAGIC CLNT_GRP_TRMNTN_DT DATE
+# MAGIC --ACCT_CNTRL_CLNT_GRP_SOR_CD STRING,
+# MAGIC --ACCT_CNTRL_CLNT_GRP_EFCTV_DT DATE,
+# MAGIC --ACCT_CNTRL_CLNT_GRP_TRMNTN_DT DATE
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.Client_EAP
+# MAGIC SELECT
+# MAGIC SNAP_YEAR_MNTH_NBR ,
+# MAGIC CAST(EDM_CLNT_GRP_SUBGRP_ACCT_KEY AS INT) AS EDM_CLNT_GRP_SUBGRP_ACCT_KEY,
+# MAGIC --CLNT_GRP_SUBGRP_SOR_CD ,
+# MAGIC CLNT_GRP_SUBGRP_ID ,
+# MAGIC CLNT_GRP_SUBGRP_NM ,
+# MAGIC EDM_CLNT_GRP_ACCT_KEY ,
+# MAGIC CLNT_GRP_ID ,
+# MAGIC CLNT_GRP_NM ,
+# MAGIC ACCT_CNTRL_CLNT_GRP_ID ,
+# MAGIC ACCT_CNTRL_CLNT_GRP_NM ,
+# MAGIC SIC_CD ,
+# MAGIC SIC_DESC ,
+# MAGIC SIC_GRP_CD ,
+# MAGIC SIC_GRP_NM ,
+# MAGIC ELGBL_GRP_SIZE_NBR ,
+# MAGIC RNWL_MNTH_NBR, 
+# MAGIC UNDRWRTG_STRT_MNTH_NBR, 
+# MAGIC CAST(CLNT_GRP_SUBGRP_EFCTV_DT AS DATE) AS CLNT_GRP_SUBGRP_EFCTV_DT,
+# MAGIC CAST(CLNT_GRP_SUBGRP_TRMNTN_DT AS DATE) AS CLNT_GRP_SUBGRP_TRMNTN_DT,
+# MAGIC CAST(CLNT_GRP_EFCTV_DT AS DATE) AS CLNT_GRP_EFCTV_DT,
+# MAGIC CAST(CLNT_GRP_TRMNTN_DT AS DATE) AS CLNT_GRP_TRMNTN_DT
+# MAGIC --ACCT_CNTRL_CLNT_GRP_SOR_CD ,
+# MAGIC --CAST(ACCT_CNTRL_CLNT_GRP_EFCTV_DT AS DATE) AS ACCT_CNTRL_CLNT_GRP_EFCTV_DT,
+# MAGIC --CAST(ACCT_CNTRL_CLNT_GRP_TRMNTN_DT AS DATE) AS ACCT_CNTRL_CLNT_GRP_TRMNTN_DT
+# MAGIC 
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_PRDA_CLNT_GRP_SUBGRP;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.Incurred_Month_EAP
+# MAGIC (
+# MAGIC     -- DT DATE,  -- COMMENTED: Not in report requirements
+# MAGIC     Incurred_Business_Day_of_Month_Nbr INT,
+# MAGIC     Incurred_Calendar_Year_and_Week_Nbr INT,
+# MAGIC     Incurred_Date_Nbr INT,
+# MAGIC     Incurred_Day_of_Month_Nbr INT,
+# MAGIC     Incurred_Day_of_Week_Nm STRING,
+# MAGIC     Incurred_Day_of_Week_Nbr INT,
+# MAGIC     Incurred_Day_of_Week_Short_Nm STRING,
+# MAGIC     -- DAY_TYPE_CD STRING,  -- COMMENTED: Not in report requirements
+# MAGIC     Incurred_Federal_Holiday_Ind STRING,
+# MAGIC     -- HALF_YEAR_CD STRING,  -- COMMENTED: Not in report requirements
+# MAGIC     Incurred_Half_Year_Nm STRING,
+# MAGIC     Incurred_Half_Year_Nbr INT,
+# MAGIC     -- HOLDY_CD STRING,  -- COMMENTED: Not in report requirements
+# MAGIC     Incurred_Julian_Dt_of_Year_Nbr INT,
+# MAGIC     Incurred_Month_of_Year_Nm STRING,
+# MAGIC     Incurred_Month_of_Year_Nbr INT,
+# MAGIC     Incurred_Month_of_Year_Short_Nm STRING,
+# MAGIC     Incurred_Quarter_of_Year_Nbr INT,
+# MAGIC     Incurred_Week_of_Year_Nbr INT,
+# MAGIC     Incurred_Year_and_Half_Year_Nbr INT,
+# MAGIC     Incurred_Year_and_Quarter_Nbr INT,
+# MAGIC     Incurred_Year_Month_Nbr INT,
+# MAGIC     Incurred_Year INT,
+# MAGIC     Incurred_Day_Type STRING,
+# MAGIC     Incurred_Year_and_Half_Year_Nm STRING,
+# MAGIC     Incurred_Year_and_Month_Nm STRING,
+# MAGIC     Incurred_Year_and_Quarter_Nm STRING,
+# MAGIC     Incurred_Month_Begin_Dt DATE,
+# MAGIC     Incurred_Month_EndDt DATE,
+# MAGIC     DefaultYearMonth STRING
+# MAGIC     -- INCRD_MNTH_YEAR_DASHBAORD STRING,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- MONTH_DIFFERENCE INTEGER,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- YEAR_MONTH_SORT INTEGER,  -- COMMENTED: Not in report requirements
+# MAGIC     -- Incident_Creation_Month_Title STRING,  -- COMMENTED: Not available in source, add when source is identified
+# MAGIC     --Incurred_Month_Title STRING,  -- ADDED: New column from report
+# MAGIC     -- Latest_Incurred_Month INTEGER,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- Latest_Incurred_Month_Name STRING,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- LatestIncurredMonthInd STRING,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     --RelativeMonth STRING,  -- ADDED: New column from report
+# MAGIC     -- Reporting_Year_Month_Title STRING,  -- COMMENTED: Not available in source, add when source is identified
+# MAGIC     --ReportingYearMonth INT  -- ADDED: New column from report
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.Incurred_Month_EAP
+# MAGIC 
+# MAGIC SELECT 
+# MAGIC     -- CAST(DT AS DATE) AS DT,  -- COMMENTED: Not in report requirements
+# MAGIC     CAST(BUS_DAY_OF_MNTH_NBR AS INT),
+# MAGIC     CAST(CY_AND_WEEK_NBR AS INT),
+# MAGIC     CAST(DT_NBR AS INT),
+# MAGIC     CAST(DAY_OF_MNTH_NBR AS INT),
+# MAGIC     DAY_OF_WEEK_NM,
+# MAGIC     CAST(DAY_OF_WEEK_NBR AS INT),
+# MAGIC     DAY_OF_WEEK_SHRT_NM,
+# MAGIC     -- DAY_TYPE_CD,  -- COMMENTED: Not in report requirements
+# MAGIC     FED_HOLDY_IND,
+# MAGIC     -- HALF_YEAR_CD,  -- COMMENTED: Not in report requirements
+# MAGIC     HALF_YEAR_NM,
+# MAGIC     CAST(HALF_YEAR_NBR AS INT),
+# MAGIC     -- HOLDY_CD,  -- COMMENTED: Not in report requirements
+# MAGIC     CAST(JULIAN_DT_OF_YEAR_NBR AS INT),
+# MAGIC     MNTH_OF_YEAR_NM,
+# MAGIC     CAST(MNTH_OF_YEAR_NBR AS INT),
+# MAGIC     MNTH_OF_YEAR_SHRT_NM,
+# MAGIC     CAST(QTR_OF_YEAR_NBR AS INT),
+# MAGIC     CAST(WEEK_OF_YEAR_NBR AS INT),
+# MAGIC     CAST(YEAR_AND_HALF_YEAR_NBR AS INT),
+# MAGIC     CAST(YEAR_AND_QTR_NBR AS INT),
+# MAGIC     CAST(YEAR_MNTH_NBR AS INT),
+# MAGIC     CAST(YEAR_NBR AS INT),
+# MAGIC     DAY_TYPE_CD_NM,
+# MAGIC     YEAR_AND_HALF_YEAR_NM,
+# MAGIC     YEAR_AND_MNTH_NM,
+# MAGIC     YEAR_AND_QTR_NM,
+# MAGIC     CAST(MNTH_BGN_DT AS DATE) AS MNTH_BGN_DT,
+# MAGIC     CAST(MNTH_END_DT AS DATE) AS MNTH_END_DT,
+# MAGIC     DFLT_YEAR_MNTH_TXT
+# MAGIC     
+# MAGIC     -- CONCAT(MNTH_OF_YEAR_SHRT_NM, "'", CAST(CAST(YEAR_NBR AS INT) AS STRING)) AS INCRD_MNTH_YEAR_DASHBAORD,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     
+# MAGIC     -- DATEDIFF(MONTH, TO_DATE(MNTH_BGN_DT), MAX(TO_DATE(MNTH_BGN_DT)) OVER ()) AS MONTH_DIFFERENCE,  -- COMMENTED: Will be created in Tabular Editor
+# MAGIC     
+# MAGIC     -- (YEAR_NBR * 100 + MNTH_OF_YEAR_NBR) AS YEAR_MONTH_SORT,  -- COMMENTED: Not in report requirements
+# MAGIC     
+# MAGIC     -- ADDED: New columns as per report requirements
+# MAGIC     -- Incident_Creation_Month_Title - COMMENTED: Not available in source, add when source is identified
+# MAGIC     --CONCAT(MNTH_OF_YEAR_NM, ' ', CAST(YEAR_NBR AS STRING)) AS Incurred_Month_Title,  -- ADDED: Month title format
+# MAGIC     -- Latest_Incurred_Month - COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- Latest_Incurred_Month_Name - COMMENTED: Will be created in Tabular Editor
+# MAGIC     -- LatestIncurredMonthInd - COMMENTED: Will be created in Tabular Editor
+# MAGIC     --RelativeMonth,  -- ADDED: Source column from DIM_PRDA_DT
+# MAGIC     -- Reporting_Year_Month_Title - COMMENTED: Not available in source, add when source is identified
+# MAGIC     --CAST(RPTG_MNTH_NBR AS INT) AS ReportingYearMonth  -- ADDED: Source column from DIM_PRDA_DT
+# MAGIC     
+# MAGIC FROM GOLD_LAKEHOUSE.dbo.DIM_PRDA_DT;
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.Funding_Chart_Field_EAP
+# MAGIC (
+# MAGIC     
+# MAGIC --EDL_LOAD_DTM	TIMESTAMP
+# MAGIC FUNDG_CF_KEY	INT,
+# MAGIC --SNAP_YEAR_MNTH_NBR	DOUBLE,
+# MAGIC Funding_Chart_Field_Cd	STRING,
+# MAGIC Funding_Chart_Field	STRING,
+# MAGIC Funding_Chart_Field_Type_Cd	STRING,
+# MAGIC Funding_Type STRING,
+# MAGIC Funding_Sub_Class_Cd	STRING,
+# MAGIC Funding_Sub_Class	STRING,
+# MAGIC Funding_Class_Cd	STRING,
+# MAGIC Funding_Class	STRING,
+# MAGIC FUNDG_CLS_LONG_DESC	STRING,
+# MAGIC Funding_Type_Dashboard	STRING,
+# MAGIC MEWA_IND	STRING,
+# MAGIC ABF_IND	STRING    
+# MAGIC 
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.Funding_Chart_Field_EAP
+# MAGIC 
+# MAGIC SELECT 
+# MAGIC --EDL_LOAD_DTM
+# MAGIC FUNDG_CF_KEY,
+# MAGIC --SNAP_YEAR_MNTH_NBR,
+# MAGIC FUNDG_CF_CD,
+# MAGIC FUNDG_CF_NM,
+# MAGIC FUNDG_CF_TYPE_CD,
+# MAGIC FUNDG_CF_TYPE_SHRT_DESC,
+# MAGIC FUNDG_SUB_CLS_CD,
+# MAGIC FUNDG_SUB_CLS_SHRT_DESC,
+# MAGIC FUNDG_CLS_CD,
+# MAGIC FUNDG_CLS_SHRT_DESC,
+# MAGIC FUNDG_CLS_LONG_DESC,
+# MAGIC FUNDG_TYPE_DSHBRD_NM,
+# MAGIC MEWA_IND,
+# MAGIC ABF_IND
+# MAGIC 
+# MAGIC from GOLD_LAKEHOUSE.dbo.DIM_PRDA_FUNDG_CF; 
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC 
+# MAGIC CREATE OR REPLACE TABLE GOLD_LAKEHOUSE.dbo.Standalone_EAP
+# MAGIC (
+# MAGIC     Standalone_Code STRING
+# MAGIC );
+# MAGIC 
+# MAGIC INSERT INTO GOLD_LAKEHOUSE.dbo.Standalone_EAP
+# MAGIC VALUES 
+# MAGIC     ('YES'),
+# MAGIC     ('NO');
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }

@@ -1,0 +1,42 @@
+table DIM_EAP_RFRL_RSN
+	lineageTag: 4448035b-297a-40ae-81f3-53be74800751
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 0afcad29-bfc8-4940-8a79-1d34103923d7
+		summarizeBy: none
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Referral Reason Code'
+		dataType: string
+		lineageTag: 15040b8b-2561-4085-ba3b-cd0f84937338
+		summarizeBy: none
+		sourceColumn: EAP_Management_Referral_Reason_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Management Referral Reason Description'
+		dataType: string
+		lineageTag: a8c899ec-4c5f-4522-a086-6c8e7e8bdb89
+		summarizeBy: none
+		sourceColumn: EAP_Management_Referral_Reason_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column RFRL_RSN_KEY
+		dataType: int64
+		lineageTag: d3fbc5be-2060-425f-8147-f92c4b1a745e
+		summarizeBy: none
+		sourceColumn: RFRL_RSN_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_rfrl_rsn_eap = Source{[Schema="dbo",Item="dim_eap_rfrl_rsn_eap"]}[Data]
+				in
+				dbo.dim_eap_rfrl_rsn_eap
+

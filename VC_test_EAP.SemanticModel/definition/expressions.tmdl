@@ -1,0 +1,15 @@
+expression Lakehousename = "GOLD_LAKEHOUSE" meta [IsParameterQuery=true, IsParameterQueryRequired=true, Type="Text"]
+	lineageTag: 71774cdd-d5d3-479a-839d-5eb14f1e100e
+
+	annotation PBI_ResultType = Text
+
+expression Servername =
+		"6ieizpqhvqwejgsg5pxoww6u24-xqcahcpims7ene6zr2s2ljlgne.datawarehouse.fabric.microsoft.com" meta [IsParameterQuery=true, IsParameterQueryRequired=true, Type="Text",
+		List =
+		{"6ieizpqhvqwejgsg5pxoww6u24-haz4jddakxmevfxg3ex2jnvz64.datawarehouse.fabric.microsoft.com",
+		"6ieizpqhvqwejgsg5pxoww6u24-haz4jddakxmevfxg3ex2jnvz64.datawarehouse.fabric.microsoft.com"},
+		DefaultValue = "6ieizpqhvqwejgsg5pxoww6u24-xqcahcpims7ene6zr2s2ljlgne.datawarehouse.fabric.microsoft.com"]
+	lineageTag: feb4cc9e-e507-42ee-a4b9-b50c29db5c24
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_PRDA_RSTTD_MBRSHP"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c579924c-a791-9d16-4ab0-193c4a4644d4"
+  }
+}

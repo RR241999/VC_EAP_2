@@ -1,0 +1,44 @@
+table DIM_EAP_SESN_MDL
+	lineageTag: 247ffd1b-2af4-412f-a774-e72da59f802d
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 7ec8fe84-209a-4696-b438-20c930092e78
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Session Model Code'
+		dataType: string
+		lineageTag: b31c1d2e-3475-4ab2-bc97-8c45841b4c65
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Session_Model_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Incident Session Model Description'
+		dataType: string
+		lineageTag: 027188b7-1174-45ac-97de-6a036f137a55
+		summarizeBy: none
+		sourceColumn: EAP_Incident_Session_Model_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 91ca32f6-695b-4f5a-88bd-2bd2087a4781
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_sesn_mdl_eap = Source{[Schema="dbo",Item="dim_eap_sesn_mdl_eap"]}[Data]
+				in
+				dbo.dim_eap_sesn_mdl_eap
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_WBS_MBR_ELGBL_4"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7c02ccc4-a7c7-be81-4925-0c6e08762731"
+  }
+}

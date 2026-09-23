@@ -1,0 +1,152 @@
+table DIM_EAP_SRVY_DFD
+	lineageTag: 50a378b1-0a25-44c3-9a74-1c4d65f962fd
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: c1cd262d-e675-4144-aae0-8c2c7f0112c4
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		lineageTag: f442479c-01b8-41d6-bcab-8861a59f3c2c
+		sourceColumn: RPTG_MNTH_NBR
+
+	column EAP_MBR_RFRNC_NBR
+		dataType: string
+		lineageTag: 64be4190-8731-452d-afa4-181ee754d9e6
+		sourceColumn: EAP_MBR_RFRNC_NBR
+
+	column WOS_MTCH_CD
+		dataType: int64
+		lineageTag: c09da3c0-be25-48f2-be3a-e518b9c79f1e
+		sourceColumn: WOS_MTCH_CD
+
+	column GAD_7_MTCH_CD
+		dataType: int64
+		lineageTag: d1dbfe29-5654-43b0-bee7-080f9e3c6300
+		sourceColumn: GAD_7_MTCH_CD
+
+	column PHQ_9_MTCH_CD
+		dataType: int64
+		lineageTag: 185e1204-c7c5-495c-b537-078e6e0a55aa
+		sourceColumn: PHQ_9_MTCH_CD
+
+	column GAD_MTCH_CD
+		dataType: int64
+		lineageTag: bcaa9e93-043a-49ef-a185-bcb6aa1fa37b
+		sourceColumn: GAD_MTCH_CD
+
+	column PHQ_MTCH_CD
+		dataType: int64
+		lineageTag: 2a68d36d-a1d7-4936-81b0-f11a2e18c35f
+		sourceColumn: PHQ_MTCH_CD
+
+	column WOS_2_MTCH_CD
+		dataType: int64
+		lineageTag: 30ed0a36-c073-49f0-9d5f-7d204bf92192
+		sourceColumn: WOS_2_MTCH_CD
+
+	column ABSNT_HOURS_CTGRY_NM
+		dataType: string
+		lineageTag: 63cee728-75e1-4cc6-b440-559225dd3fe9
+		sourceColumn: ABSNT_HOURS_CTGRY_NM
+
+	column PHQ_9_CTGRY_NM
+		dataType: string
+		lineageTag: 5cdb2593-ed8b-4bc0-8cb2-74989b6ecbec
+		sourceColumn: PHQ_9_CTGRY_NM
+
+	column PHQ_9_SHRT_CTGRY_NM
+		dataType: string
+		lineageTag: a76116f5-5eab-49fd-a9c3-08faace0f8f5
+		sourceColumn: PHQ_9_SHRT_CTGRY_NM
+
+	column PHQ_SCOR_NBR
+		dataType: int64
+		lineageTag: 9f115877-dc6e-4c1e-bb81-aa45a3449522
+		sourceColumn: PHQ_SCOR_NBR
+
+	column PHQ_9_IMPRV_CD
+		dataType: int64
+		lineageTag: 4140b5a0-f34f-4b8a-8308-339b5a3c8a4a
+		sourceColumn: PHQ_9_IMPRV_CD
+
+	column PHQ_9_IMPRV_INIT_CD
+		dataType: int64
+		lineageTag: 594b0fd0-b715-4197-8808-be109c4e23e7
+		sourceColumn: PHQ_9_IMPRV_INIT_CD
+
+	column PHQ_9_CTGRY_SORT_NBR
+		dataType: int64
+		lineageTag: 70fbc8fb-5c2e-4940-9e18-a05bedc77732
+		sourceColumn: PHQ_9_CTGRY_SORT_NBR
+
+	column GAD_7_CTGRY_NM
+		dataType: string
+		lineageTag: 99bd9df1-dd52-4d5c-a085-598558c55020
+		sourceColumn: GAD_7_CTGRY_NM
+
+	column GAD_7_SHRT_CTGRY_NM
+		dataType: string
+		lineageTag: 68a7346d-2e6d-4e61-8556-6703b90d5f05
+		sourceColumn: GAD_7_SHRT_CTGRY_NM
+
+	column GAD_SCOR_NBR
+		dataType: int64
+		lineageTag: 27a99897-fee7-4dc6-8998-e808ca8f5c09
+		sourceColumn: GAD_SCOR_NBR
+
+	column GAD_7_IMPRV_CD
+		dataType: int64
+		lineageTag: 185342a9-e8bf-4ba8-bad9-06fd73291b9a
+		sourceColumn: GAD_7_IMPRV_CD
+
+	column GAD_7_IMPRV_INIT_CD
+		dataType: int64
+		lineageTag: d63b5c5c-b58d-498d-99cf-8a6667606f50
+		sourceColumn: GAD_7_IMPRV_INIT_CD
+
+	column GAD_7_CTGRY_SORT_NBR
+		dataType: int64
+		lineageTag: 4433201f-a30d-4ff6-83e0-87616fbdb8a9
+		sourceColumn: GAD_7_CTGRY_SORT_NBR
+
+	column WOS_IMPRV_CD
+		dataType: int64
+		lineageTag: c8577cf4-1586-46d1-86a8-192150c7f68f
+		sourceColumn: WOS_IMPRV_CD
+
+	column JOB_PRFRMN_IMPRV_CD
+		dataType: int64
+		lineageTag: 5a76041a-185f-4841-a9c0-987ac5e8ff6f
+		sourceColumn: JOB_PRFRMN_IMPRV_CD
+
+	column SRVY_TYPE_NM_SORT_NBR
+		dataType: int64
+		lineageTag: b55235fc-a08f-436c-8ee3-4aca4d0f3f9b
+		sourceColumn: SRVY_TYPE_NM_SORT_NBR
+
+	column MBR_INCDNT_KEY
+		dataType: string
+		lineageTag: 925517db-211b-4e8e-aded-d6d47ba88fb7
+		sourceColumn: MBR_INCDNT_KEY
+
+	column KF_TMS
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 27c920df-c17f-4850-9c71-179ff53b550d
+		summarizeBy: none
+		sourceColumn: KF_TMS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_srvy_dfd_eap = Source{[Schema="dbo",Item="dim_eap_srvy_dfd_eap"]}[Data]
+				in
+				dbo.dim_eap_srvy_dfd_eap
+

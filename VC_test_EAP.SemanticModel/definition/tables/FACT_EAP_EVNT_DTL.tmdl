@@ -1,0 +1,473 @@
+table FACT_EAP_EVNT_DTL
+	lineageTag: f1f51dba-ffcc-4b88-b686-c8ba7151a1a5
+
+	measure 'Events Base' = ```
+			 DISTINCTCOUNT('FACT_EAP_EVNT_DTL'[Event ID])
+			 
+			```
+		lineageTag: 64a1d35c-a685-45df-95ed-d9bb87039e19
+
+	measure 'Event Participants Base' = ```
+			  VAR _A =
+			    SUMMARIZE (
+			        FACT_EAP_EVNT_DTL,
+			        FACT_EAP_EVNT_DTL[RPTG_MNTH_NBR],
+			        'FACT_EAP_EVNT_DTL'[Event ID],
+			        'FACT_EAP_EVNT_DTL'[Participant Count]
+			    )
+			RETURN
+			    SUMX ( _A, 'FACT_EAP_EVNT_DTL'[Participant Count])
+			```
+		lineageTag: 9fb8e9ca-4668-4ce9-a062-79e82ccf2837
+
+	measure 'Event Hours Base' = ```
+			 VAR _A =
+			    SUMMARIZE (
+			        FACT_EAP_EVNT_DTL,
+			        FACT_EAP_EVNT_DTL[RPTG_MNTH_NBR],
+			        'FACT_EAP_EVNT_DTL'[Event ID],
+			        'FACT_EAP_EVNT_DTL'[Employer Allocated Hours]
+			    )
+			RETURN
+			    SUMX ( _A, 'FACT_EAP_EVNT_DTL'[Employer Allocated Hours])
+			```
+		lineageTag: dd72e02c-43e6-4b46-b437-a24189e8c934
+
+	measure 'Events PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Events], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: d4fae347-61f6-4fdf-a12c-22ab03e20a40
+
+	measure 'Events %  Change' =
+			VAR __Current = [Events]
+			VAR __PastPeriod = [Events PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 823936ce-78c1-4e9e-a1fe-b8d1e560f3b6
+
+	measure 'Event Participants PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Event Participants], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: c88e7f3f-da52-4536-9264-998bc5014ee5
+
+	measure 'Event Participants %  Change' =
+			VAR __Current = [Event Participants]
+			VAR __PastPeriod = [Event Participants PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 065a20dd-2c09-4cfb-859d-b68bed7775cc
+
+	measure 'Event Hours PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Event Hours], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 146b9d49-ead0-48c2-b029-e3d5677e65fe
+
+	measure 'Event Hours %  Change' =
+			VAR __Current = [Event Hours]
+			VAR __PastPeriod = [Event Hours PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ce809330-d3d1-425b-a98e-9ce8a4d8e565
+
+	measure Events =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Events Base],FILTER(
+			            KEEPFILTERS(VALUES('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description])),
+			            NOT('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description] IN {"Travel"})
+			        ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 75032525-1fd1-44a3-b24b-c16445f52969
+
+	measure 'Event Participants' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Event Participants Base],FILTER(
+			            KEEPFILTERS(VALUES('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description])),
+			            NOT('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description] IN {"Travel"})
+			        ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: ce4ad0d3-b349-43d5-87e8-afd83cace6d5
+
+	measure 'Event Hours' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Event Hours Base],FILTER(
+			            KEEPFILTERS(VALUES('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description])),
+			            NOT('DIM_EAP_EVNT_SRVC_TYPE'[EAP Management Service Group Description] IN {"Travel"})
+			        ),
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 3787cd8e-69ea-4029-a864-addfbcf4f85e
+
+	measure 'Average Participants Base' =
+			
+			DIVIDE([Event Participants Base],[Events Base])
+		lineageTag: 080c4228-97fb-4a89-a354-e4ba2cfb2155
+
+	measure 'Average Participants' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Average Participants Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: c76ca056-48e2-4492-a4a3-042eb2826115
+
+	measure 'Average Hours Base' =
+			
+			DIVIDE([Event Hours Base],[Events Base])
+		lineageTag: f66cba94-676a-4ef6-8d4a-36c8a97e2242
+
+	measure 'Average Hours' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Average Hours Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 99023c64-99f0-4e34-88e9-18d1525bcf72
+
+	measure 'Average Participants PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Average Participants], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 6943528a-82d7-4c67-8d02-363df95c1346
+
+	measure 'Average Hours PY' =
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Average Hours], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: faadbb29-1398-47dd-8de3-7661169499dc
+
+	measure 'Average Participants %  Change' =
+			VAR __Current = [Average Participants]
+			VAR __PastPeriod = [Average Participants PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7e3a3816-f2a7-4e98-9030-dfd34eeb6610
+
+	measure 'Average Hours %  Change' =
+			VAR __Current = [Average Hours]
+			VAR __PastPeriod = [Average Hours PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 801c2b51-c9e2-4b55-abad-b26020cd5ae1
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 475a2e39-2f2e-4594-bda1-e2d9a9e1d74a
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		lineageTag: 151b7deb-fa62-4943-8e83-5718355685a4
+		summarizeBy: none
+		sourceColumn: RPTG_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Event ID'
+		dataType: int64
+		lineageTag: 94ea0917-e030-4b7a-8262-03708c252201
+		summarizeBy: count
+		sourceColumn: Event_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: ba8ea15b-42fb-4850-8225-ba3cda6b928c
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Subgroup ID'
+		dataType: string
+		lineageTag: 65a77baa-9e8a-4024-93de-c931a9f2ac3e
+		summarizeBy: none
+		sourceColumn: EAP_Subgroup_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Chart Field Code'
+		dataType: int64
+		lineageTag: 5942c3e6-fd86-4a6b-a85e-008e1c2fdb67
+		summarizeBy: none
+		sourceColumn: Company_Chart_Field_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: adb2dbe0-e959-4bb6-ad43-656ede6b767b
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: d6a3619d-2a60-4e70-9ee4-74113b475a51
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column 'Incident State Code'
+		dataType: int64
+		lineageTag: cb1b3b00-dc88-456c-a0f1-5b1f03407a8a
+		summarizeBy: none
+		sourceColumn: Incident_State_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: c4e7174c-54d6-4d87-bc9a-e5d36dde9dd6
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column SRVC_TYPE_KEY
+		dataType: string
+		lineageTag: a3853da0-befa-4114-8762-6bc68b721212
+		summarizeBy: none
+		sourceColumn: SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_PROD_KEY
+		dataType: int64
+		lineageTag: 2268bda1-272e-4c04-883e-2e2e768cf238
+		summarizeBy: none
+		sourceColumn: EAP_PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Provider Hours'
+		dataType: int64
+		lineageTag: 03f83d78-a16d-451c-871d-e37463db7003
+		summarizeBy: sum
+		sourceColumn: Provider_Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Participant Count'
+		dataType: int64
+		lineageTag: a9069c03-c876-4b4b-b56b-1642129f807a
+		summarizeBy: sum
+		sourceColumn: Participant_Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Provider Cost Amount'
+		dataType: int64
+		lineageTag: 892b960c-efc8-4bfe-bfd8-1645c697de71
+		summarizeBy: sum
+		sourceColumn: Provider_Cost_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 819b8bee-21e3-4bcf-b0d4-38560ad3d950
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Employer Allocated Hours'
+		dataType: double
+		lineageTag: ecc118a0-a161-4f11-afa4-14f70902a1f2
+		summarizeBy: sum
+		sourceColumn: Employer_Allocated_Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: a54a74e2-5b67-45f9-9363-6f0e0d065029
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_evnt_dtl_eap = Source{[Schema="dbo",Item="fact_eap_evnt_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_evnt_dtl_eap
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_PRDA_VPC_HLTH_DTL"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e37a80a3-ff6a-a247-4cf6-aff0436a98ff"
+  }
+}

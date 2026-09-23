@@ -1,0 +1,525 @@
+relationship fa275366-65fb-4f46-b361-c99b89dd4a29
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 839cc6da-ae3d-fd10-fbb1-0e3e6ffee17e
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 1718b2e6-e789-8004-5f87-4f955726edd2
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship 571a0950-8bae-eced-b054-32aaf80fbc0b
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.HW_KEY
+	toColumn: DIM_EAP_PROD_DESC.'Health and Well Being Key'
+
+relationship 06c83996-3f59-cd68-0978-c400bf292e74
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.INCRD_YEAR_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship 137ace10-6d4c-5889-1851-900c524dd804
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.EDM_CLNT_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 005f712a-6748-14bf-93df-7c6cfff1567a
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship c8199dee-fa92-9fe0-b02b-df445e90d0d1
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship fe943a3f-fa84-d65f-536e-45c0c0198a44
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.CMPNY_CF_KEY
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship c1dc86b3-e978-f765-8691-a3aed0e91c72
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.STDALN_CD
+	toColumn: Standalone.'Standalone Code'
+
+relationship c4d9599a-d08a-0785-55e5-dbbb01634eb8
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 04fb6a9f-a980-c626-f70e-417d1263d53f
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship ee54a171-cabf-2a1c-2c86-814301211e3d
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship f0990b59-40dc-2e49-357b-b6fb1ad1d565
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.HW_KEY
+	toColumn: DIM_EAP_PROD_DESC.'Health and Well Being Key'
+
+relationship 2e17d73b-04de-016c-7106-281ea81cbd92
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.INCRD_YEAR_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship b14a11b5-4c34-0495-56b5-c89473435d1b
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.EDM_CLNT_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship b959e75f-da58-f259-ef5d-655fb73540b3
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship dbb7359c-b0bf-01fb-20da-037544ad7bef
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship 7f89d85c-0533-9b8c-6d1f-6f9b17cfda9c
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.CMPNY_CF_KEY
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship 936aed0f-cac6-6bb9-1168-b483160f361e
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.STDALN_CD
+	toColumn: Standalone.'Standalone Code'
+
+relationship 7c0d39b7-5ea4-6c98-2629-cd2ee8ad14ad
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 1b382081-edc7-d281-f2b7-2fcc1f44165a
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 4c1c17d8-177a-2461-9767-7f28ad664bc4
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship 4a4460a0-046d-0c83-86e5-67ece4f12acd
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.HW_KEY
+	toColumn: DIM_EAP_PROD_DESC.'Health and Well Being Key'
+
+relationship 71949398-1879-1345-856d-306014bb3381
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.EDM_CLNT_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 10450271-92c3-43a3-640f-1d7ff2a53c2a
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.CMPNY_CF_KEY
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship 8907a743-0fe3-a9c7-853c-e483a0aa7f1b
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship c77a0a32-f5f2-260c-dd6d-85ad63e67150
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 7115f7be-a723-249b-dddd-447c86b31f04
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.STDALN_CD
+	toColumn: Standalone.'Standalone Code'
+
+relationship 395379e7-667b-94d3-76af-756e2ad20299
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.'EAP Subgroup ID'
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 51e4d1dc-a4ee-5ee7-d41c-677761585616
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.'EAP Product Key'
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 143e5f78-86f7-e78d-108a-6b716812fd4b
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.'Incident State Code'
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship 0aaabcda-e4cd-6a7d-e1d7-3f49fecfcb88
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.CNSLT_TYPE_KEY
+	toColumn: DIM_EAP_CNSLT_TYPE.CNSLT_TYPE_KEY
+
+relationship 024d8d8f-7f51-8c64-5697-b9fa7cc2abd6
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.RPTG_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship 6f9b180f-dc17-022d-2735-fa7f91742c27
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 290bca00-1345-ab71-f04c-749d1689076c
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship f8c0cc7d-ec64-b966-0a92-319714b665ef
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship 9a578575-5da4-063c-dbed-5cde60c1ece9
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.CMPNY_CF_KEY
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship b006f5d0-084b-6ae3-99b3-7c4fcb4ef9cb
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.'Standalone Code'
+	toColumn: Standalone.'Standalone Code'
+
+relationship ea27fe59-200a-8972-0884-2b7c65101481
+	fromColumn: FACT_EAP_GRP_SUBGRP.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship a30ec816-6c1a-c666-bead-3f0c1dca2621
+	fromColumn: FACT_EAP_GRP_SUBGRP.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 060411d9-0ca8-c03f-109f-be84d3e85cff
+	fromColumn: FACT_EAP_GRP_SUBGRP.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship b93953f1-dc5d-7ddd-a9ae-762e7c5010e2
+	fromColumn: FACT_EAP_GRP_SUBGRP.ELGBL_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship c5e17338-9381-dc3c-7f9a-6233f63791bd
+	fromColumn: FACT_EAP_GRP_SUBGRP.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship f3b47064-e2b0-2d5f-3325-744d65b0bf82
+	fromColumn: FACT_EAP_GRP_SUBGRP.'Company Chart Field Code'
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship 036a733c-69a9-16b4-ad67-3b7961b0fad3
+	fromColumn: FACT_EAP_GRP_SUBGRP.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 7d0744df-2ca2-d4a7-fe06-5460ea7566d6
+	fromColumn: FACT_EAP_GRP_SUBGRP.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship 20dfa25d-ee8d-d525-7379-a03e08478c9b
+	fromColumn: FACT_EAP_GRP_SUBGRP.'Standalone Code'
+	toColumn: Standalone.'Standalone Code'
+
+relationship 0313bb0b-0603-c18c-9a88-11b1c3f3a8ac
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.'EAP Subgroup ID'
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship cc1f1b2a-217d-5d1c-f50a-ab79d68ee295
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.EAP_Product_Key
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship a1b1583b-b9dd-1d56-cfb3-07ecae7963ed
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.'Incident State Code'
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship c509bd0b-5535-8175-8a11-440bf28b0fad
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.INCRD_YEAR_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship f8478a0b-a4d3-88e0-3167-a2b068452c79
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.CALR_TYPE_KEY
+	toColumn: DIM_EAP_CALR_TYPE.CALR_TYPE_KEY
+
+relationship 4b4fcce0-dab9-c728-63f2-a957196d4ba4
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_ACTY_KEY
+	toColumn: DIM_EAP_INCDNT_ACTY.INCDNT_ACTY_KEY
+
+relationship 580db584-0784-6a9d-73c5-d14a9450f6ad
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_PRSNT_PRBLM_KEY
+	toColumn: DIM_EAP_INCDNT_PRSNT_PRBLM.'EAP Incident Presenting Problem Key'
+
+relationship 85c5eb50-9d6a-7ca9-f838-276830085d50
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_SRVC_TYPE_KEY
+	toColumn: DIM_EAP_INCDNT_SRVC_TYPE.INCDNT_SRVC_TYPE_KEY
+
+relationship 7f82a02a-86dc-5fc4-ff7e-1f77478e2742
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_PROV_TYPE_KEY
+	toColumn: DIM_EAP_INCDNT_PROV_TYPE.INCDNT_PROV_TYPE_KEY
+
+relationship bbf05db3-a2a9-859b-fc7e-a9a2f4c31d96
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_ENTY_KEY
+	toColumn: DIM_EAP_INCDNT_ENTY.'EAP Incident Service Key'
+
+relationship d6aecf8f-ee58-cf9a-1e2b-b1810ff1475d
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_CNSLG_TYPE_KEY
+	toColumn: DIM_EAP_CNSLT_TYPE.CNSLT_TYPE_KEY
+
+relationship ab1058dc-fc73-1103-2ca6-9b74ad649b19
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship 3d26c056-86f9-dc72-5b2c-3269e04f5e74
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 00a9b8da-f4e9-922f-48ee-a3d047f99ea0
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 327e734e-b8e7-5334-4efb-0651e6c4bdcc
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.CMPNY_CF_KEY
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship c7909d93-b1a7-b958-0ff1-6702f857d8d7
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship bb884afc-8f3b-e77e-6bb2-c565bf6176b3
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.'Standalone Code'
+	toColumn: Standalone.'Standalone Code'
+
+relationship d879187c-731a-4409-eb8c-e04569eac2ef
+	fromColumn: FACT_EAP_EVNT_DTL.'EAP Subgroup ID'
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship d94ca3d1-7cdb-dd5c-63e9-cb163c109096
+	fromColumn: FACT_EAP_EVNT_DTL.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 924992b1-b161-9a4d-6719-0eb9a70a7dcc
+	fromColumn: FACT_EAP_EVNT_DTL.'Incident State Code'
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship aceea330-9092-3d3d-4e31-0b313fd43f51
+	fromColumn: FACT_EAP_EVNT_DTL.RPTG_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship c6a043e9-fcd9-d5d6-82af-fb7e342184d6
+	fromColumn: FACT_EAP_EVNT_DTL.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 911a4ba6-f526-4553-251d-dfea6507953b
+	fromColumn: FACT_EAP_EVNT_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 2907981a-13b1-f067-6e92-f363b52dd8d1
+	fromColumn: FACT_EAP_EVNT_DTL.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship 5761173f-53c3-bf31-c871-e2015b3b1f00
+	fromColumn: FACT_EAP_EVNT_DTL.'Company Chart Field Code'
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship 9cbfd623-91d2-8d5d-cb9f-7525de539704
+	fromColumn: FACT_EAP_EVNT_DTL.'Standalone Code'
+	toColumn: Standalone.'Standalone Code'
+
+relationship 5391ad83-dabc-ea00-ceec-9200030a63da
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.'EAP SUBGRP ID'
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 3240d17f-1226-a5a9-38ef-1f54ba5fff71
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship d438fc15-bdc1-af5a-2496-39fc4bc2ed3b
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship 7e1ea7a2-577f-9a8f-104e-c1603cc0f842
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.CNSLT_TYPE_KEY
+	toColumn: DIM_EAP_CNSLT_TYPE.CNSLT_TYPE_KEY
+
+relationship 9ecdaa9a-b4cf-ccaf-0e3b-0dcce1e92593
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.RPTG_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship ceda4171-97a0-ba66-1345-efbd575eeb4d
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship dde29f30-69b4-c0f1-7e53-4cc1c81593d6
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 7993ca9b-f7f4-09a1-7009-dbaecc859b19
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship 035f1f09-0453-04de-83b5-17db64333981
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.'Company Chart Field Code'
+	toColumn: 'Company Chart Field'.CMPNY_CF_KEY
+
+relationship f4f9af97-5f74-0a26-2009-046eecea82e3
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.'Standalone Code'
+	toColumn: Standalone.'Standalone Code'
+
+relationship 3a5f24ea-3247-303d-4df2-161eb546974d
+	fromColumn: FACT_EAP_SRVY_DTL.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 1eb4aaba-8a9d-203b-a589-08159823fe1e
+	fromColumn: FACT_EAP_SRVY_DTL.EAP_PROD_KEY
+	toColumn: DIM_EAP_PROD.EAP_PROD_KEY
+
+relationship 540d4079-84f5-770a-dd73-68b74936fb5d
+	fromColumn: FACT_EAP_SRVY_DTL.ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship 138337f0-83c6-2f20-b386-7e79f6518db4
+	fromColumn: FACT_EAP_SRVY_DTL.'Presenting Problem Key'
+	toColumn: DIM_EAP_INCDNT_PRSNT_PRBLM.'EAP Incident Presenting Problem Key'
+
+relationship 43a03e33-7806-7f18-8c6c-b271bfc1882e
+	fromColumn: FACT_EAP_SRVY_DTL.WOS_MATCH_IND
+	toColumn: DIM_EAP_SRVY_WOS.'Work Outcome Survey (WOS) Key'
+
+relationship bf887071-883e-a4a5-9472-4ccaa4ce1f82
+	fromColumn: FACT_EAP_SRVY_DTL.PHQ_MATCH_IND
+	toColumn: DIM_EAP_SRVY_PHQ.'Patient Health Questionnaire PHQ Key'
+
+relationship 7695d217-55d9-f426-5afe-89b404c13e76
+	fromColumn: FACT_EAP_SRVY_DTL.GAD_MATCH_IND
+	toColumn: DIM_EAP_SRVY_GAD.'General Anxiety Disorder (GAD) Key'
+
+relationship ae0a26e3-f39e-3623-61c2-88352e27381f
+	fromColumn: FACT_EAP_SRVY_DTL.RPTG_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship 33fc27cc-34a8-6d9b-ece0-3301391161eb
+	fromColumn: FACT_EAP_SRVY_DTL.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 0c4ec8b6-96c4-ba11-7a1f-464717ac71f4
+	fromColumn: FACT_EAP_SRVY_DTL.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 29b8710a-2e44-1899-4705-0b2c7f99d4ed
+	fromColumn: FACT_EAP_SRVY_DTL.STDALN_CD
+	toColumn: Standalone.'Standalone Code'
+
+relationship 4277d67b-279e-0ef3-0d0e-53666a788cff
+	fromColumn: FACT_EAP_EVNT_DTL.SRVC_TYPE_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 5c063a69-74a5-7a32-db5f-cac1b1a44a7c
+	fromColumn: FACT_EAP_GRP_SUBGRP.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 2d962d97-1867-e704-e6e7-40375fe23da9
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship fc332483-ae7d-815b-65be-c6c78130c2f3
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship cdbaadfd-f703-6932-f93b-f6018e3cd87d
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 9959b71d-e581-2fb3-0423-7a70192d16a9
+	fromColumn: FACT_EAP_SRVY_DTL.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 1a241ce2-e122-46b9-907e-1ef764b3c81c
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 20d6c1a6-c92d-0232-68f4-6bedc8abe6ec
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 343f696b-bcad-8e1f-d7b8-f6593f1051e2
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 9b11ab67-797f-9611-3c03-bf70f9ce5188
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.INCDNT_SRVC_TYPE_KEY
+	toColumn: DIM_EAP_EVNT_SRVC_TYPE.SRVC_TYPE_KEY
+
+relationship 37695048-f0ff-511f-91c1-4385381c6462
+	fromColumn: FACT_EAP_EVNT_DTL.SRVC_TYPE_KEY
+	toColumn: DIM_EAP_EVNT_SRVC_TYPE.SRVC_TYPE_KEY
+
+relationship 50d49291-1520-25f0-cb0f-2ce3621f59a9
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.RFRL_RSN_KEY
+	toColumn: DIM_EAP_RFRL_RSN.RFRL_RSN_KEY
+
+relationship deaa4444-a928-5d41-fa00-cb73732ecace
+	fromColumn: FACT_EAP_WBS_PROD_OUTRCH.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 7e57fd8e-5024-9f61-4a51-16a7febbe466
+	fromColumn: FACT_EAP_WBS_MBR_SMRY_PROD_SUBCLS.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 4e49992e-9227-8444-2ced-6a8423992491
+	fromColumn: FACT_EAP_WORK_MBR_MDCL_PROD_DTL.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 5e2a5106-9661-b12b-0d9e-e68309d49205
+	fromColumn: FACT_EAP_SPRVSR_RFRL_DTL.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 72078005-593e-78da-0a0e-830131a22527
+	fromColumn: FACT_EAP_GRP_SUBGRP.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 6ba715ca-3c67-ead0-ac05-cdf89dd1eacf
+	fromColumn: FACT_EAP_MBR_INCDNT_DTL.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 42a166a5-7a4f-832e-f17b-e6ea0b075ace
+	fromColumn: FACT_EAP_EVNT_DTL.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 929ae80c-0b71-676f-1c69-6755494bf9e9
+	fromColumn: FACT_EAP_MNGMNT_CNSLTTN_DTL.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship 90ec7ea2-7966-0c04-9a09-79bfb02b6426
+	fromColumn: FACT_INCDNT_SESN.EAP_GRP_ID
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship d6e462fb-20f6-a24e-7c8b-9bd95a21158d
+	fromColumn: FACT_EAP_SRVY_DTL.'EAP Group ID'
+	toColumn: DIM_EAP_GRP.'EAP Client Group ID'
+
+relationship da8ebe77-5e26-5060-ab9b-c86f07915644
+	fromColumn: FACT_INCDNT_SESN.EAP_SUBGRP_ID
+	toColumn: DIM_EAP_SUBGRP.'EAP Client Subgroup ID'
+
+relationship 84125872-9383-f737-35db-7cd1828840e9
+	fromColumn: FACT_INCDNT_SESN.SESN_MDL_KEY
+	toColumn: DIM_EAP_SESN_MDL.SESN_MDL_KEY
+
+relationship 663aa790-b1bb-aeaf-9d6e-6e32b2e984d0
+	fromColumn: FACT_INCDNT_SESN.RPTG_MNTH_NBR
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+
+relationship 65a89cbc-c00a-042f-06ce-63f2819487a0
+	fromColumn: FACT_INCDNT_SESN.CALR_TYPE_KEY
+	toColumn: DIM_EAP_CALR_TYPE.CALR_TYPE_KEY
+
+relationship 744684ba-50a1-2421-4d05-31e606e94719
+	fromColumn: FACT_INCDNT_SESN.INCDNT_ACTY_KEY
+	toColumn: DIM_EAP_INCDNT_ACTY.INCDNT_ACTY_KEY
+
+relationship 18b1ed44-af15-2769-52fb-e1cd70708f41
+	fromColumn: FACT_INCDNT_SESN.INCDNT_PRSNT_PRBLM_KEY
+	toColumn: DIM_EAP_INCDNT_PRSNT_PRBLM.'EAP Incident Presenting Problem Key'
+
+relationship e1003c65-da70-1b8c-ccc9-b15551ce13fb
+	fromColumn: FACT_INCDNT_SESN.INCDNT_SRVC_TYPE_KEY
+	toColumn: DIM_EAP_EVNT_SRVC_TYPE.SRVC_TYPE_KEY
+
+relationship 99cbb3f0-c657-cdea-832f-14d6710fdf74
+	fromColumn: FACT_INCDNT_SESN.INCDNT_PROV_TYPE_KEY
+	toColumn: DIM_EAP_INCDNT_PROV_TYPE.INCDNT_PROV_TYPE_KEY
+
+relationship 67b013ba-3304-2e9a-201e-24b031061ee2
+	fromColumn: FACT_INCDNT_SESN.INCDNT_ENTY_KEY
+	toColumn: DIM_EAP_INCDNT_ENTY.'EAP Incident Service Key'
+
+relationship 90619959-eb97-757b-740f-35db3efd6dda
+	fromColumn: FACT_INCDNT_SESN.INCDNT_ST_KEY
+	toColumn: DIM_EAP_ST.ST_KEY
+
+relationship c46927c9-43d1-b017-efe1-ef251dfafc41
+	fromColumn: FACT_INCDNT_SESN.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+	toColumn: Client.EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+relationship 52182594-c315-01e4-1e1f-32f1eb212fb0
+	fromColumn: FACT_INCDNT_SESN.FUNDG_CF_KEY
+	toColumn: 'Funding Chart Field'.FUNDG_CF_KEY
+
+relationship 00025ec8-7c95-f680-501b-c998b79f5d5e
+	fromColumn: FACT_INCDNT_SESN.MBU_CF_KEY
+	toColumn: 'MBU Chart Field'.'MBU CF KEY'
+
+relationship cf43a1bd-5d21-8d22-6556-02a919beeb3c
+	isActive: false
+	fromColumn: FACT_INCDNT_SESN.'Session Created Year Month'
+	toColumn: 'Incurred Month'.'Incurred Year Month Nbr'
+

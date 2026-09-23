@@ -1,0 +1,82 @@
+table DIM_EAP_SRVY_PHQ
+	lineageTag: 30aa199c-a73d-4a73-8a2a-f0c57896bce1
+
+	column 'SNAP YEAR MNTH NBR'
+		dataType: int64
+		lineageTag: 447f56ac-85b1-4725-ba38-1566da97c61e
+		summarizeBy: none
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Health Questionnaire PHQ Key'
+		dataType: string
+		lineageTag: 354c2d92-293d-4f50-88ee-9b176b83d674
+		summarizeBy: none
+		sourceColumn: Patient_Health_Questionnaire_PHQ_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Type Name'
+		dataType: string
+		lineageTag: dd87edbb-5d50-4dde-a32f-09ddf3cf8d51
+		summarizeBy: none
+		sourceColumn: EAP_Type_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Health Questionnaire PHQ Category Name'
+		dataType: string
+		lineageTag: c172aa0f-c87b-4aa1-a575-745a0078be07
+		summarizeBy: none
+		sourceColumn: Patient_Health_Questionnaire_PHQ_Category_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Question Text'
+		dataType: string
+		lineageTag: 9b1505b3-2b53-411c-af4a-905e6e78d627
+		summarizeBy: none
+		sourceColumn: Question_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Answer Text'
+		dataType: string
+		lineageTag: 4f7a9a3d-4bb0-4ece-a27c-3b8a986b47bd
+		summarizeBy: none
+		sourceColumn: Answer_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Health Questionnaire PHQ Depression Qualifier Flag Number'
+		dataType: string
+		lineageTag: 1c64ad50-c673-4819-8237-311e2b519ce5
+		summarizeBy: none
+		sourceColumn: Patient_Health_Questionnaire_PHQ_Depression_Qualifier_Flag_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Value Score Number'
+		dataType: int64
+		lineageTag: b9a19181-8147-4993-aa4c-076ccf84d1fd
+		summarizeBy: none
+		sourceColumn: Value_Score_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Patient Health Questionnaire PH Number'
+		dataType: string
+		lineageTag: 6addc919-c538-44ca-a529-f8a349d63b8d
+		summarizeBy: none
+		sourceColumn: Patient_Health_Questionnaire_PH_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_srvy_phq_eap = Source{[Schema="dbo",Item="dim_eap_srvy_phq_eap"]}[Data]
+				in
+				dbo.dim_eap_srvy_phq_eap
+

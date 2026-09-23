@@ -1,0 +1,182 @@
+table FACT_INCDNT_SESN
+	lineageTag: fea441ac-e210-49d8-ab1c-552c9d067253
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		formatString: 0
+		lineageTag: d361aaf6-af6b-48c1-9efb-af3991b083a2
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident Number'
+		dataType: string
+		lineageTag: 0ff0744d-8bcc-4546-a69c-d35493c75335
+		summarizeBy: none
+		sourceColumn: INCDNT_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		formatString: 0
+		lineageTag: 4cf02aa0-d014-47b2-a456-865dd27e9ef9
+		summarizeBy: none
+		sourceColumn: RPTG_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Session Created Year Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9391fa85-7ba2-4674-872f-99a8b282d7b6
+		summarizeBy: sum
+		sourceColumn: EAP_SESN_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: 30e1287f-0823-4448-88c2-6ec4a854fe42
+		summarizeBy: none
+		sourceColumn: PROD_NM
+
+		annotation SummarizationSetBy = Automatic
+
+	column GRP_CD
+		dataType: string
+		lineageTag: 0f585f96-56cc-4372-8aa4-7ac8cea30a26
+		summarizeBy: none
+		sourceColumn: GRP_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		formatString: 0
+		lineageTag: f66ed4b6-1d33-493b-bbe3-c1c32d5d2191
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: 818f7793-c0b3-4368-9ecb-bd1213ed7581
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Session Count'
+		dataType: double
+		lineageTag: 8684b689-caa9-4afc-91b6-204d12df1977
+		sourceColumn: TOTL_SESN_CNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PRSNT_PRBLM_KEY
+		dataType: int64
+		formatString: 0
+		lineageTag: 5cf0a175-2b97-4bbd-abbe-5a3f129a437b
+		summarizeBy: none
+		sourceColumn: INCDNT_PRSNT_PRBLM_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ENTY_KEY
+		dataType: double
+		lineageTag: b5e216df-2720-4f4f-8225-fa82114068c9
+		summarizeBy: none
+		sourceColumn: INCDNT_ENTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_SUBGRP_ID
+		dataType: string
+		lineageTag: 868ebb5c-e4f5-4908-99c5-34fb6d54c9fb
+		summarizeBy: none
+		sourceColumn: EAP_SUBGRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: int64
+		lineageTag: 8a1323c1-f274-4f1d-814a-049644a82634
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column CALR_TYPE_KEY
+		dataType: int64
+		lineageTag: 7f6da20e-7d3e-46d8-ba39-a3775b7c9cc4
+		summarizeBy: none
+		sourceColumn: CALR_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ACTY_KEY
+		dataType: int64
+		formatString: 0
+		lineageTag: 48a73a03-f26d-440b-bd99-ed845a995682
+		summarizeBy: none
+		sourceColumn: INCDNT_ACTY_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_SRVC_TYPE_KEY
+		dataType: int64
+		lineageTag: 0f772df4-1576-490c-85a5-64e51ef2ecbd
+		summarizeBy: none
+		sourceColumn: INCDNT_SRVC_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_PROV_TYPE_KEY
+		dataType: int64
+		lineageTag: fc9eda00-933a-4119-b39f-f708fea41427
+		summarizeBy: none
+		sourceColumn: INCDNT_PROV_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCDNT_ST_KEY
+		dataType: int64
+		lineageTag: 793917db-e80c-4195-9fdf-fa90d48ae641
+		summarizeBy: none
+		sourceColumn: INCDNT_ST_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: c0bcf4c8-c0c1-4cda-9f02-75d936dff971
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: 9b55586d-aca2-4f24-9499-b06a8e2fb737
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STDALN_CD
+		dataType: string
+		lineageTag: 2b8589bd-5345-4868-a081-1b00f82d3620
+		summarizeBy: none
+		sourceColumn: STDALN_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_incdnt_sesn_eap = Source{[Schema="dbo",Item="fact_incdnt_sesn_eap"]}[Data]
+				in
+				dbo.fact_incdnt_sesn_eap
+

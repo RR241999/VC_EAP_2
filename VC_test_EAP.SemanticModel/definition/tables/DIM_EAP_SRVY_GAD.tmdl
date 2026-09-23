@@ -1,0 +1,66 @@
+table DIM_EAP_SRVY_GAD
+	lineageTag: 208cfe23-9480-45b3-ad1d-f621c834dce8
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: c7449e36-5eb9-4fae-b855-fdf7e12482a5
+		summarizeBy: none
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'General Anxiety Disorder (GAD) Key'
+		dataType: string
+		lineageTag: 2b2e8cee-a7e4-45d6-8d1e-fb78b68c1cfd
+		summarizeBy: none
+		sourceColumn: General_Anxiety_Disorder_GAD_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Type Name'
+		dataType: string
+		lineageTag: fe0aa910-0244-4f6e-85bc-b26b6810bf5f
+		summarizeBy: none
+		sourceColumn: EAP_Type_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Question Text'
+		dataType: string
+		lineageTag: 49fb3900-bdec-435c-af7b-7ba164ac46bc
+		summarizeBy: none
+		sourceColumn: Question_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Answer Text'
+		dataType: string
+		lineageTag: 4e3ad7e7-fc80-4d4d-be1b-2f4b238f5a04
+		summarizeBy: none
+		sourceColumn: Answer_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Value Score Number'
+		dataType: int64
+		lineageTag: 2a1b65e9-4e36-4c75-80af-35ea2a91ac82
+		summarizeBy: none
+		sourceColumn: Value_Score_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'General Anxiety Disorder (GAD) Question Number'
+		dataType: string
+		lineageTag: b52f1ee3-94d5-4d1b-b9a4-5f322c1d81f9
+		summarizeBy: none
+		sourceColumn: General_Anxiety_Disorder_GAD_Question_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_srvy_gad_eap = Source{[Schema="dbo",Item="dim_eap_srvy_gad_eap"]}[Data]
+				in
+				dbo.dim_eap_srvy_gad_eap
+

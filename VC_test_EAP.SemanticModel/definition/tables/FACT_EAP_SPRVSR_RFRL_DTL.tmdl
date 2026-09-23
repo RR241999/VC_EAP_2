@@ -1,0 +1,263 @@
+table FACT_EAP_SPRVSR_RFRL_DTL
+	lineageTag: a28fc5ac-5608-49d0-a7f5-7a294fc81057
+
+	measure 'Management Referrals' =
+			
+			VAR _Sliding =
+			    TRIM ( [Selected Sliding Window] )
+			VAR min_date =
+			    IF (
+			        _Sliding = "YTD",
+			        STARTOFYEAR ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			        IF (
+			            _Sliding = "15",
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( _Sliding )
+			            ),
+			            EDATE (
+			                MIN ( 'Incurred Month'[Incurred Month Begin Dt] ),
+			                1 - VALUE ( [Selected Sliding Window] )
+			            )
+			        )
+			    )
+			VAR max_date =
+			    IF (
+			        _Sliding = "15",
+			        EDATE ( MAX ( 'Incurred Month'[Incurred Month Begin Dt] ), -3 ),
+			        MAX ( 'Incurred Month'[Incurred Month Begin Dt] ))
+			RETURN
+			    CALCULATE (
+			        [Management Referrals Base],
+			        ALL ( 'Incurred Month' ),
+			        DATESBETWEEN ( 'Incurred Month'[Incurred Month Begin Dt], min_date, max_date )
+			    )
+		formatString: #,0
+		lineageTag: 52f0a07e-b599-4d48-88fb-056c9411d7fc
+
+	measure 'Management Referrals PY' =
+			
+			VAR __PP1 =
+			    DATEADD ( 'Incurred Month'[Incurred Month Begin Dt], -1, YEAR )
+			RETURN
+			    CALCULATE ( [Management Referrals], ALL ( 'Incurred Month' ), __PP1 )
+		formatString: #,0
+		lineageTag: 7142128c-7dc8-4aa4-aa2b-ef66a0dd38ad
+
+	measure 'Management Referrals %  Change_' = ```
+			
+			VAR __Current = [Management Referrals]
+			VAR __PastPeriod = [Management Referrals PY]
+			RETURN
+			    IF (
+			        ISBLANK ( __Current ) && ISBLANK ( __PastPeriod ),
+			        BLANK (),
+			        IFERROR ( DIVIDE ( ( __Current - __PastPeriod ), __PastPeriod ), BLANK () )
+			    )
+			    
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7bff1bf4-9e76-4a7f-ae95-f3c3a4599725
+
+	measure 'Management Referrals Base' =
+			
+			Distinctcount('FACT_EAP_SPRVSR_RFRL_DTL'[Supervisor Referral ID])
+		lineageTag: cd4a8225-c2e4-4fc3-bcf6-9f0a151434e5
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: c6a88805-b2a6-463a-b799-ae8552519e5a
+		summarizeBy: sum
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAP_GRP_ID
+		dataType: string
+		lineageTag: ad5f0f16-bfa5-418b-b3c1-4b1855627eb7
+		summarizeBy: none
+		sourceColumn: EAP_GRP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Subgroup ID'
+		dataType: string
+		lineageTag: 1beaf812-8de2-4703-8cbe-bf04cc093a6b
+		summarizeBy: none
+		sourceColumn: EAP_Subgroup_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CMPNY_CF_KEY
+		dataType: int64
+		lineageTag: 2c3db561-51e1-4741-95c6-a3666e5131e0
+		summarizeBy: none
+		sourceColumn: CMPNY_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MBU_CF_KEY
+		dataType: int64
+		lineageTag: e5240443-ecaa-4d5a-b3e9-2927b06ca9c1
+		summarizeBy: none
+		sourceColumn: MBU_CF_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUNDG_CF_KEY
+		dataType: int64
+		lineageTag: 3ae78f4c-c603-4837-9010-3a1e88c548c7
+		summarizeBy: none
+		sourceColumn: FUNDG_CF_KEY
+
+		annotation SummarizationSetBy = User
+
+	column 'Incident State Code'
+		dataType: int64
+		lineageTag: a42aadb8-e9dc-403a-a300-a8687f6a4d41
+		summarizeBy: none
+		sourceColumn: Incident_State_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MCID EDM Member Account Key'
+		dataType: int64
+		lineageTag: fa56f2dd-5650-4771-ae28-c926e9bd3de4
+		summarizeBy: count
+		sourceColumn: MCID_EDM_Member_Account_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column PROD_KEY
+		dataType: int64
+		lineageTag: ee261140-3b51-45a8-9540-45c4552192b8
+		summarizeBy: sum
+		sourceColumn: PROD_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EDM Member Account Key'
+		dataType: int64
+		lineageTag: 6ae927db-fc28-4e7d-96bf-9b78d5a0bcfd
+		summarizeBy: count
+		sourceColumn: EDM_Member_Account_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column CNSLT_TYPE_KEY
+		dataType: int64
+		lineageTag: d4503e30-11c4-4c2b-a1be-6581e8e21610
+		summarizeBy: none
+		sourceColumn: CNSLT_TYPE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Product Key'
+		dataType: int64
+		lineageTag: 737776cb-1790-4863-9048-3eb74531d737
+		summarizeBy: none
+		sourceColumn: EAP_Product_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Master Consumer Identifier (MCID)'
+		dataType: int64
+		lineageTag: b063b852-8680-4c23-9ffe-7ddfe81d58ea
+		summarizeBy: sum
+		sourceColumn: Master_Consumer_Identifier_MCID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Key'
+		dataType: string
+		lineageTag: 8638cc8c-70c4-4d30-a249-3abc0ed06607
+		summarizeBy: none
+		sourceColumn: Member_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Management Consultation ID'
+		dataType: int64
+		lineageTag: 8a3e7152-61b4-4b95-b85b-2895359f251d
+		summarizeBy: count
+		sourceColumn: Management_Consultation_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standalone Code'
+		dataType: string
+		lineageTag: b96e27ac-b59c-4f51-b498-1f65c40f3ea3
+		summarizeBy: none
+		sourceColumn: Standalone_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column RPTG_MNTH_NBR
+		dataType: int64
+		lineageTag: 1ee3f9a3-eff1-4271-a35c-c85383a20d64
+		summarizeBy: none
+		sourceColumn: RPTG_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Consultation Time'
+		dataType: int64
+		lineageTag: dc4f1204-053f-4e99-967f-087b034954dc
+		summarizeBy: sum
+		sourceColumn: TOTL_CNSLT_TM_CNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supervisor Referral ID'
+		dataType: string
+		lineageTag: 097af981-283d-4d4a-9df6-3522c3aeb2ee
+		summarizeBy: none
+		sourceColumn: Supervisor_Referral_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incident Number'
+		dataType: string
+		lineageTag: 2d2ae88e-745f-4d27-bcab-ec33f7194dee
+		summarizeBy: none
+		sourceColumn: Incident_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Reference Number'
+		dataType: string
+		lineageTag: 2cca894b-fbea-48d2-a5c2-f4b4c9e74b20
+		summarizeBy: none
+		sourceColumn: Member_Reference_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+		dataType: int64
+		lineageTag: 593e9103-ca8b-4ac6-9e08-3ca554a97160
+		summarizeBy: none
+		sourceColumn: EDM_CLNT_GRP_SUBGRP_ACCT_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column SESN_MDL_KEY
+		dataType: string
+		lineageTag: 74f88474-a46f-4e1c-9635-d3d25bf3f885
+		summarizeBy: none
+		sourceColumn: SESN_MDL_KEY
+
+	column RFRL_RSN_KEY
+		dataType: int64
+		lineageTag: 5caba7dc-2520-45b1-a89a-4337b53b1487
+		summarizeBy: none
+		sourceColumn: RFRL_RSN_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: directQuery
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.fact_eap_sprvsr_rfrl_dtl_eap = Source{[Schema="dbo",Item="fact_eap_sprvsr_rfrl_dtl_eap"]}[Data]
+				in
+				dbo.fact_eap_sprvsr_rfrl_dtl_eap
+

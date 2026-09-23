@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "FACT_PRDA_SALE_LPSE_GRP"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a5d29bc8-ac67-b750-490b-5ff7bf72c9fa"
+  }
+}

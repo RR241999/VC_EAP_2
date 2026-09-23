@@ -1,0 +1,202 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "d27387f3-83f4-93de-4a48-62161fbbdd43",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "f84151a6-253e-41fa-8f01-159b0d0be13e"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "PL_HWBS_FACTS_STEP_3",
+        "dependsOn": [
+          {
+            "activity": "PL_HWBS_FACTS_STEP_2",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "72a00ac3-d780-bebf-4db7-f0c1894e4ad1",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "f84151a6-253e-41fa-8f01-159b0d0be13e"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "PL_HWBS_DIMS_STEP_1",
+        "dependsOn": []
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "6f905318-b246-af88-468a-2943dd609a9a",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "f84151a6-253e-41fa-8f01-159b0d0be13e"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "PL_HWBS_FACTS_STEP_2",
+        "dependsOn": [
+          {
+            "activity": "PL_HWBS_DIMS_STEP_1",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "b53090d3-734f-9d88-4125-cefba9370bec",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "f84151a6-253e-41fa-8f01-159b0d0be13e"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "GOLD_NB",
+        "dependsOn": [
+          {
+            "activity": "PL_HWBS_FACTS_STEP_3",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Office365Email",
+        "typeProperties": {
+          "body": "<p>All the Jobs ran successfully</p>",
+          "to": "Chinthapanti.Samyuktha@elevancehealth.com;Karthik.Murugandi@elevancehealth.com",
+          "subject": "HWBS_Automatic_Job_Pipeline"
+        },
+        "externalReferences": {
+          "connection": "c9d50101-1f85-47d0-88af-214e8972fa28"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Office365Email",
+        "dependsOn": [
+          {
+            "activity": "HWBS_Model_Excel",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "c8a3bfbe-9056-4776-ad6e-d9348ea84593",
+          "datasetId": "e76719da-3efe-4f60-b577-2d4671c51b66",
+          "commitMode": "Transactional",
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "74bca6f7-3602-41a5-b7ff-62dccfe707ab"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "HWBS_Model",
+        "dependsOn": [
+          {
+            "activity": "GOLD_NB",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "c8a3bfbe-9056-4776-ad6e-d9348ea84593",
+          "datasetId": "4be07109-12ed-41c0-a170-c3b244f8fa7a",
+          "commitMode": "Transactional",
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "74bca6f7-3602-41a5-b7ff-62dccfe707ab"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "HWBS_Model_Excel",
+        "dependsOn": [
+          {
+            "activity": "HWBS_Model",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

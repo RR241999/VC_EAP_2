@@ -1,0 +1,122 @@
+table DIM_EAP_SRVY_WOS
+	lineageTag: 711677f8-ba21-47ae-bd92-9aab43e08ab7
+
+	column SNAP_YEAR_MNTH_NBR
+		dataType: int64
+		lineageTag: 9e66b71d-c3ae-4a72-a2b2-84177db63b3c
+		summarizeBy: none
+		sourceColumn: SNAP_YEAR_MNTH_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Outcome Survey (WOS) Key'
+		dataType: string
+		lineageTag: 36629b31-59be-40f7-955a-65fb47fa1b02
+		summarizeBy: none
+		sourceColumn: Work_Outcome_Survey_WOS_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EAP Type Name'
+		dataType: string
+		lineageTag: 8141d056-5520-4ce3-a007-d178e36dea55
+		summarizeBy: none
+		sourceColumn: EAP_Type_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Title Name'
+		dataType: string
+		lineageTag: d35628f4-bba5-4893-825e-e3edccbda17c
+		summarizeBy: none
+		sourceColumn: Title_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Question Text'
+		dataType: string
+		lineageTag: e7da4aaa-ea96-4865-9ae6-9674ca6f971f
+		summarizeBy: none
+		sourceColumn: Question_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reply Text'
+		dataType: string
+		lineageTag: 42fbef59-c7c6-441d-8ed2-d22572c6d614
+		summarizeBy: none
+		sourceColumn: Reply_Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Value Number'
+		dataType: int64
+		lineageTag: 0452df1b-b81b-42a5-8edb-58ede380dff0
+		summarizeBy: none
+		sourceColumn: Value_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Problem Number'
+		dataType: int64
+		lineageTag: ca5a71b2-89be-4f0c-bf69-9d8d933c819a
+		summarizeBy: none
+		sourceColumn: Problem_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Normative Absent Hours Number'
+		dataType: int64
+		lineageTag: 48115937-befb-4b36-8798-2e8721e97c17
+		summarizeBy: none
+		sourceColumn: Normative_Absent_Hours_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Effective Number'
+		dataType: int64
+		lineageTag: 07d0f090-1b29-49e3-86a6-381cd109f0d9
+		summarizeBy: none
+		sourceColumn: Effective_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Supervisor Score Code'
+		dataType: string
+		lineageTag: a93c580a-790d-4148-97ad-251b1371a47c
+		summarizeBy: none
+		sourceColumn: Supervisor_Score_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Issue Code'
+		dataType: string
+		lineageTag: c945a9df-1f13-409f-95db-55586173d3f5
+		summarizeBy: none
+		sourceColumn: Issue_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Outcome Survey (WOS) Question Number'
+		dataType: string
+		lineageTag: 54aab654-266c-4bb3-b441-1063f89ffa53
+		summarizeBy: none
+		sourceColumn: Work_Outcome_Survey_WOS_Question_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'WOS QSTN NBR'
+		dataType: string
+		lineageTag: 57ebefd8-6e4e-41fe-a751-2221d40006cf
+		summarizeBy: none
+		sourceColumn: WOS_QSTN_NBR
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'New M Partition' = m
+		mode: dual
+		source =
+				let Source = Sql.Database(Servername, Lakehousename), dbo.dim_eap_srvy_wos_eap = Source{[Schema="dbo",Item="dim_eap_srvy_wos_eap"]}[Data]
+				in
+				dbo.dim_eap_srvy_wos_eap
+
