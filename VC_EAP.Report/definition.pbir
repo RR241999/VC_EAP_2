@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
+  "version": "4.0",
+  "datasetReference": {
+    "byConnection": {
+      "connectionString": "Data Source=\"powerbi://api.powerbi.com/v1.0/myorg/PRDA Landing [Dev]\";initial catalog=VC_test_EAP;access mode=readonly;integrated security=ClaimsToken;semanticmodelid=85925e83-bd31-453b-864c-8845fe888379"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "23a9b3c9cc926416200a",
+  "position": {
+    "x": 926.93626150545572,
+    "y": 252.2854045076011,
+    "z": 0,
+    "height": 445.04279222127383,
+    "width": 666.146854598722
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_CALR_TYPE"
+                    }
+                  },
+                  "Property": "CALR_TYPE_KEY"
+                }
+              },
+              "queryRef": "DIM_EAP_CALR_TYPE.CALR_TYPE_KEY",
+              "nativeQueryRef": "CALR_TYPE_KEY"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_CALR_TYPE"
+                    }
+                  },
+                  "Property": "EAP Incident Caller Type Code"
+                }
+              },
+              "queryRef": "DIM_EAP_CALR_TYPE.EAP Incident Caller Type Code",
+              "nativeQueryRef": "EAP Incident Caller Type Code"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "abfa9e620073b95a40c1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_CALR_TYPE"
+              }
+            },
+            "Property": "CALR_TYPE_KEY"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a68dd985b7d409956566",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_CALR_TYPE"
+              }
+            },
+            "Property": "EAP Incident Caller Type Code"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
