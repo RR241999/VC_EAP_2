@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "8ecb08d3c3861c8ee23b",
+  "position": {
+    "x": 1269.9587466558148,
+    "y": 438.38060856111395,
+    "z": 0,
+    "height": 300,
+    "width": 300
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_GRP"
+                    }
+                  },
+                  "Property": "EAP Client Group Name"
+                }
+              },
+              "queryRef": "DIM_EAP_GRP.EAP Client Group Name",
+              "nativeQueryRef": "EAP Client Group Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_GRP"
+                    }
+                  },
+                  "Property": "EAP Source Group Number"
+                }
+              },
+              "queryRef": "DIM_EAP_GRP.EAP Source Group Number",
+              "nativeQueryRef": "EAP Source Group Number"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d6f20943c5376cb0029c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_GRP"
+              }
+            },
+            "Property": "EAP Client Group Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "14fbe940a9b5d560d6d3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_GRP"
+              }
+            },
+            "Property": "EAP Source Group Number"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
