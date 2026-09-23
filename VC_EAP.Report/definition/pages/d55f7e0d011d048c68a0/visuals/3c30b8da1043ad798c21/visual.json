@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "3c30b8da1043ad798c21",
+  "position": {
+    "x": 966.95719946654185,
+    "y": 264.10520887055179,
+    "z": 0,
+    "height": 300,
+    "width": 300
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_INCDNT_ACTY"
+                    }
+                  },
+                  "Property": "Derived EAP Incident Activity Description"
+                }
+              },
+              "queryRef": "DIM_EAP_INCDNT_ACTY.Derived EAP Incident Activity Description",
+              "nativeQueryRef": "Derived EAP Incident Activity Description"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4b7e33d01027d0b4b44d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_INCDNT_ACTY"
+              }
+            },
+            "Property": "Derived EAP Incident Activity Description"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
