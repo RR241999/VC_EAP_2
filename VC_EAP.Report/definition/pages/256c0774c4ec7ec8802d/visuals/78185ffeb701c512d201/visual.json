@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "78185ffeb701c512d201",
+  "position": {
+    "x": 1314.6545443666521,
+    "y": 349.40343202842047,
+    "z": 1,
+    "height": 300,
+    "width": 300
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_EAP_INCDNT_ENTY"
+                    }
+                  },
+                  "Property": "EAP Incident Service Code"
+                }
+              },
+              "queryRef": "DIM_EAP_INCDNT_ENTY.EAP Incident Service Code",
+              "nativeQueryRef": "EAP Incident Service Code"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c935189f634c417b1a34",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_EAP_INCDNT_ENTY"
+              }
+            },
+            "Property": "EAP Incident Service Code"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
